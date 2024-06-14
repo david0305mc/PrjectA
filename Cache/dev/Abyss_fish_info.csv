@@ -1,0 +1,153 @@
+FishId|FishGroupId|FishType|CostType|CostId|CostCnt|ProductAmount|HeartProductAmount|HeartCostUp|CreateLimit|Order|TargetPool|IsFixedScale|FixedScale|BookScale|FishTargetDistance|FishZoomDistance|FishName|FishIcon|Desc|PrefabDir|PrefabName|AppsFlyer
+int|int|fishtype|int|int|int|int|int|int|int|int|int|int|int|int|int|int|string|string|string|string|string|string
+0|0|1|1|0|0|0|2000|1|99|1|1|0|100|100|500|250|fishname_ClownFish|fish_ClownFish||Prefabs/Fish/A_Small Fish|0_ClownFish|fish_0_create
+1|0|1|1|0|0|0|2000|1|99|2|1|0|100|100|500|250|fishname_Red ClownFish|fish_Red ClownFish||Prefabs/Fish/A_Small Fish|1_Red ClownFish|fish_1_create
+2|0|2|1|0|0|0|2000|1|99|3|1|0|100|100|500|250|fishname_Blue ClownFish|fish_Blue ClownFish||Prefabs/Fish/A_Small Fish|2_Blue ClownFish|fish_2_create
+4|0|1|1|0|0|0|2000|1|99|4|1|0|100|100|500|250|fishname_Snow Clown|fish_Snow Clown||Prefabs/Fish/A_Small Fish|4_Snowfrake clown|hidden_fish_4_create
+5|1|1|1|0|0|0|2000|1|99|5|2|0|100|100|500|250|fishname_Fire Goby|fish_Fire Goby||Prefabs/Fish/A_Small Fish|10_Fire Goby|
+6|1|1|1|0|0|0|2000|1|99|6|2|0|100|100|500|250|fishname_Blue Banded Goby|fish_Blue Banded Goby||Prefabs/Fish/A_Small Fish|11_Blue Banded Goby|
+7|1|2|1|0|0|0|2000|1|99|7|2|0|100|100|500|250|fishname_Helfrich Goby|fish_Helfrich Goby||Prefabs/Fish/A_Small Fish|12_Helfrich Goby|
+8|1|1|1|0|0|0|2000|1|99|8|2|0|100|100|500|250|fishname_Randalls Goby|fish_Randalls Goby||Prefabs/Fish/A_Small Fish|13_Randalls Goby|hidden_fish_14_create
+9|1|1|1|0|0|0|2000|1|99|9|2|0|100|100|500|250|fishname_Scissortail Goby|fish_Scissortail Goby||Prefabs/Fish/A_Small Fish|14_Scissortail Goby|
+10|1|2|1|0|0|0|2000|1|99|10|2|0|100|100|500|250|fishname_Yellow Watchman Goby|fish_Yellow Watchman Goby||Prefabs/Fish/A_Small Fish|15_Yellow Watchman Goby|
+11|2|1|1|0|0|0|2000|1|99|11|3|0|100|80|500|250|fishname_Blue Tang|fish_Blue Tang||Prefabs/Fish/A_Small Fish|16_Blue Tang|
+12|2|1|1|0|0|0|2000|1|99|12|3|0|100|75|500|250|fishname_Achilles Tang|fish_Achilles Tang||Prefabs/Fish/A_Small Fish|17_Achilles Tang|
+13|2|1|1|0|0|0|2000|1|99|13|3|0|100|80|500|250|fishname_Clown Tang|fish_Clown Tang||Prefabs/Fish/A_Small Fish|18_Clown Tang|hidden_fish_24_create
+14|2|1|1|0|0|0|2000|1|99|14|3|0|100|75|500|250|fishname_Yello Tang|fish_Yello Tang||Prefabs/Fish/A_Small Fish|19_Yello Tang|
+15|2|2|1|0|0|0|2000|1|99|15|3|0|100|75|500|250|fishname_Powder Blue Tang|fish_Powder Blue Tang||Prefabs/Fish/A_Small Fish|20_Powder Blue Tang|
+16|2|2|1|0|0|0|2000|1|99|16|3|0|100|75|500|250|fishname_Convict Tang|fish_Convict Tang||Prefabs/Fish/A_Small Fish|21_Convict Tang|hidden_fish_27_create
+17|2|2|1|0|0|0|2000|1|99|17|3|0|100|65|500|250|fishname_NasoTang|fish_NasoTang||Prefabs/Fish/A_Small Fish|22_NasoTang|hidden_fish_28_create
+18|99|2|1|0|0|0|2000|1|99|18|6|0|100|65|500|250|fishname_Juvenile Pinnate Spadefish|fish_Juvenile Pinnate Spadefish||Prefabs/Fish/A_Small Fish|23_Jevenile Pinnate Spadefish|hidden_fish_40_create
+19|3|1|1|0|0|0|2000|1|99|19|1|0|100|100|500|250|fishname_Black and Gold Damsel|fish_Black and Gold Damsel||Prefabs/Fish/A_Small Fish|24_Black and Gold Damsel|fish_5_create
+20|3|1|1|0|0|0|2000|1|99|20|1|0|100|100|500|250|fishname_Blue Fin Damsel|fish_Blue Fin Damsel||Prefabs/Fish/A_Small Fish|25_Blue Fin Damsel|
+21|3|2|1|0|0|0|2000|1|99|21|1|0|100|100|500|250|fishname_Cross Damsel|fish_Cross Damsel||Prefabs/Fish/A_Small Fish|26_Cross Damsel|hidden_fish_7_create
+22|99|1|1|0|0|0|2000|1|99|22|1|0|100|100|500|250|fishname_Blue Green Chromis|fish_Blue Green Chromis||Prefabs/Fish/A_Small Fish|27_Blue Green Chromis|
+23|99|1|1|0|0|0|2000|1|99|23|1|0|100|100|500|250|fishname_Black Bar Chromis|fish_Black Bar Chromis||Prefabs/Fish/A_Small Fish|28_Black Bar Chromis|
+24|3|1|1|0|0|0|2000|1|99|24|1|0|100|100|500|250|fishname_Jewel Damsel|fish_Jewel Damsel||Prefabs/Fish/A_Small Fish|29_Jewel Damsel|
+25|4|1|1|0|0|0|2000|1|99|25|4|0|100|70|500|250|fishname_Emperor Angel|fish_Emperor Angel||Prefabs/Fish/A_Small Fish|30_Emperor Angel|
+26|4|1|1|0|0|0|2000|1|99|26|4|0|100|70|500|250|fishname_Bicolor Angel|fish_Bicolor Angel||Prefabs/Fish/A_Small Fish|31_Bicolor Angel|
+27|4|1|1|0|0|0|2000|1|99|27|4|0|100|70|500|250|fishname_Asfur Angel|fish_Asfur Angel||Prefabs/Fish/A_Small Fish|32_Asfur Angel|
+28|4|2|1|0|0|0|2000|1|99|28|4|0|100|70|500|250|fishname_French Angel|fish_French Angel||Prefabs/Fish/A_Small Fish|33_French Angel|hidden_fish_35_create
+32|4|2|1|0|0|0|2000|1|99|29|4|0|100|75|500|250|fishname_Scribbled Angelfish|fish_Scribbled Angelfish||Prefabs/Fish/A_Small Fish|34_SCRIBBED ANGEL|hidden_fish_37_create
+33|4|2|1|0|0|0|2000|1|99|30|4|0|100|70|500|250|fishname_Peppermint Angelfish|fish_Peppermint Angelfish||Prefabs/Fish/A_Small Fish|35_Peppermint Angelfish|hidden_fish_38_create
+34|4|2|1|0|0|0|2000|1|99|31|4|0|100|72|500|250|fishname_Queen Angelfish|fish_Queen Angelfish||Prefabs/Fish/A_Small Fish|36_QueenAngelFish|hidden_fish_39_create
+35|5|1|1|0|0|0|2000|1|99|32|2|0|100|100|500|250|fishname_Bicolor Dottyback|fish_Bicolor Dottyback||Prefabs/Fish/A_Small Fish|37_Bicolor Dottyback|fish_18_create
+36|5|1|1|0|0|0|2000|1|99|33|2|0|100|100|500|250|fishname_Orchid Dottyback|fish_Orchid Dottyback||Prefabs/Fish/A_Small Fish|38_Orchid Dottyback|fish_19_create
+37|5|1|1|0|0|0|2000|1|99|34|2|0|100|100|500|250|fishname_Diadem Dottyback|fish_Diadem Dottyback||Prefabs/Fish/A_Small Fish|39_Diadem Dottyback|fish_20_create
+38|5|2|1|0|0|0|2000|1|99|35|2|0|100|100|500|250|fishname_Springer Dottyback|fish_Springer Dottyback||Prefabs/Fish/A_Small Fish|40_Springer Dottyback|hidden_fish_21_create
+39|99|2|1|0|0|0|2000|1|99|36|2|0|100|100|500|250|fishname_Spotted Mandarin Dragonet|fish_Spotted Mandarin Dragonet||Prefabs/Fish/A_Small Fish|41_Spotted Mandarin Dragonet|hidden_fish_17_create
+40|6|1|1|0|0|0|2000|1|99|37|5|0|100|78|500|250|fishname_Burgess Butterfly|fish_Burgess Butterfly||Prefabs/Fish/A_Small Fish|42_Burgess Butterfly|fish_44_create
+44|6|1|1|0|0|0|2000|1|99|38|5|0|100|70|500|250|fishname_Raccoon Butterfly|fish_Raccoon Butterfly||Prefabs/Fish/A_Small Fish|43_Raccoon Butterfly|
+45|6|1|1|0|0|0|2000|1|99|39|5|0|100|70|500|250|fishname_Triangel Butterfly|fish_Triangel Butterfly||Prefabs/Fish/A_Small Fish|44_Triangel Butterfly|
+46|6|1|1|0|0|0|2000|1|99|40|5|0|100|70|500|250|fishname_Lined Butterfly|fish_Lined Butterfly||Prefabs/Fish/A_Small Fish|45_Lined Butterfly|
+47|99|1|1|0|0|0|2000|1|99|41|4|0|100|65|500|250|fishname_Moorish Idol|fish_Moorish Idol||Prefabs/Fish/A_Small Fish|46_Moorish Idol|
+48|99|1|1|0|0|0|2000|1|99|42|5|0|100|78|500|250|fishname_Pajama Cardinal|fish_Pajama Cardinal||Prefabs/Fish/A_Small Fish|48_Pajama Cardinal|
+49|7|1|1|0|0|0|2000|1|99|43|5|0|100|80|500|300|fishname_Blue Parrotfish|fish_Blue Parrotfish||Prefabs/Fish/D_BoxFish|1_Blue Parrotfish|
+50|7|1|1|0|0|0|2000|1|99|44|5|0|100|80|500|300|fishname_Red Parrotfish|fish_Red Parrotfish||Prefabs/Fish/D_BoxFish|2_Red Parrotfish|
+51|99|2|1|0|0|0|2000|1|99|45|5|0|100|60|500|300|fishname_Panther Grouper|fish_Panther Grouper||Prefabs/Fish/D_BoxFish|3_Panther Grouper|hidden_fish_56_create
+52|99|2|1|0|0|0|2000|1|99|46|5|0|100|80|500|300|fishname_Mahi Mahi|fish_Mahi Mahi||Prefabs/Fish/D_BoxFish|4_Mahi mahi|hidden_fish_51_create
+54|99|2|1|0|0|0|2000|1|99|47|6|0|100|60|500|300|fishname_Coelacanth|fish_Coelacanth||Prefabs/Fish/D_BoxFish|5_Coelacanth|hidden_fish_54_create
+56|8|1|1|0|0|0|2000|1|99|48|6|0|100|73|500|250|fishname_Eastern Smooth Boxfish|fish_Eastern Smooth Boxfish||Prefabs/Fish/D_BoxFish|6_Eastern Smooth Boxfish|fish_60_create
+60|8|1|1|0|0|0|2000|1|99|49|6|0|100|85|500|250|fishname_Cube BoxFish|fish_Cube BoxFish||Prefabs/Fish/D_BoxFish|7_Cube BoxFish|
+61|8|1|1|0|0|0|2000|1|99|50|6|0|100|85|500|250|fishname_Clown Trigger|fish_Clown Trigger||Prefabs/Fish/D_BoxFish|8_Clown Trigger|
+62|8|2|1|0|0|0|2000|1|99|51|6|0|100|73|500|250|fishname_Camel Cowfish|fish_Camel Cowfish||Prefabs/Fish/D_BoxFish|9_Camel Cowfish|hidden_fish_63_create
+63|8|1|1|0|0|0|2000|1|99|52|6|0|100|85|500|250|fishname_Longhorn Cowfish|fish_Longhorn Cowfish||Prefabs/Fish/D_BoxFish|10_Longhorn Cowfish|
+64|8|1|1|0|0|0|2000|1|99|53|6|0|100|85|500|250|fishname_Orange Cowfish|fish_Orange Cowfish||Prefabs/Fish/D_BoxFish|11_Orange Cowfish|
+65|8|2|1|0|0|0|2000|1|99|54|6|0|100|75|500|250|fishname_Juvenile Spotted Boxfish|fish_Juvenile Spotted Boxfish||Prefabs/Fish/D_BoxFish|12_Juvenile Spotted Boxfish|hidden_fish_66_create
+66|99|1|1|0|0|0|2000|1|99|55|5|0|100|60|500|250|fishname_Seaslug|fish_Seaslug||Prefabs/Fish/D_BoxFish|14_Seaslug|fish_52_create
+70|99|1|1|0|0|0|2000|1|99|56|16|0|100|45|500|300|fishname_Striped Marlin|fish_Striped Marlin||Prefabs/Fish/E_Tuna|0_STRIPED MARLIN|
+71|9|1|1|0|0|0|2000|1|99|57|7|0|100|65|500|250|fishname_Orange Seahorse|fish_Orange Seahorse||Prefabs/Fish/F_SeaHorse|0_Orange Seahorse|
+72|9|1|1|0|0|0|2000|1|99|58|7|0|100|80|500|250|fishname_Black Seahorse|fish_Black Seahorse||Prefabs/Fish/F_SeaHorse|1_Black Seahorse|
+73|9|1|1|0|0|0|2000|1|99|59|7|0|100|80|500|250|fishname_Brazilian Seahorse|fish_Brazilian Seahorse||Prefabs/Fish/F_SeaHorse|2_Brazilian Seahorse|
+74|9|1|1|0|0|0|2000|1|99|60|7|0|100|70|500|250|fishname_Potbelly Seahorse|fish_Potbelly Seahorse||Prefabs/Fish/F_SeaHorse|3_Potbelly Seahorse|hidden_fish_73_create
+75|9|1|1|0|0|0|2000|1|99|61|7|0|100|80|500|250|fishname_Pygmy Seahorse|fish_Pygmy Seahorse||Prefabs/Fish/F_SeaHorse|4_Pygmy Seahorse|hidden_fish_74_create
+76|18|2|1|0|0|0|2000|1|99|62|7|0|100|60|500|250|fishname_Leafy Seadragon|fish_Leafy Seadragon||Prefabs/Fish/F_SeaHorse|5_Leafy_Seadragon|hidden_fish_128_create
+77|18|1|1|0|0|0|2000|1|99|63|7|0|100|60|500|250|fishname_Ribbon Seadragon|fish_Ribbon Seadragon||Prefabs/Fish/F_SeaHorse|6_Ribbon_Seadragon|hidden_fish_129_create
+78|18|1|1|0|0|0|2000|1|99|64|7|0|100|60|500|250|fishname_Weedy Seadragon|fish_Weedy Seadragon||Prefabs/Fish/F_SeaHorse|7_Weedy_Seadragon|hidden_fish_130_create
+80|18|2|1|0|0|0|2000|1|99|65|7|0|100|60|500|250|fishname_Red Weedy Seadragon|fish_Red Weedy Seadragon||Prefabs/Fish/F_SeaHorse|8_Red_Weedy_Seadragon|hidden_fish_131_create
+81|18|1|1|0|0|0|2000|1|99|66|7|0|100|40|500|250|fishname_Giant Seadragon|fish_Giant Seadragon||Prefabs/Fish/F_SeaHorse|9_Giant_Seadragon|hidden_fish_132_create
+82|10|1|1|0|0|0|2000|1|99|67|8|0|100|14|500|300|fishname_Jelly Fish|fish_Jelly Fish||Prefabs/Fish/G_Jelly|0_jellyFish|fish_77_create
+83|10|1|1|0|0|0|2000|1|99|68|8|0|100|10|500|300|fishname_Jelly FishB|fish_Jelly FishB||Prefabs/Fish/G_Jelly|1_jellyFishB|fish_78_create
+84|17|2|1|0|0|0|2000|1|99|69|5|0|100|42|600|400|fishname_Octopus|fish_Octopus||Prefabs/Fish/H_Octopus|1_Octopus|hidden_fish_123_create
+87|17|2|1|0|0|0|2000|1|99|70|3|0|100|57|500|250|fishname_Cuttle Fish|fish_Cuttle Fish||Prefabs/Fish/H_Octopus|2_CuttleFish|hidden_fish_124_create
+88|17|2|1|0|0|0|2000|1|99|71|4|0|100|70|500|250|fishname_Vampire Squid|fish_Vampire Squid||Prefabs/Fish/H_Octopus|3_Vampire_Squid|hidden_fish_125_create
+89|17|1|1|0|0|0|2000|1|99|72|5|0|100|70|500|250|fishname_Piglet Squid|fish_Piglet Squid||Prefabs/Fish/H_Octopus|4_Piglet_Squid|hidden_fish_126_create
+90|17|1|1|0|0|0|2000|1|99|73|11|0|100|30|600|400|fishname_Giant Squid|fish_Giant Squid||Prefabs/Fish/H_Octopus|6_Giant Squid|fish_101_create
+91|17|2|1|0|0|0|2000|1|99|74|11|0|100|27|600|400|fishname_Colossal Squid|fish_Colossal Squid||Prefabs/Fish/H_Octopus|7_Colossal_Squid|hidden_fish_127_create
+92|16|1|1|0|0|0|2000|1|99|75|13|0|100|20|2000|800|fishname_Killer Whale|fish_Killer Whale||Prefabs/Fish/NZ_Whale|0_Killer Whale|fish_109_create
+98|13|2|1|0|0|0|2000|1|99|76|11|0|100|50|500|300|fishname_Spotted Eagle Ray|fish_Spotted Eagle Ray||Prefabs/Fish/L_Ray|0_Spotted Eagle Ray|
+99|13|2|1|0|0|0|2000|1|99|77|11|0|100|40|500|300|fishname_Manta Ray|fish_Manta Ray||Prefabs/Fish/L_Ray|1_Manta Ray|
+101|17|1|1|0|0|0|2000|1|99|78|11|0|100|30|600|400|fishname_Giant Squid|fish_Giant Squid||Prefabs/Fish/H_Octopus|6_Giant Squid|
+102|99|1|1|0|0|0|2000|1|99|79|11|0|100|20|600|400|fishname_Oarfish|fish_Oarfish||Prefabs/Fish/I_DeepFish|8_Oarfish|
+103|14|2|1|0|0|0|2000|1|99|80|12|0|100|45|600|400|fishname_Thresher Shark|fish_Thresher Shark||Prefabs/Fish/L_Shark|0_Thresher Shark|
+104|14|2|1|0|0|0|2000|1|99|81|12|0|100|45|600|300|fishname_Zebra Bullhead Shark|fish_Zebra Bullhead Shark||Prefabs/Fish/L_Shark|1_Zebra Bullhead Shark|
+105|14|1|1|0|0|0|2000|1|99|82|12|0|100|30|600|450|fishname_Hammerhead Shark|fish_Hammerhead Shark||Prefabs/Fish/L_Shark|3_Hammerhead Shark|
+106|14|2|1|0|0|0|2000|1|99|83|12|0|100|16|700|500|fishname_Great White Shark|fish_Great White Shark||Prefabs/Fish/L_Shark|5_Great White Shark|
+107|14|1|1|0|0|0|2000|1|99|84|12|0|100|16|750|500|fishname_Whale Shark|fish_Whale Shark||Prefabs/Fish/L_Shark|6_Whale Shark|
+109|16|2|1|0|0|0|2000|1|99|85|13|0|100|20|2000|800|fishname_Killer Whale|fish_Killer Whale||Prefabs/Fish/NZ_Whale|0_Killer Whale|
+111|16|1|1|0|0|0|2000|1|99|86|13|0|100|15|2000|1000|fishname_Sperm Whale|fish_Sperm Whale||Prefabs/Fish/NZ_Whale|1_Sperm Whale|
+115|16|1|1|0|0|0|2000|1|99|87|13|0|100|12|2000|1500|fishname_Blue Whale|fish_Blue Whale||Prefabs/Fish/NZ_Whale|6_Blue Whale|
+117|15|2|1|0|0|0|2000|1|99|88|14|0|100|26|600|400|fishname_Sun Fish|fish_Sun Fish||Prefabs/Fish/M_Sunfish|0_Sun Fish|
+119|99|2|1|0|0|0|2000|1|99|89|15|0|100|60|600|400|fishname_Dugon|fish_Dugon||Prefabs/Fish/N_Seal|0_Dugong|
+122|99|1|1|0|0|0|2000|1|99|90|16|0|100|45|500|300|fishname_Striped Marlin|fish_Striped Marlin||Prefabs/Fish/E_Tuna|0_STRIPED MARLIN|
+123|17|2|1|0|0|0|2000|1|99|91|5|0|100|42|600|400|fishname_Octopus|fish_Octopus||Prefabs/Fish/H_Octopus|1_Octopus|
+124|17|2|1|0|0|0|2000|1|99|92|3|0|100|57|500|250|fishname_Cuttle Fish|fish_Cuttle Fish||Prefabs/Fish/H_Octopus|2_CuttleFish|
+125|17|1|1|0|0|0|2000|1|99|93|4|0|100|70|500|250|fishname_Vampire Squid|fish_Vampire Squid||Prefabs/Fish/H_Octopus|3_Vampire_Squid|
+126|17|1|1|0|0|0|2000|1|99|94|5|0|100|70|500|250|fishname_Piglet Squid|fish_Piglet Squid||Prefabs/Fish/H_Octopus|4_Piglet_Squid|
+127|17|2|1|0|0|0|2000|1|99|95|11|0|100|27|600|400|fishname_Colossal Squid|fish_Colossal Squid||Prefabs/Fish/H_Octopus|7_Colossal_Squid|
+128|18|2|1|0|0|0|2000|1|99|96|7|0|100|60|500|250|fishname_Leafy Seadragon|fish_Leafy Seadragon||Prefabs/Fish/F_SeaHorse|5_Leafy_Seadragon|
+129|18|2|1|0|0|0|2000|1|99|97|7|0|100|60|500|250|fishname_Ribbon Seadragon|fish_Ribbon Seadragon||Prefabs/Fish/F_SeaHorse|6_Ribbon_Seadragon|
+130|18|1|1|0|0|0|2000|1|99|98|7|0|100|60|500|250|fishname_Weedy Seadragon|fish_Weedy Seadragon||Prefabs/Fish/F_SeaHorse|7_Weedy_Seadragon|
+131|18|1|1|0|0|0|2000|1|99|99|7|0|100|60|500|250|fishname_Red Weedy Seadragon|fish_Red Weedy Seadragon||Prefabs/Fish/F_SeaHorse|8_Red_Weedy_Seadragon|
+132|18|2|1|0|0|0|2000|1|99|100|7|0|100|40|500|250|fishname_Giant Seadragon|fish_Giant Seadragon||Prefabs/Fish/F_SeaHorse|9_Giant_Seadragon|
+133|13|2|1|0|0|0|2000|1|99|101|12|0|100|20|500|300|fishname_Sawfish|fish_Sawfish||Prefabs/Fish/L_Ray|11_Sawfish|
+134|13|2|1|0|0|0|2000|1|99|102|11|0|100|50|500|300|fishname_Shovelnose Guitarfish|fish_Shovelnose Guitarfish||Prefabs/Fish/L_Ray|12_Shovelnose_Guatafish|
+135|13|1|1|0|0|0|2000|1|99|103|11|0|100|35|500|300|fishname_Torpedo Ray|fish_Torpedo Ray||Prefabs/Fish/L_Ray|13_Torpedo_Ray|
+136|13|1|1|0|0|0|2000|1|99|104|11|0|100|35|500|300|fishname_Bowmouth Guitarfish|fish_Bowmouth Guitarfish||Prefabs/Fish/L_Ray|14_Bowmouth_Guatafish|
+137|13|2|1|0|0|0|2000|1|99|105|11|0|100|35|500|300|fishname_Giant Guitarfish|fish_Giant Guitarfish||Prefabs/Fish/L_Ray|15_Giant_Guatafish|
+138|99|2|1|0|0|0|2000|1|99|106|6|0|100|67|500|250|fishname_SeaPig|fish_SeaPig||Prefabs/Fish/I_DeepFish|3_SeaPig|
+139|99|2|1|0|0|0|2000|1|99|107|4|0|100|57|500|250|fishname_Hatchet Fish|fish_Hatchet Fish||Prefabs/Fish/I_DeepFish|4_Hatchet_Fish|
+140|99|1|1|0|0|0|2000|1|99|108|5|0|100|57|500|250|fishname_BlobFish|fish_BlobFish||Prefabs/Fish/I_DeepFish|5_BlobFish|
+141|14|1|1|0|0|0|2000|1|99|109|12|0|100|22|700|500|fishname_MegaMouth|fish_MegaMouth||Prefabs/Fish/I_DeepFish|6_MegaMouth|
+142|99|2|1|0|0|0|2000|1|99|110|11|0|100|37|600|400|fishname_Gulper Eel|fish_Gulper Eel||Prefabs/Fish/I_DeepFish|7_Gulper_Eel|
+143|14|2|1|0|0|0|2000|1|99|111|12|0|100|20|600|400|fishname_Basking Shark|fish_Basking Shark||Prefabs/Fish/L_Shark|4_Basking_Shark|
+144|12|2|1|0|0|0|2000|1|99|112|11|0|100|22|600|400|fishname_Beluga Whale|fish_Beluga Whale||Prefabs/Fish/NZ_Whale|7_Beluga_Whale|
+145|16|1|1|0|0|0|2000|1|99|113|11|0|100|15|2000|1000|fishname_Dwarf Whale|fish_Dwarf Whale||Prefabs/Fish/NZ_Whale|2_Dwarf_Whale|
+146|16|1|1|0|0|0|2000|1|99|114|13|0|100|15|2000|1000|fishname_Migaloo|fish_Migaloo||Prefabs/Fish/NZ_Whale|8_Migaloo|
+147|16|2|1|0|0|0|2000|1|99|115|17|0|100|12|2000|1000|fishname_1000 Blue Whale|fish_1000 Blue Whale||Prefabs/Fish/NZ_Whale|9_1000_BlueWhale|
+865|99|5|3|0|10|0|2500|1|99|149|15|0|50|50|5|5|fishname_baby_whale_shark|fish_baby_whale_shark|get_buy_package_01|Prefabs/Fish/2020_07_Birth/Packages|865_baby_whale_shark|pack_fish_865_create
+866|13|5|3|0|10|0|2500|1|99|150|15|0|50|80|5|5|fishname_baby_manta_ray|fish_baby_manta_ray|get_buy_package_02|Prefabs/Fish/2020_07_Birth/Packages|866_baby_manta_ray|pack_fish_866_create
+867|16|5|3|0|10|0|2500|1|99|151|15|0|50|75|5|5|fishname_baby_narwhal|fish_baby_narwhal|get_buy_package_03|Prefabs/Fish/2020_07_Birth/Packages|867_baby_narwhal|pack_fish_867_create
+1348|99|3|2|0|10|1|11001|0|99|1|1|0|100|90|500|250|fishname_beginner_wizard_clownfish|fish_beginner_wizard_clownfish||Prefabs/Fish/2021_10_Halloween|1348_beginner_wizard_clownfish|
+943|99|3|2|0|30|3|11002|0|99|2|7|0|50|60|500|500|fishname_ghost_little_sea_squirt|fish_ghost_little_sea_squirt||Prefabs/Fish/2020_10_Halloween/Normal|943_ghost_little_sea_squirt|
+1349|99|3|2|0|30|3|11003|0|99|3|2|0|95|90|500|250|fishname_potion_goby|fish_potion_goby||Prefabs/Fish/2021_10_Halloween|1349_potion_goby|
+944|99|3|2|0|50|4|11004|0|99|4|7|0|50|50|500|500|fishname_little_devil_sea_urchin|fish_little_devil_sea_urchin||Prefabs/Fish/2020_10_Halloween/Normal|944_little_devil_sea_urchin|
+1350|99|3|2|0|50|4|11005|0|99|5|3|0|95|75|500|250|fishname_magic_book_tang|fish_magic_book_tang||Prefabs/Fish/2021_10_Halloween|1350_magic_book_tang|
+945|99|3|2|0|100|8|11006|0|99|6|7|0|50|50|500|500|fishname_dark_seahorse|fish_dark_seahorse||Prefabs/Fish/2020_10_Halloween/Normal|945_dark_seahorse|
+1351|99|3|2|0|100|8|11007|0|99|7|9|0|100|75|700|500|fishname_quill_black_ghost_knifefish|fish_quill_black_ghost_knifefish||Prefabs/Fish/2021_10_Halloween|1351_quill_black_ghost_knifefish|
+1352|99|3|2|0|200|15|11008|0|99|8|6|0|100|70|700|500|fishname_mandrake_dumbo|fish_mandrake_dumbo||Prefabs/Fish/2021_10_Halloween|1352_mandrake_dumbo|
+1353|99|3|2|0|200|15|11009|0|99|9|7|0|80|50|700|500|fishname_beginner_wizard_nautilus|fish_beginner_wizard_nautilus||Prefabs/Fish/2021_10_Halloween|1353_beginner_wizard_nautilus|
+1354|99|3|2|0|500|38|11010|0|99|10|5|0|90|70|700|500|fishname_beginner_wizard_cuttlefish|fish_beginner_wizard_cuttlefish||Prefabs/Fish/2021_10_Halloween|1354_beginner_wizard_cuttlefish|
+1355|99|3|2|0|500|38|11011|0|99|11|8|0|85|45|700|500|fishname_magic_pearl_jellyfish|fish_magic_pearl_jellyfish||Prefabs/Fish/2021_10_Halloween|1355_magic_pearl_jellyfish|
+1356|99|3|2|0|1000|75|11012|0|99|12|5|0|75|35|700|500|fishname_magic_kettle_turtle|fish_magic_kettle_turtle||Prefabs/Fish/2021_10_Halloween|1356_magic_kettle_turtle|
+1357|99|3|2|0|1000|75|11013|0|99|13|15|0|80|50|700|500|fishname_advanced_wizard_seal|fish_advanced_wizard_seal||Prefabs/Fish/2021_10_Halloween|1357_advanced_wizard_seal|
+1358|99|3|2|0|3000|225|11014|0|99|14|14|0|70|30|1000|500|fishname_old_slate_sunfish|fish_old_slate_sunfish||Prefabs/Fish/2021_10_Halloween|1358_old_slate_sunfish|
+1359|99|3|2|0|3000|225|11015|0|99|15|12|0|55|14|1500|1000|fishname_pumpkin_basking_shark|fish_pumpkin_basking_shark||Prefabs/Fish/2021_10_Halloween|1359_pumpkin_basking_shark|
+1360|99|3|2|0|3000|225|11016|0|99|16|11|0|50|20|1500|1000|fishname_advanced_wizard_beluga|fish_advanced_wizard_beluga||Prefabs/Fish/2021_10_Halloween|1360_advanced_wizard_beluga|
+1361|99|3|2|0|5000|375|11017|0|99|17|5|0|110|50|2000|1500|fishname_magic_principal_kraken|fish_magic_principal_kraken||Prefabs/Fish/2021_10_Halloween|1361_magic_principal_kraken|
+942|99|3|1|0|0|4|11018|0|99|18|4|0|50|50|500|500|fishname_candy_corn_angelfish|fish_candy_corn_angelfish||Prefabs/Fish/2020_10_Halloween/Normal|942_candy_corn_angelfish|
+946|99|3|1|0|0|8|11019|0|99|19|4|0|50|60|500|500|fishname_devil_squid|fish_devil_squid||Prefabs/Fish/2020_10_Halloween/Normal|946_devil_squid|
+947|99|3|1|0|0|8|11020|0|99|20|5|0|80|65|500|500|fishname_los_muertos_octopus|fish_los_muertos_octopus||Prefabs/Fish/2020_10_Halloween/Normal|947_los_muertos_octopus|
+948|99|3|1|0|0|15|11021|0|99|21|9|0|50|35|500|500|fishname_rose_in_glass_turtle|fish_rose_in_glass_turtle||Prefabs/Fish/2020_10_Halloween/Normal|948_rose_in_glass_turtle|
+949|99|3|1|0|0|15|11022|0|99|22|7|0|50|52|500|500|fishname_los_muertos_nautilus|fish_los_muertos_nautilus||Prefabs/Fish/2020_10_Halloween/Normal|949_los_muertos_nautilus|
+950|99|3|1|0|0|38|11023|0|99|23|8|0|50|6|500|500|fishname_ghost_bride_jellyfish|fish_ghost_bride_jellyfish||Prefabs/Fish/2020_10_Halloween/Normal|950_ghost_bride_jellyfish|
+951|99|3|1|0|0|38|11024|0|99|24|10|0|50|20|500|500|fishname_halloween_narwhal|fish_halloween_narwhal||Prefabs/Fish/2020_10_Halloween/Normal|951_halloween_narwhal|
+952|99|3|1|0|0|75|11025|0|99|25|11|0|50|17|1000|500|fishname_halloween_oarfish|fish_halloween_oarfish||Prefabs/Fish/2020_10_Halloween/Normal|952_halloween_oarfish|
+953|99|3|1|0|0|75|11026|0|99|26|9|0|70|50|500|500|fishname_pierrot_penguin|fish_pierrot_penguin||Prefabs/Fish/2020_10_Halloween/Normal|953_pierrot_penguin|
+954|99|3|1|0|0|225|11027|0|99|27|10|0|50|20|1000|500|fishname_jack_olantern_dolphin|fish_jack_olantern_dolphin||Prefabs/Fish/2020_10_Halloween/Normal|954_jack_olantern_dolphin|
+955|99|3|1|0|0|225|11028|0|99|28|13|0|50|13|2000|1000|fishname_dark_whale|fish_dark_whale||Prefabs/Fish/2020_10_Halloween/Normal|955_dark_whale|
+1362|99|3|1|0|0|375|11029|0|99|29|13|0|75|15|2000|1500|fishname_wizard_room_whale|fish_wizard_room_whale||Prefabs/Fish/2021_10_Halloween|1362_wizard_room_whale|
+1363|99|3|1|0|0|375|11030|0|99|30|15|0|90|50|700|500|fishname_witch_cat|fish_witch_cat||Prefabs/Fish/2021_10_Halloween|1363_witch_cat|
+1364|99|3|1|0|0|375|11031|0|99|31|15|0|95|25|700|500|fishname_dark_forest_guardian|fish_dark_forest_guardian||Prefabs/Fish/2021_10_Halloween|1364_dark_forest_guardian|
+1365|99|3|1|0|0|375|11032|0|99|32|15|0|90|40|700|500|fishname_nine_tail_fox|fish_nine_tail_fox||Prefabs/Fish/2021_10_Halloween|1365_nine_tail_fox|
+1366|99|3|1|0|0|375|11033|0|99|33|15|0|100|80|700|500|fishname_magic_school_owl|fish_magic_school_owl||Prefabs/Fish/2021_10_Halloween|1366_magic_school_owl|

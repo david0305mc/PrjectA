@@ -1,0 +1,7 @@
+Id|FarmName|FarmIcon|UnlockType|UnlockTarget|UnlockValue|UnlockDesc|PriceType|PriceIdx|PriceCnt|ProductItemType|ProductItemIdx|ProductCnt|ProductCoolTime
+int|string|string|unlocktype|int|int|string|int|int|int|int|int|int|int
+1|Seaweed_name|Mix_0@Farm|1|2|1|buy_coral_desc|3|0|50|13|1301|10|600
+2|Shell_name|Mix_1@Farm|92|1|1|buy_farm_desc|13|1301|50|13|1302|10|1200
+3|Seaurchin_name|Mix_2@Farm|92|2|1|buy_farm_desc|13|1302|50|13|1303|10|1800
+4|Crab_name|Mix_3@Farm|92|3|1|buy_farm_desc|13|1303|50|13|1304|10|2400
+5|Krill_name|Mix_4@Farm|92|4|1|buy_farm_desc|13|1304|50|13|1305|10|3000

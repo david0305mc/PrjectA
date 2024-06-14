@@ -1,0 +1,10 @@
+Tab|Group|ShowType|GroupName
+int|int|int|string
+2|1|1|GroupName_1
+2|2|1|GroupName_2
+1|1|3|GroupName_3
+3|1|2|GroupName_4
+3|2|2|GroupName_5
+3|3|2|GroupName_6
+4|1|1|GroupName_7
+4|2|2|GroupName_8

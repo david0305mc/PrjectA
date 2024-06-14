@@ -1,0 +1,3 @@
+Id|Level|ProductTime|StorageMax|FoodPerProduct
+int|int|int|int|int
+1|1|60|1|1

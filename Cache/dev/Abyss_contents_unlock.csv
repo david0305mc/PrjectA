@@ -1,0 +1,8 @@
+ContentId|UnlockStoneLv|TouchMessage|isShowOpen|NavigateType|PopupIcon|PopupName|PopupDesc
+int|int|string|int|int|string|string|string
+1|5|toast_message_content_1|1|12|UI_Re_icon@shop|unlock_contents_title|unlock_shop_desc
+2|21|toast_message_content_1|1|13|season_icon_01_w|unlock_contents_title|unlock_event_desc
+3|17|toast_message_content_1|1|14|ICON_crop|unlock_contents_title|unlock_farm_desc
+4|15|toast_message_content_1|1|9|AC_Tap_Icon_4|unlock_contents_title|unlock_expand_desc
+5|21|toast_message_content_1|1|0|AC_Tap_Icon_4|unlock_contents_title|unlock_seasonpass_desc
+6|35|toast_message_content_1|1|0|UI_Re_icon@Trade|unlock_contents_title|unlock_token_exchange_desc

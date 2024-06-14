@@ -1,0 +1,44 @@
+Idx|Store|ProductId|SubscriptionGroupId|PriceType|PriceIdx|PriceCnt|DiscountRate|DiscountPrice|RewardType|RewardGroupIdx|RewardDay|OpenType|OpenValue|OpenHour|LimitType|LimitValue|StartDate|EndDate|FirstPurchase|ProductionName|ProductionDesc|Icon|Img|Tab|Group|Sort|EventIcon|ProductBg|ProductBgColor|ProductMainIcon|MultipleDesc|ShopDisplay|AppsFlyer
+int|int|string|int|int|int|int|int|int|int|int|int|int|int|int|int|int|string|string|int|string|string|string|string|int|int|int|int|string|string|string|int|int|string
+4301|0||0|1001|1002|0|0|0|1|411|0|0|0|0|0|0|0|0|0|Gem_Product_Name_ad||Icon_ShopIcon@1|None|3|3|1|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@1|0|1|
+4302|1|test_dummy_gem_pack_0001|0|1000|0|2500|0|0|1|411|0|0|0|0|0|0|0|0|100|Gem_Product_Name_01||Icon_ShopIcon@1|None|3|3|1|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@1|0|1|
+4303|1|test_dummy_pack_0001|0|1000|0|11000|0|0|1|412|0|0|0|0|0|0|0|0|500|Gem_Product_Name_02||Icon_ShopIcon@2|None|3|3|2|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@2|0|1|
+4304|1|test_dummy_pack_0002|0|1000|0|20000|0|0|1|413|0|0|0|0|0|0|0|0|1000|Gem_Product_Name_03||Icon_ShopIcon@3|None|3|3|3|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@3|0|1|
+4305|1|test_dummy_pack_0003|0|1000|0|38000|0|0|1|414|0|0|0|0|0|0|0|0|2000|Gem_Product_Name_04||Icon_ShopIcon@4|None|3|3|4|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@4|0|1|
+4306|1|test_dummy_pack_0004|0|1000|0|72000|0|0|1|415|0|0|0|0|0|0|0|0|4000|Gem_Product_Name_05||Icon_ShopIcon@5|None|3|3|5|0|UI_Re_BG@Gra3|#56C9FF|Icon_ShopIcon@5|0|1|
+4101|0||0|3|1003|100|0|0|1|421|0|0|0|0|0|0|0|0|0|Heart_Product_Name_01|Heart_Product_Name_01|icon_heart_30|None|3|1|1|0|UI_Re_BG@Gra3|#56C9FF|icon_heart_30|0|1|
+4102|0||0|3|0|200|0|0|1|422|0|0|0|0|0|0|0|0|0|Heart_Product_Name_02|Heart_Product_Name_02|icon_heart_60|None|3|1|2|0|UI_Re_BG@Gra3|#56C9FF|icon_heart_60|0|1|
+4103|0||0|3|0|300|0|0|1|423|0|0|0|0|0|0|0|0|0|Heart_Product_Name_03|Heart_Product_Name_03|icon_heart_120|None|3|1|3|0|UI_Re_BG@Gra3|#56C9FF|icon_heart_120|0|1|
+4104|0||0|3|0|400|0|0|1|424|0|0|0|0|0|0|0|0|0|Heart_Product_Name_04|Heart_Product_Name_04|icon_heart_180|None|3|1|4|0|UI_Re_BG@Gra3|#56C9FF|icon_heart_180|0|1|
+4201|0||0|3|0|60|0|0|1|425|0|0|0|0|0|0|0|0|0|Farm_Material_Product_01||icon_seaweed_box_50|None|3|2|1|0|UI_Re_BG@Gra3|#56C9FF|icon_seaweed_box_50|0|1|
+4202|0||0|3|0|300|0|0|1|426|0|0|0|0|0|0|0|0|0|Farm_Material_Product_02||icon_seaweed_box_300|None|3|2|2|0|UI_Re_BG@Gra3|#56C9FF|icon_seaweed_box_300|0|1|
+4203|0||0|3|0|60|0|0|1|427|0|0|0|0|0|0|0|0|0|Farm_Material_Product_03||icon_clam_box_50|None|3|2|3|0|UI_Re_BG@Gra3|#56C9FF|icon_clam_box_50|0|1|
+4204|0||0|3|0|300|0|0|1|428|0|0|0|0|0|0|0|0|0|Farm_Material_Product_04||icon_clam_box_300|None|3|2|4|0|UI_Re_BG@Gra3|#56C9FF|icon_clam_box_300|0|1|
+4205|0||0|3|0|60|0|0|1|429|0|0|0|0|0|0|0|0|0|Farm_Material_Product_05||icon_sea_urchin_box_50|None|3|2|5|0|UI_Re_BG@Gra3|#56C9FF|icon_sea_urchin_box_50|0|1|
+4206|0||0|3|0|300|0|0|1|430|0|0|0|0|0|0|0|0|0|Farm_Material_Product_06||icon_sea_urchin_box_300|None|3|2|6|0|UI_Re_BG@Gra3|#56C9FF|icon_sea_urchin_box_300|0|1|
+4207|0||0|3|0|60|0|0|1|431|0|0|0|0|0|0|0|0|0|Farm_Material_Product_07||icon_crab_box_50|None|3|2|7|0|UI_Re_BG@Gra3|#56C9FF|icon_crab_box_50|0|1|
+4208|0||0|3|0|300|0|0|1|432|0|0|0|0|0|0|0|0|0|Farm_Material_Product_08||icon_crab_box_300|None|3|2|8|0|UI_Re_BG@Gra3|#56C9FF|icon_crab_box_300|0|1|
+4209|0||0|3|0|60|0|0|1|433|0|0|0|0|0|0|0|0|0|Farm_Material_Product_09||icon_krill_box_50|None|3|2|9|0|UI_Re_BG@Gra3|#56C9FF|icon_krill_box_50|0|1|
+4210|0||0|3|0|300|0|0|1|434|0|0|0|0|0|0|0|0|0|Farm_Material_Product_10||icon_krill_box_300|None|3|2|10|0|UI_Re_BG@Gra3|#56C9FF|icon_krill_box_300|0|1|
+311|1||0|900|0|11000|0|0|2|311|0|0|0|0|0|0|2022-11-22 12:00:00|2023-06-22 19:00:00|0|Package_Name_14||collect_event_expand_9|None|4|1|1|0|UI_Re_BG@Gra3|#FFAD2A|Expansion_ICONS_Button@Shop4_L|0|1|
+312|1||0|900|0|11000|0|0|2|312|0|0|0|0|6|30|0|0|0|Package_Name_15||icon_quest_halloween_1|None|4|1|2|0|UI_Re_BG@Gra3|#FFAD2A|icon_quest_halloween_1|0|1|
+321|0||0|900|0|1|0|0|1|321|0|0|0|0|0|0|0|0|0|cardpackname_7|cardpackname_7|icon@cardpack_01|None|4|2|1|0|UI_Re_BG@Gra3|#56C9FF|img_package_03|0|1|
+322|0||0|900|0|10|0|0|1|322|0|0|0|0|0|0|0|0|0|cardpackname_8|cardpackname_8|icon@cardpack_02|None|4|2|2|0|UI_Re_BG@Gra3|#56C9FF|img_package_02|0|1|
+323|0||0|900|0|100|0|0|1|323|0|0|0|0|0|0|0|0|0|cardpackname_9|cardpackname_9|icon@cardpack_03|None|4|2|3|0|UI_Re_BG@Gra3|#56C9FF|img_package_01|0|1|
+121|0||0|3|0|250|0|0|2|121|0|0|0|0|0|0|0|0|0|Package_Name_01||fish_baby_narwhal|None|2|1|1|0|UI_Re_BG@Gra3|#FF8181|fish_baby_narwhal|0|1|
+122|0||0|3|0|250|0|0|2|122|0|0|0|0|0|0|0|0|0|Package_Name_02||fish_baby_manta_ray|None|2|1|2|0|UI_Re_BG@Gra3|#51A6FA|fish_baby_manta_ray|0|1|
+123|0||0|3|0|250|0|0|2|123|0|0|0|0|0|0|0|0|0|Package_Name_03||fish_baby_whale_shark|None|2|1|3|0|UI_Re_BG@Gra3|#62D6AE|fish_baby_whale_shark|0|1|
+131|0||0|1001|1001|0|0|0|1|131|0|0|0|0|1|5|0|0|0|cardpackname_0|cardpackshop_desc_0|Shelldummy_1|None|1|1|2|0|UI_Re_BG@Gra3|#56C9FF|Shelldummy_1|0|1|
+132|0||0|2|0|100|0|0|1|132|0|0|0|0|0|0|0|0|0|cardpackname_1|cardpackshop_desc_6|Shelldummy_2|None|1|1|3|0|UI_Re_BG@Gra3|#56C9FF|Shelldummy_2|0|1|
+133|0||0|3|0|200|0|0|1|132|0|0|0|0|0|0|0|0|0|cardpackname_2|cardpackshop_desc_7|Shelldummy_3|None|1|1|4|0|UI_Re_BG@Gra3|#56C9FF|Shelldummy_2|0|1|
+211|0||0|3|0|300|0|0|2|211|0|0|0|0|1|1|0|0|0|Package_Name_04||fish_baby_silver_corgi|None|2|2|1|0|UI_Re_BG@Gra3|#8581FF|fish_baby_silver_corgi|0|1|
+212|0||0|3|0|300|0|0|2|212|0|0|0|0|2|1|0|0|0|Package_Name_05|Package_Desc_05|fish_Cat|None|2|2|2|1|UI_Re_BG@Gra3|#8581FF|fish_Cat|0|1|
+213|0||0|3|0|300|0|0|2|213|0|0|0|0|3|1|0|0|0|Package_Name_06||fish_Koala|None|2|2|3|2|UI_Re_BG@Gra3|#8581FF|fish_Koala|0|1|
+214|0||0|3|0|300|0|0|2|214|0|0|0|0|4|1|0|0|0|Package_Name_07||fish_Snowflake Fairy|None|2|2|4|0|UI_Re_BG@Gra3|#8581FF|fish_Snowflake Fairy|0|1|
+215|0||0|3|0|300|0|0|2|215|0|10|30|1|4|1|0|0|0|Package_Name_08||icon_quest_valentine@19_2|None|2|2|5|0|UI_Re_BG@Gra3|#8581FF|icon_quest_valentine@19_2|0|1|
+216|0||0|3|0|300|0|0|2|216|0|11|2|1|4|1|0|0|0|Package_Name_09|Package_Desc_05|icon_quest_halloween_5|None|2|2|6|0|UI_Re_BG@Gra3|#8581FF|icon_quest_halloween_5|0|1|
+217|1|test_dummy_pack_0002|0|1000|0|10|0|0|2|217|0|0|0|0|0|0|2022-11-22 12:00:00|2023-06-22 19:00:00|0|Package_Name_10||Expand_Icon@Circus_Cannon|None|2|2|7|0|UI_Re_BG@Gra3|#8581FF|Expand_Icon@Circus_Cannon|0|1|
+218|1|test_dummy_pack_0001|0|1000|0|10|0|0|2|218|0|0|0|0|6|30|0|0|0|Package_Name_11||Expand_Icon@Circus_Trick_Box|None|2|2|8|0|UI_Re_BG@Gra3|#8581FF|Expand_Icon@Circus_Trick_Box|0|1|
+1001|1||0|1|0|10|0|0|6|0|0|0|0|0|0|0|0|0|0|(IAP) 시즌패스|Eventpass_desc_01||None|0|0|0|0||||0|0|
+1002|2||0|1|0|10|0|0|6|0|0|0|0|0|0|0|0|0|0|(IAP) 시즌패스|Eventpass_desc_01||None|0|0|0|0||||0|0|
+9999|0||0|1|0|10|0|0|1|9999|0|0|0|0|4|1|0|0|0|cardpackname_4|cardpackshop_desc_9|Shelldummy_3|None|1|1|1|0|UI_Re_BG@Gra3|#56C9FF|Shelldummy_3|0|1|

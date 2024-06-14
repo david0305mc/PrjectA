@@ -1,0 +1,4 @@
+id|reward_type|reward_id|reward_cnt
+int|item_type|string|string
+1|1|1001|100
+2|5|10001|1

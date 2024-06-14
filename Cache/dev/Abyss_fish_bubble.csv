@@ -1,0 +1,5 @@
+Idx|BubbleIcon|PrefabName|UnlockType|UnlockTarget|UnlockValue|CreateTime|CreateMaxCnt|RewardType|RewardIdx|RewardMinCnt|RewardMaxCnt
+int|string|string|unlocktype|int|int|int|int|int|int|int|int
+1|UI_Re_icon@HeartLColor|FishBubble_01|3|0|1|15|5|11|1101|10|15
+2|season_icon_01|FishBubble|3|0|21|20|5|2|0|1|3
+3|season_icon_01|FishBubble|3|0|300|60|1|2|0|100|100

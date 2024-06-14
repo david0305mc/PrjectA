@@ -1,0 +1,5 @@
+Idx|Title|Icon|Desc|RewardGroupId
+int|string|string|string|int
+1|mail_title_1|mail_icon_1|mail_desc_1|1
+2|mail_title_2|mail_icon_2|mail_desc_2|2
+3|mail_title_3|mail_icon_3|mail_desc_3|3

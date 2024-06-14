@@ -1,0 +1,6 @@
+FoodId|FoodFillAmountMin|FoodFillAmountMax|MaxFillAmount|Cooltime|CostType|CostId|CostCnt|ItemName|ItemDesc|IconName
+int|int|int|int|int|int|int|int|string|string|string
+1|10|15|60|30|3|0|2|food_1_name|food_1_desc|UI_Re_icon@HermitFood1
+2|10|30|70|0|3|0|4|food_2_name|food_2_desc|UI_Re_icon@HermitFood2
+3|10|40|80|0|3|0|6|food_3_name|food_3_desc|UI_Re_icon@HermitFood3
+4|10|50|100|0|3|0|8|food_4_name|food_4_desc|UI_Re_icon@HermitFood4

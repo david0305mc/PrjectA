@@ -1,0 +1,6 @@
+CardPackId|Season|GachaCount|CardPackType|GachaGroupId|Bonus|BonusGachaGroupId|Storable|UnlockType|UnlockTarget|UnlockValue|UnlockDesc|CostType|CostId|CostCnt|Name|Desc|IconName|GachaAnimPrefab
+int|int|int|int|int|int|int|int|int|int|int|string|int|int|int|string|string|string|string
+101|1|3|1|102|0|0|0|0|0|0||0|0|0|cardpackname_101|cardpackdesc_1|fish_bonnethead_shark|CardPackage_N
+102|1|10|1|102|0|0|0|0|0|0||0|0|0|cardpackname_102|cardpackdesc_2|fish_Snow Sunfish|CardPackage_R
+9998|1|30|2|9998|0|0|2|0|0|0||0|0|0|cardpackname_9998|cardpackdesc_4|icon@cardpack_01|CardPackage_UR
+9999|1|3|1|9999|0|0|0|0|0|0||0|0|0|cardpackname_2|cardpackdesc_2|cardpack_icon_03|CardPackage_R

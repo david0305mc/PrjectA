@@ -1,0 +1,4 @@
+idx|NftToken|MailSendType|MailId|BuffType|BuffValue
+int|string|int|int|int|int
+1|aasdfasdfdd|1|2|110|10
+2|aasdfasdfdd|2|3|111|10

@@ -1,0 +1,8 @@
+EventId|SeasonpassProductionId|PassBannerCDN|BuyPassStartDate|BuyPassEndDate|PassCreatFishId|PassCreatFishCnt|AllClearRewardType|AllClearRewardId|AllClearRewardCnt|SeasonpassTitle
+int|string|string|string|string|int|int|int|int|int|string
+1|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-05-22 10:00:00|2023-05-23 10:00:00|272|5|50|69|1|event_name_1
+2|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-05-23 10:00:00|2023-05-24 10:00:00|272|5|50|69|1|event_name_2
+3|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-05-24 10:00:00|2023-05-24 12:00:00|272|5|50|69|1|event_name_3
+4|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-05-24 12:00:00|2023-06-29 12:00:00|272|5|50|69|1|event_name_4
+5|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-06-29 12:00:00|2023-08-26 12:00:00|272|5|50|69|1|event_name_4
+10|test_dummy_season_pass_01|test_cdn_season_pass_banner_link|2023-08-26 12:00:00|2024-10-28 12:00:00|1348|5|50|21366|1|event_name_10

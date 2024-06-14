@@ -1,0 +1,6 @@
+SkillId|SkillName|SkillDesc|SkillAlertDesc|IconName|Cooltime|ActiveTime|AdView
+int|string|string|string|string|int|int|int
+1|skill_1_title|buff_19_desc|buff_19_skill_alert_desc|UI_Re_icon@Skill1|150|120|0
+2|skill_2_title|buff_12_desc||UI_Re_icon@Skill2|150|0|0
+3|skill_3_title|buff_18_desc|buff_18_skill_alert_desc|UI_Re_icon@Skill3|150|120|0
+4|skill_4_title|skill_4_desc||UI_Re_BG@sKILLbg|30|0|1

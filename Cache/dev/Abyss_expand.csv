@@ -1,0 +1,63 @@
+Idx|Name|ExpandType|GainType|ThemeIdx|ListOrder|GainDesc|IconName|PrefabDir|PrefabName|MaxHaveCnt|MakeItemType01|MakeItemIdx01|MakeItemCnt01|MakeItemType02|MakeItemIdx02|MakeItemCnt02|MakeItemType03|MakeItemIdx03|MakeItemCnt03|Scale|PosY|RotX|RotY|RotZ|isSideAttach|isMeshCollider|isChildhasCollider
+int|string|int|int|int|int|string|string|string|string|int|int|int|int|int|int|int|int|int|int|int|int|int|int|int|int|int|int
+1|rock03|1|1|1000|1001|0|Expand_Icon@T03|Prefabs/Expand|Rock_03_Terrain|10|1|1001|60|0|0|0|0|0|0|50|3|315|0|0|0|1|1
+2|rock02|1|1|1000|1002|0|Expand_Icon@T02|Prefabs/Expand|Rock_02_Terrain|10|1|1001|60|0|0|0|0|0|0|25|3|315|0|0|0|1|1
+3|Medium Rock|1|1|1000|1003|0|Expand_Icon@T15|Prefabs/Expand|Rock_Medium_Terrain|10|1|1001|60|0|0|0|0|0|0|25|3|315|0|0|0|1|1
+4|rock01|1|1|1000|1004|0|Expand_Icon@T01|Prefabs/Expand|Rock_01_Terrain|10|1|1001|60|0|0|0|0|0|0|25|3|315|0|0|0|1|1
+5|rock10|1|1|1000|1005|0|Expand_Icon@T10|Prefabs/Expand|Rock_07_S_Terrain|10|1|1001|60|0|0|0|0|0|0|25|3|270|0|0|0|1|1
+6|rock09|1|1|1000|1006|0|Expand_Icon@T09|Prefabs/Expand|Rock_07_L_Terrain|10|1|1001|60|0|0|0|0|0|0|25|0|270|0|0|0|1|1
+7|rock12|1|1|1000|1007|0|Expand_Icon@T12|Prefabs/Expand|Rock_09_Terrain|10|1|1001|60|0|0|0|0|0|0|30|3|0|0|0|0|1|1
+8|rock13|1|1|1000|1008|0|Expand_Icon@T13|Prefabs/Expand|Rock_10_Terrain|10|1|1001|60|0|0|0|0|0|0|30|3|0|0|0|0|1|1
+9|rock04|1|1|1000|1009|0|Expand_Icon@T04|Prefabs/Expand|Rock_04_Terrain|10|1|1001|60|0|0|0|0|0|0|25|3|270|0|0|0|1|1
+10|rock08|1|1|1000|1010|0|Expand_Icon@T08|Prefabs/Expand|Rock_06_S_Terrain|10|1|1001|60|0|0|0|0|0|0|25|-4|270|0|0|0|1|1
+11|rock06|1|1|1000|1011|0|Expand_Icon@T05|Prefabs/Expand|Rock_05_S_Terrain|10|1|1001|60|0|0|0|0|0|0|25|-4|270|0|0|0|1|1
+12|rock07|1|1|1000|1012|0|Expand_Icon@T07|Prefabs/Expand|Rock_06_L_Terrain|10|1|1001|60|0|0|0|0|0|0|25|-7|270|0|0|0|1|1
+13|rock05|1|1|1000|1013|0|Expand_Icon@T06|Prefabs/Expand|Rock_05_L_Terrain|10|1|1001|60|0|0|0|0|0|0|25|-15|270|0|0|0|1|1
+14|Rock Pillar|1|1|1000|1014|0|Expand_Icon@T14|Prefabs/Expand|Rock_Pillar_Terrain|10|1|1001|60|0|0|0|0|0|0|25|-10|0|0|0|0|1|1
+15|rock_tile|1|1|1000|1015|0|Expand_Icon@C19|Prefabs/Expand|Rock_Tile_Rock_Terrain|10|1|1001|60|0|0|0|0|0|0|50|3|315|0|0|0|0|1
+16|Shell_tile|1|1|1000|1016|0|Expand_Icon@C21|Prefabs/Expand|Rock_Tile_Shell_Terrain|10|1|1001|60|0|0|0|0|0|0|50|3|315|0|0|0|0|1
+17|starfish_tile|1|1|1000|1017|0|Expand_Icon@C20|Prefabs/Expand|Rock_Tile_Starfish_Terrain|10|1|1001|60|0|0|0|0|0|0|50|3|315|0|0|0|0|1
+18|Urchin_tile|1|1|1000|1018|0|Expand_Icon@C22|Prefabs/Expand|Rock_Tile_Urchin_Terrain|10|1|1001|60|0|0|0|0|0|0|50|3|315|0|0|0|0|1
+19|blade_coral_s|1|1|1001|1020|0|Expand_Icon@C07|Prefabs/Expand|Blade_Coral_S|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+20|blade_coral_m|1|1|1001|1021|0|Expand_Icon@C08|Prefabs/Expand|Blade_Coral_M|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+21|blade_coral_l|1|1|1001|1022|0|Expand_Icon@C09|Prefabs/Expand|Blade_Coral_L|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+22|seaweed_s|1|1|1001|1023|0|Expand_Icon@C04|Prefabs/Expand|Seaweeds_S|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+23|seaweed_m|1|1|1001|1024|0|Expand_Icon@C05|Prefabs/Expand|Seaweeds_M|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+24|seaweed_l|1|1|1001|1025|0|Expand_Icon@C06|Prefabs/Expand|Seaweeds_L|10|1|1001|60|0|0|0|0|0|0|35|-5|270|0|0|0|0|0
+25|Elkhorn_coral_s|1|1|1001|1026|0|Expand_Icon@C23|Prefabs/Expand|Elkhorn_Coral_S|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+26|Elkhorn_coral_m|1|1|1001|1027|0|Expand_Icon@C24|Prefabs/Expand|Elkhorn_Coral_M|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+27|Pink Horn Coral_S|1|1|1001|1028|0|Expand_Icon@C33|Prefabs/Expand|33_Pink Horn Coral_S|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+28|Pink Horn Coral_L|1|1|1001|1029|0|Expand_Icon@C34|Prefabs/Expand|34_Pink Horn Coral_L|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+29|plume_coral_s|1|1|1001|1030|0|Expand_Icon@C10|Prefabs/Expand|PlumeCoral_S|10|1|1001|60|0|0|0|0|0|0|35|-5|270|0|0|0|0|0
+30|plume_coral_m|1|1|1001|1031|0|Expand_Icon@C11|Prefabs/Expand|PlumeCoral_M|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+31|plume_coral_l|1|1|1001|1032|0|Expand_Icon@C12|Prefabs/Expand|PlumeCoral_L|10|1|1001|60|0|0|0|0|0|0|35|-5|270|0|0|0|0|0
+32|spiral_coral_s|1|1|1001|1033|0|Expand_Icon@C01|Prefabs/Expand|SpiralCoral_S|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+33|spiral_coral_m|1|1|1001|1034|0|Expand_Icon@C02|Prefabs/Expand|SpiralCoral_M|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+34|spiral_coral_l|1|1|1001|1035|0|Expand_Icon@C03|Prefabs/Expand|SpiralCoral_L|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+35|Carpet Coral_S|1|1|1001|1036|0|Expand_Icon@C29|Prefabs/Expand|29_Carpet Coral_S|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+36|Carpet Coral_L|1|1|1001|1037|0|Expand_Icon@C30|Prefabs/Expand|30_Carpet Coral_L|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+37|anemones_s|1|1|1001|1038|0|Expand_Icon@C16|Prefabs/Expand|Jelly_Anemones_S|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+38|anemones_m|1|1|1001|1039|0|Expand_Icon@C17|Prefabs/Expand|Jelly_Anemones_M|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+39|anemones_l|1|1|1001|1040|0|Expand_Icon@C18|Prefabs/Expand|Jelly_Anemones_L|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+40|Pink Branch Coral_S|1|1|1001|1041|0|Expand_Icon@C35|Prefabs/Expand|35_Pink Branch Coral_S|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+41|Pink Branch Coral_L|1|1|1001|1042|0|Expand_Icon@C36|Prefabs/Expand|36_Pink Branch Coral_L|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+42|suncorals_s|1|1|1001|1043|0|Expand_Icon@C26|Prefabs/Expand|SunCorals_S|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+43|suncorals_m|1|1|1001|1044|0|Expand_Icon@C27|Prefabs/Expand|SunCorals_M|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+44|suncorals_l|1|1|1001|1045|0|Expand_Icon@C28|Prefabs/Expand|SunCorals_L|10|1|1001|60|0|0|0|0|0|0|45|-5|270|0|0|0|0|0
+45|pipe_coral_s|1|1|1001|1046|0|Expand_Icon@C13|Prefabs/Expand|Pipe Coral_S|10|1|1001|60|0|0|0|0|0|0|45|-5|0|0|0|0|0|0
+46|pipe_coral_m|1|1|1001|1047|0|Expand_Icon@C14|Prefabs/Expand|PipeCoral_M|10|1|1001|60|0|0|0|0|0|0|45|-5|0|0|0|0|0|0
+47|pipe_coral_l|1|1|1001|1048|0|Expand_Icon@C15|Prefabs/Expand|Pipe Coral_L|10|1|1001|60|0|0|0|0|0|0|45|-5|0|0|0|0|0|0
+48|Brain Coral_S|1|1|1001|1049|0|Expand_Icon@C39|Prefabs/Expand|39_BrainCorals_S|10|1|1001|60|0|0|0|0|0|0|50|-5|0|0|0|0|0|1
+49|Brain Coral_M|1|1|1001|1050|0|Expand_Icon@C40|Prefabs/Expand|40_BrainCorals_M|10|1|1001|60|0|0|0|0|0|0|50|-5|0|0|0|0|0|1
+50|Brain Coral_L|1|1|1001|1051|0|Expand_Icon@C41|Prefabs/Expand|41_BrainCorals_L|10|1|1001|60|0|0|0|0|0|0|50|-5|0|0|0|0|0|1
+51|Bubble Tip Anemone_S|1|1|1001|1052|0|Expand_Icon@C31|Prefabs/Expand|31_Bubble Tip Anemone_S|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+52|Bubble Tip Anemone_L|1|1|1001|1053|0|Expand_Icon@C32|Prefabs/Expand|32_Bubble Tip Anemone_L|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+53|Giant Barrel Sponge_S|1|1|1001|1054|0|Expand_Icon@C37|Prefabs/Expand|37_Giant Barrel Sponge_S|10|1|1001|60|0|0|0|0|0|0|30|-5|270|0|0|0|0|0
+54|Giant Barrel Sponge_L|1|1|1001|1055|0|Expand_Icon@C38|Prefabs/Expand|38_Giant Barrel Sponge_L|10|1|1001|60|0|0|0|0|0|0|20|-5|270|0|0|0|0|0
+10150|green_halloween_tile|2|1|1002|1056|0|expansion_green_halloween_tile|Prefabs/Expand/2020_10_Halloween/Mission|01_green_halloween_tile|10|1|1001|60|0|0|0|0|0|0|40|0|60|0|0|0|0|0
+10151|orange_halloween_tile|2|1|1002|1057|0|expansion_orange_halloween_tile|Prefabs/Expand/2020_10_Halloween/Mission|02_orange_halloween_tile|10|1|1001|60|0|0|0|0|0|0|40|0|60|0|0|0|0|0
+10152|halloween_candlestick|2|1|1002|1058|0|expansion_halloween_candlestick|Prefabs/Expand/2020_10_Halloween/Mission|03_halloween_candlestick|10|1|1001|60|0|0|0|0|0|0|35|-25|0|0|0|0|0|0
+10153|pumpkin_3_musketeers|2|1|1002|1059|0|expansion_pumpkin_3_musketeers|Prefabs/Expand/2020_10_Halloween/Mission|04_pumpkin_3_musketeers|10|1|1001|60|0|0|0|0|0|0|35|-25|0|0|0|0|0|0
+10154|ghost_festival|2|1|1002|1060|0|expansion_ghost_festival|Prefabs/Expand/2020_10_Halloween/Mission|05_ghost_festival|10|1|1001|60|0|0|0|0|0|0|40|-15|0|0|0|0|0|0
+10155|witch_shoe_house|2|1|1002|1061|0|expansion_witch_shoe_house|Prefabs/Expand/2020_10_Halloween/Mission|06_witch_shoe_house|10|1|1001|60|0|0|0|0|0|0|27|-25|0|0|0|0|0|0
+10156|ghost_tile|2|1|1002|1062|0|expansion_ghost_tile|Prefabs/Expand/2020_10_Halloween/Bingo|07_ghost_tile|10|1|1001|60|0|0|0|0|0|0|40|0|60|0|0|0|0|0

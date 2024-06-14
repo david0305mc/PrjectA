@@ -1,0 +1,5 @@
+ArtifactId|ArtifactName|ArtifactDesc|IconName|3dModelName
+int|string|string|string|string
+1|artifact_1_title|artifact_desc_1|Icon_Icon@A3|Coral_Boat
+2|artifact_2_title|artifact_desc_2|Icon_Icon@A1|Shell
+3|artifact_3_title|artifact_desc_3|Icon_Icon@A2|Coral_SealShell

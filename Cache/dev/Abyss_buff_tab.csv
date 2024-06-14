@@ -1,0 +1,9 @@
+Idx|TabName|TabIcon|ItemType|ItemId
+int|string|string|int|int
+1|Buff_Tab_Name_01|UI_Re_icon@HeartProduct|1|1001
+2|Buff_Tab_Name_02|UI_Re_Crystal_one|2|1002
+3|Buff_Tab_Name_03|reward_icon_seaweed|13|1301
+4|Buff_Tab_Name_04|reward_icon_shell|13|1302
+5|Buff_Tab_Name_05|reward_icon_seaurchin|13|1303
+6|Buff_Tab_Name_06|reward_icon_crab|13|1304
+7|Buff_Tab_Name_07|reward_icon_krill|13|1305

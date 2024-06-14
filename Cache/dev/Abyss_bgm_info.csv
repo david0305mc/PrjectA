@@ -1,0 +1,6 @@
+idx|BgmName|ComposerName|IconName|Order|UnlockType|UnlockTarget|UnlockValue|UnlockDesc
+int|string|string|string|int|int|int|int|string
+1|bgmName_1|ComposerName_1|fish_candy_corn_angelfish|1|0|0|0|default_open
+2|bgmName_2|ComposerName_2|fish_devil_squid|2|1|1|1|buy_coral_desc
+3|bgmName_3|ComposerName_3|fish_los_muertos_octopus|3|1|2|1|buy_coral_desc
+4|bgmName_4|ComposerName_4|fish_rose_in_glass_turtle|4|1|3|1|buy_coral_desc

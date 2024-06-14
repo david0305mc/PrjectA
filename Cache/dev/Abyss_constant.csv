@@ -1,0 +1,88 @@
+Id|Type|Value|Desc
+string|string|string|string
+WemixServerInfo|int|0|위믹스 서버 정보 // 0 : dev, 1 : Stage, 2 : Product
+MaxFishCreate|int|99|한 물고기 당 최대 소환 가능 횟수
+HeartProductDefaultTime|int|20|생명력 생산 주기 기본값 (초)
+CrystalHarvestxMaxCount|int|10|소라게 1일 최대 수확 가능횟수 기본값
+StoneGrowUp_1|int|10|산호석 첫번째 외형 성장 레벨 (산호 늘어남)
+StoneGrowUp_2|int|20|산호석 두번째 외형 성장 레벨 (산호석 커짐 1)
+StoneGrowUp_3|int|30|산호석 세번째 외형 성장 레벨 (산호석 커짐 2)
+FishTankSetDefaultCount|int|10|탱크에 물고기 배치 가능한 기본 마릿수
+HermitCrabDefaultHunger|int|99999999|소라게의 기본 포만도값
+HermitCrabMaxHunger|int|99999999|소라게의 최대 포만도값
+HeartMaxStack|int|9223372036854775807|생명력 최대 보유량
+CrystalMaxStack|int|9223372036854775807|결정 최대 보유량
+GemMaxStack|int|9223372036854775807|보석 최대 보유량
+GoldCrystalMaxStack|int|9223372036854775807|황금 결정 최대 보유량
+StoneScriptPrintCoolTime|int|30|산호석이 자동으로 대사 내뱉는 주기
+StoneScriptPrintTouchCount|int|300|산호석 대사 내뱉는 터치 필요 수
+StoneScriptDeleteTime|int|2|산호석 대사가 사라지는 대기 시간
+FishScriptDeleteTime|int|2|물고기 대사가 사라지는 대기 시간
+UserDefaultHeart|int|300|게임 시작 시 유저가 갖고 있을 생명력 값
+UserDefaultCrystal|int|0|게임 시작 시 유저가 갖고 있을 결정 값
+UserDefaultFreeCash|int|200|게임 시작 시 유저가 갖고 있을 무료 보석 값
+HermitCrabFoodMaxCount|int|9999|소라게 사료 아이템의 최대 보유 가능량
+UserHeartBonusDefault|int|30|게임 시작 시 하트 보너스 게이지 0% (백분율)
+UserCrystalBonusDefault|int|30|게임 시작 시 결정 보너스 게이지 0% (백분율)
+UserHeartBonusAdd|int|0|생명력 수확 시 상승할 보너스 생명력 게이지 값 
+UserCrystalBonusAdd|int|10|결정 수확 시 상승할 보너스 결정 게이지 값
+HaveFoodCount_2|int|5|게임 시작 시 보유할 FoodId 2 개수
+HaveFoodCount_3|int|5|게임 시작 시 보유할 FoodId 3 개수
+HaveFoodCount_4|int|5|게임 시작 시 보유할 FoodId 4 개수
+TouchHeartProductDecreaseTermMin|int|35|터치 시 생산주기 감소 가능한 랜덤 주기 최소값
+TouchHeartProductDecreaseTermMax|int|45|터치 시 생산주기 감소 가능한 랜덤 주기 최대값
+TouchHeartProductDecreaseTime|int|10|터치 시 생산주기 감소되는 시간값
+TouchHeartProductDecreaseTouchMin|int|5|터치 시 생산주기 감소될 때의 필요 랜덤 터치 횟수 최소값 
+TouchHeartProductDecreaseTouchMax|int|10|터치 시 생산주기 감소될 때의 필요 랜덤 터치 횟수 최대값 
+CardCompositeMaxCount|int|4|카드 합성 시 투입가능한 카드의 최대 개수
+CardCompositeMinCount|int|2|카드 합성 시 투입해야하는 카드의 최소 개수
+HeartProductRandMin|int|150|생명력 생산 보너스 랜덤 최소값
+HeartProductRandMax|int|300|생명력 생산 보너스 랜덤 최대값
+CrystalProductRandMin|int|150|결정 생산 보너스 랜덤 최소값
+CrystalProductRandMax|int|200|결정 생산 보너스 랜덤 최대값
+CardBonusGachaNeedCount|int|100|카드 가챠 시 보너스 천장 가챠 진행에 필요한 카드 개수
+CardPackMaxStack|int|9999|같은 카드팩 끼리 겹쳐지는 최대 개수
+CardPackMaxCount|int|300|다른 카드팩 보유 가능한 종류의 수 
+CardMaxStack|int|9999|같은 카드 겹쳐지는 최대 개수
+CardLockTerm|int|10|카드 잠금 재시도 대기 시간
+WemixFirstSignRewardMailId|int|1|위믹스 연동 시 제공해줄 보상 id 값
+HeartProductDefaultAmount|int|100|생명력 기본 생산량
+CrystalProductDefaultAmount|int|0|결정 기본 생산량
+SkillShrimpEffectShowTime|int|10|맛있는 먹이 연출 시간
+SkillMoonEffectShowTime|int|10|달의 노래 연출 시간
+FlowNoticeFirstShowWaitTime|int|30|(한줄 공지) 게임 접속 시 최초에 공지를 띄워줄 시점 (초단위)
+FlowNoticeShowCount|int|240|(한줄 공지) 공지 보여줄 횟수 - 등록된 공지를 몇번 보여줄지 
+FlowNoticeShowTerm|int|3600|(한줄 공지) 공지 보여줄 주기 - n초마다 공지를 다시 보여줌  (초단위)
+FlowNoticeShowTime|int|10|(한줄 공지) 공지 보여줄 시간 , 한 번 보여줄 때 몇초 노출할 지 (초단위)
+FlowNoticeRefreshTime|int|60|(한줄 공지) 공지를 서버에서 다시 받아올 갱신 시간 (초단위)
+StoneDefaultUpgradeCost|int|150|(산호석) 레벨업 비용 ( 1에서 2레벨 될 때 값)
+StoneMaxLevel|int|200|(산호석) 산호석 최대 레벨
+FishDefaultCreateCost|int|50|(물고기) 물고기 최초 생성 비용
+HermitcrabScriptPrintCoolTime|int|30|소라게가 자동으로 대사 내뱉는 주기
+HermitcrabScriptDeleteTime|int|2|소라게 대사가 사라지는 대기 시간
+HeartOfflineRewardDefaultRate|int|100|(오프라인보상) 기본 보상 비율 , 꺼두었을 때 n% 효율로 수확하게 하기위한 변수
+HeartOfflineRewardAdBonusRate|int|20000|(오프라인보상) 광고 시청 시 추가 제공할 생명력 비율 ( 20000 = 2배 )
+HeartOfflineRewardDefaultTime|int|300|(오프라인보상) 최대 오프라인 보상 시간 최대값 , 초단위
+SeasonPassPayinfoIdxAOS|int|1001|시즌패스 상품Idx (AOS)
+SeasonPassPayinfoIdxIOS|int|1002|시즌패스 상품Idx (IOS)
+HeartProductMaxStorage|int|10|생명력 보관량
+Skill_Id_3_MaxBuffValue|int|9000|(달의 노래 스킬) 최대 버프 효율값
+Gem_Shop_Link_Tab|int|4|보석구매 바로가기 탭 (PayTab테이블 → Tab컬럼)
+Gem_Shop_Link_Tab_Group|int|1|보석구매 바로가기 탭그룹 (PayTabGroup테이블 → Group컬럼)
+OfflineRewardPopupShowTime|int|600|(오프라인보상) 팝업이 뜨는 대기 시간, 최소 n초지나야 팝업이 보여짐
+TutorialHeartGet|int|0|(튜토리얼용) 최초 생명력 획득량
+BubbleDeleteTime|int|10|물고기 말풍선 자동 제거 타임(초)
+ScreenBubbleMaxCnt|int|5|화면에서 출력 가능한 말풍선 최대 생성 개수
+BubbleCreateTerm|int|3|말풍선 제거 후 다시 새로운 말풍선이 켜질 때까지 필요한 최소 텀 (초)
+TimeSkipPriceUnit|int|10|시간 스킵에 필요한 보석 비용
+TimeSkipSecUnit|int|60|시간 스킵 기준의 되는 시간 단위 (초)
+ExpandScaleMin|int|50|확장물 크기 조정 최소값
+ExpandScaleMax|int|150|확장물 크기 조정 최대값
+ExpandScaleUnit|int|1|확장물 크기 조정 단위
+ExpandRotationUnit|int|1|확장물 회전각도 조정 단위
+DefaultInstallExpand|int|100|확장물 기본 설치 개수
+CropMaxStack|int|9223372036854775807|농작물 최대 보유량 (개별 보유 체크)
+ExpandTileMaxCnt|int|100|확장타일 최대 구매 제한 개수
+SeasonPassShowMissionCount|int|4|(시즌패스) 한번에 보여주는 미션 개수
+ETethysMaxStack|int|9223372036854775807|E 테티스 최대 개수
+MaxExpandStack|int|99|확장물 최대 겹치기 스택

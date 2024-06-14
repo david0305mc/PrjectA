@@ -1,0 +1,5 @@
+Idx|Type|AlwaysRewardGroup|InARowRewardGroup|StartDate|EndDate|Title
+int|int|int|int|string|string|string
+1|1|1|0|2000/01/01 00:00:00|3000/12/31 00:00:00|TitleAttendance_01
+2|1|0|2|2000/01/01 00:00:00|3000/12/31 00:00:00|TitleAttendance_02
+3|2|3|0|2023/01/01 00:00:00|2023/12/31 00:00:00|TitleAttendance_03
