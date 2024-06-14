@@ -11,9 +11,9 @@ public class GameSceneManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var item in DataManager.Instance.UnitinfoArray)
+        foreach (var item in DataManager.Instance.LevelDic)
         {
-            Debug.Log($"item {item.id}");
+            Debug.Log($"item {item.Value.id}");
         }
 
         Debug.Log($"ConfigTable.Instance.DefaultUnit01 {ConfigTable.Instance.DefaultUnit01}");

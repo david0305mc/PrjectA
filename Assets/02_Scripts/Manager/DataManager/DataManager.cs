@@ -18,20 +18,7 @@ public partial class DataManager : Singleton<DataManager>
 	public static string[] tableNames =
 		{
 			"Localization",
-			"Unitinfo",
-			"UnitGradeInfo",
-			"ProjectileInfo",
-			"StageInfo",
-			"StageRewardInfo",
-			"GachaList",
-			"WaveStage",
-			"TutorialInfo",
-			"Dialogue",
-			"Attendance",
 			"Level",
-			"DevilSay",
-			"WorldShipReward",
-			"PushReward",
 		};
 
 	public async UniTask LoadDataAsync()
