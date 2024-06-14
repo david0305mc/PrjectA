@@ -16,8 +16,7 @@ public partial class DataManager : Singleton<DataManager>
 {
 	public static string[] tableNames =
 		{
-			"Sheet1",
-			"Test1",
+			"Unitinfo",
 		};
 
 	
@@ -25,15 +24,38 @@ public partial class DataManager : Singleton<DataManager>
 	{
 		foreach (var tableName in tableNames)
 		{
-			var data = await Utill.LoadFromFileAsync($"{LOCAL_CSV_PATH}/dev/{tableName}.csv");
+			var data = await LoadCSVAsync($"{tableName}.csv");
 			MethodInfo method = GetType().GetMethod($"Bind{tableName}Data");
             method.Invoke(DataManager.Instance, new object[] { Type.GetType($"DataManager+{tableName}"), data });
         }
 	}
 
+	public async UniTask<string> LoadCSVAsync(string fileName)
+	{
+#if DEV
+		return await Utill.LoadFromFileAsync($"{LOCAL_CSV_PATH}/dev/{fileName}");
+#else
+		
+		var result = await Resources.LoadAsync<TextAsset>(Path.Combine("Data", $"{Path.GetFileNameWithoutExtension(fileName)}"));
+		return ((TextAsset)result).text;
+#endif
+
+	}
+
+	public static string LoadCSVSync(string fileName)
+	{
+#if DEV
+		return Utill.LoadFromFile($"{LOCAL_CSV_PATH}/dev/{fileName}");
+#else
+		string path = Path.Combine("Data", $"{Path.GetFileNameWithoutExtension(fileName)}");
+		var textAsset = Resources.Load<TextAsset>(path);
+		return textAsset.text;
+#endif
+	}
+
 	public async UniTask LoadConfigTable()
 	{
-		var data = await Utill.LoadFromFileAsync($"{LOCAL_CSV_PATH}/dev/{CONFIG_TABLE_NAME}");
+		var data = await LoadCSVAsync(CONFIG_TABLE_NAME);
 		List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 		rows.RemoveRange(0, 2);
 		foreach (var rowItem in rows)

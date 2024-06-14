@@ -9,10 +9,11 @@ public partial class DataManager
 {
     static readonly string DATATABLE_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/DataManager.Data.cs";
     static readonly string CONFIG_TABLE_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/ConfigTable.cs";
-    static readonly string TABLE_ENUM_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/EnumTable.cs";
+    static readonly string TABLE_ENUM_DEF_PATH = $"Assets/02_Scripts/Manager/DataManager/EnumTable.cs";
 
     static readonly string LOCAL_CSV_PATH = $"{Application.dataPath}/../Cache";
-    static readonly string CONFIG_TABLE_NAME = "Abyss_constant.csv";
+    static readonly string RESOURCE_CSV_PATH = $"Data";
+    static readonly string CONFIG_TABLE_NAME = "ConfigTable.csv";
     static readonly string ENUM_TABLE_NAME = "EnumTable.csv";
 
     public static void GenDatatable()
@@ -35,7 +36,7 @@ public partial class DataManager
     {
         foreach (var tableName in DataManager.tableNames)
         {
-            var data = Utill.LoadFromFile($"{LOCAL_CSV_PATH}/dev/{tableName}.csv");
+            var data = LoadCSVSync($"{tableName}.csv");
             List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
             string tableNameUpper = $"{tableName[0].ToString().ToUpper()}{tableName.Substring(1).ToLower() }";
@@ -61,15 +62,15 @@ public partial class DataManager
             sb.Append($"\tpublic void Bind{tableName}Data(Type type, string text){{\n");
             sb.Append("\t\tvar deserializaedData = CSVDeserialize(text, type);\n");
             sb.Append($"\t\tGetType().GetProperty(nameof({arrayName})).SetValue(this, deserializaedData, null);\n");
-            sb.Append($"\t\t{dicName} = {arrayName}.ToDictionary(i => i.index);\n");
+            sb.Append($"\t\t{dicName} = {arrayName}.ToDictionary(i => i.id);\n");
             sb.Append("\t}\n");
 
-            sb.Append($"\tpublic {tableName} Get{tableName}Data(int _index){{\n");
-            sb.Append($"\t\tif ({dicName}.TryGetValue(_index, out {tableName} value)){{\n");
+            sb.Append($"\tpublic {tableName} Get{tableName}Data(int _id){{\n");
+            sb.Append($"\t\tif ({dicName}.TryGetValue(_id, out {tableName} value)){{\n");
             sb.Append($"\t\t\treturn value;\n");
             sb.Append($"\t\t}}\n");
 
-            string errorMsg = $"table doesnt contain id {{_index}}";
+            string errorMsg = $"table doesnt contain id {{_id}}";
             sb.Append($"\t\tUnityEngine.Debug.LogError($\"{errorMsg}\");\n");
             sb.Append("\t\treturn null;\n");
             sb.Append("\t}\n");
@@ -94,7 +95,7 @@ public partial class DataManager
     private static void GenConfigTableData(StringBuilder sb)
     {
         sb.AppendLine();
-        var data = Utill.LoadFromFile($"{LOCAL_CSV_PATH}/dev/{CONFIG_TABLE_NAME}");
+        var data = LoadCSVSync(CONFIG_TABLE_NAME);
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         Enumerable.Range(2, rows.Count - 2).ToList().ForEach(i =>
@@ -139,7 +140,7 @@ public partial class DataManager
     }
     private static void GenTableEnum(StringBuilder sb)
     {
-        var data = Utill.LoadFromFile($"{LOCAL_CSV_PATH}/dev/{ENUM_TABLE_NAME}");
+        var data = LoadCSVSync(ENUM_TABLE_NAME);
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         HashSet<string> keySet = new HashSet<string>();

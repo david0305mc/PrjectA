@@ -13,7 +13,7 @@ public class GameUserData
     {
         uidSeed = 1000;
         Level = new ReactiveProperty<int>(1);
-        Gold = new ReactiveProperty<long>(ConfigTable.Instance.GoldCrystalMaxStack);
+        Gold = new ReactiveProperty<long>(ConfigTable.Instance.DefaultUnit01);
     }
 
     public void UpdateRefData()

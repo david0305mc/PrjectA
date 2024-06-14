@@ -4,48 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 public partial class DataManager {
-	public partial class Sheet1 {
-		public int index;
-		public int box_id;
-		public string type;
-		public int item_id;
-		public int item_value;
-		public QST_MISSION_TYPE rate;
+	public partial class Unitinfo {
+		public int id;
+		public string test;
 	};
-	public Sheet1[] Sheet1Array { get; private set; }
-	public Dictionary<int, Sheet1> Sheet1Dic { get; private set; }
-	public void BindSheet1Data(Type type, string text){
+	public Unitinfo[] UnitinfoArray { get; private set; }
+	public Dictionary<int, Unitinfo> UnitinfoDic { get; private set; }
+	public void BindUnitinfoData(Type type, string text){
 		var deserializaedData = CSVDeserialize(text, type);
-		GetType().GetProperty(nameof(Sheet1Array)).SetValue(this, deserializaedData, null);
-		Sheet1Dic = Sheet1Array.ToDictionary(i => i.index);
+		GetType().GetProperty(nameof(UnitinfoArray)).SetValue(this, deserializaedData, null);
+		UnitinfoDic = UnitinfoArray.ToDictionary(i => i.id);
 	}
-	public Sheet1 GetSheet1Data(int _index){
-		if (Sheet1Dic.TryGetValue(_index, out Sheet1 value)){
+	public Unitinfo GetUnitinfoData(int _id){
+		if (UnitinfoDic.TryGetValue(_id, out Unitinfo value)){
 			return value;
 		}
-		UnityEngine.Debug.LogError($"table doesnt contain id {_index}");
-		return null;
-	}
-	public partial class Test1 {
-		public int index;
-		public int box_id;
-		public string type;
-		public int item_id;
-		public int item_value;
-		public int rate;
-	};
-	public Test1[] Test1Array { get; private set; }
-	public Dictionary<int, Test1> Test1Dic { get; private set; }
-	public void BindTest1Data(Type type, string text){
-		var deserializaedData = CSVDeserialize(text, type);
-		GetType().GetProperty(nameof(Test1Array)).SetValue(this, deserializaedData, null);
-		Test1Dic = Test1Array.ToDictionary(i => i.index);
-	}
-	public Test1 GetTest1Data(int _index){
-		if (Test1Dic.TryGetValue(_index, out Test1 value)){
-			return value;
-		}
-		UnityEngine.Debug.LogError($"table doesnt contain id {_index}");
+		UnityEngine.Debug.LogError($"table doesnt contain id {_id}");
 		return null;
 	}
 };

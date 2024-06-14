@@ -11,10 +11,10 @@ public class UIUserAssetState : MonoBehaviour
 
     private void Start()
     {
-        UserDataStore.Instance.AccountData.Gold.Subscribe((_coin) =>
-        {
-            goldText.text = UserDataStore.Instance.AccountData.Gold.Value.ToString();
-        }).AddTo(this);
+        //UserDataStore.Instance.AccountData.Gold.Subscribe((_coin) =>
+        //{
+        //    goldText.text = UserDataStore.Instance.AccountData.Gold.Value.ToString();
+        //}).AddTo(this);
     }
     
     public void UpdateUI()

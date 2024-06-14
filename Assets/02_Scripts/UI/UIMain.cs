@@ -40,8 +40,8 @@ public class UIMain : MonoBehaviour
         rightBtn.onClick.AddListener(() => {
             OnClickBtnShop().Forget();
         });
-        UserDataStore.Instance.AccountData.Level.SubscribeToText(levelText, item => $"Level {item}").AddTo(this);
-        UserDataStore.Instance.AccountData.Buff.SubscribeToText(buffText, item => $"Buff {item}").AddTo(this);
+        //UserDataStore.Instance.AccountData.Level.SubscribeToText(levelText, item => $"Level {item}").AddTo(this);
+        //UserDataStore.Instance.AccountData.Buff.SubscribeToText(buffText, item => $"Buff {item}").AddTo(this);
     }
     
     public async UniTaskVoid OnClickBtnShop()

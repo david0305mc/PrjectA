@@ -1,6 +1,7 @@
 public enum QST_MISSION_TYPE 
 { 
 	NONE                         = 0,        	// 없음
+	PRODUCT_MAKE                 = 1,        	// (생산품) 생산
 	PRODUCT_SELL                 = 2,        	// (생산품) 판매
 	PRODUCT_PRESENT              = 3,        	// (생산품) 선물하기
 	BUILDING_BUILD               = 4,        	// (건물) 건설
@@ -390,7 +391,7 @@ public enum PLAY_STATE_TYPE
 	INTERATION_VILLAGER_N        = 5,        	// 인터렉션
 	INTERATION_VILLAGER_D        = 6,        	// 인터렉션 (데레데레)
 	INTERATION_VILLAGER_G        = 7,        	// 인터렉션 (글루미)
-	INTERATION_VILLAGER_S        = 8,        	// 인터렉션 (스페셜, 연속터치)
+	INTERATION_VILLAGER_S        = 8,        	// 인터렉션 (스페셜
 	GET_NORMAL_FOOD              = 9,        	// 일반적인 음식 구성
 	GET_LIKE_FOOD                = 10,       	// 좋아하는 음식이 포함된 구성
 	GET_DISLIKE_FOOD             = 11,       	// 싫어하는 음식이 포함된 구성
@@ -422,10 +423,10 @@ public enum EVENT_TYPE
 public enum QUEST_TYPE 
 { 
 	NONE                         = 0,        	// 없음
-	DAILY                        = 1,        	// 일일 미션(매일 출석 갱신 시간에 리셋, 기간 중 1회 완료 가능)
-	WEEKLY                       = 2,        	// 주간 미션(매주 월요일 출석 갱신 시간에 리셋, 기간 중 1회 완료 가능)
-	EVENT                        = 3,        	// 이벤트 미션(이벤트가 종료되면 리셋, 기간 중 1회 완료 가능)
-	REPEAT                       = 4,        	// 반복 미션(이벤트가 종료되면 리셋, 기간 중 반복하여 완료 가능)
+	DAILY                        = 1,        	// 일일 미션(매일 출석 갱신 시간에 리셋
+	WEEKLY                       = 2,        	// 주간 미션(매주 월요일 출석 갱신 시간에 리셋
+	EVENT                        = 3,        	// 이벤트 미션(이벤트가 종료되면 리셋
+	REPEAT                       = 4,        	// 반복 미션(이벤트가 종료되면 리셋
 }
 public enum RESET_TYPE 
 { 
@@ -442,7 +443,7 @@ public enum SCENARIO_ACT_TYPE
 	LEAVE                        = 2,        	// 퇴장
 	TALK                         = 3,        	// 대화 출력
 	CHOOSE                       = 4,        	// 선택지 출력
-	CHAPTER                      = 5,        	// 챕터, 제목 창 출력
+	CHAPTER                      = 5,        	// 챕터
 	PLACE                        = 6,        	// 장소 창 출력
 	NARRATION                    = 7,        	// 나레이션 연출
 	CHANGE_BG                    = 8,        	// 배경 교체
@@ -520,7 +521,7 @@ public enum PUSH_TYPE
 	STRUCTURE_PUSH               = 6,        	// 건설 완료
 	UPGRADE_PUSH                 = 7,        	// 업그레이드 완료
 	EXPLORE_PUSH                 = 8,        	// 채집 완료
-	MISSYOU_PUSH                 = 9,        	// 장기 미접속 (7일 미접속 시 보냄, 총 5회 반복 푸시 후 더 이상 보내지 않음)
+	MISSYOU_PUSH                 = 9,        	// 장기 미접속 (7일 미접속 시 보냄
 	REQUEST_FRIEND_PUSH          = 10,       	// 친구 신청 알림
 	NOTICE_POSTBOX_PUSH          = 11,       	// 신규 소식함 수신
 }
