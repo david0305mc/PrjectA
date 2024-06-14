@@ -9,10 +9,11 @@ public partial class DataManager
 {
     static readonly string DATATABLE_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/DataManager.Data.cs";
     static readonly string CONFIG_TABLE_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/ConfigTable.cs";
-    static readonly string TABLE_ENUM_DEF_PATH = $"Assets/02_Scripts/Manager/DataManager/EnumTable.cs";
+    static readonly string TABLE_ENUM_DEF_PATH = "Assets/02_Scripts/Manager/DataManager/EnumTable.cs";
 
-    static readonly string LOCAL_CSV_PATH = $"{Application.dataPath}/../Cache";
-    static readonly string RESOURCE_CSV_PATH = $"Data";
+    //static readonly string LOCAL_CSV_PATH = $"{Application.dataPath}/../Cache/dev";
+    static readonly string LOCAL_CSV_PATH = $"{Application.dataPath}/Resources/Data";
+
     static readonly string CONFIG_TABLE_NAME = "ConfigTable.csv";
     static readonly string ENUM_TABLE_NAME = "EnumTable.csv";
 
@@ -36,7 +37,7 @@ public partial class DataManager
     {
         foreach (var tableName in DataManager.tableNames)
         {
-            var data = LoadCSVSync($"{tableName}.csv");
+            var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
             List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
             string tableNameUpper = $"{tableName[0].ToString().ToUpper()}{tableName.Substring(1).ToLower() }";
@@ -54,10 +55,15 @@ public partial class DataManager
                 }
                 sb.AppendFormat($"\t\tpublic {type} {rows[0][i].ToLower()};\n");
             });
+            var keyType = rows[1][0];
+            if (!(keyType == "int" || keyType == "long" || keyType == "float" || keyType == "string"))
+            {
+                keyType = keyType.ToLower();
+            }
 
             sb.Append("\t};\n");
             sb.Append($"\tpublic {tableName}[] {arrayName} {{ get; private set; }}\n");
-            sb.Append($"\tpublic Dictionary<int, {tableName}> {dicName} {{ get; private set; }}\n");
+            sb.Append($"\tpublic Dictionary<{keyType}, {tableName}> {dicName} {{ get; private set; }}\n");
 
             sb.Append($"\tpublic void Bind{tableName}Data(Type type, string text){{\n");
             sb.Append("\t\tvar deserializaedData = CSVDeserialize(text, type);\n");
@@ -65,7 +71,7 @@ public partial class DataManager
             sb.Append($"\t\t{dicName} = {arrayName}.ToDictionary(i => i.id);\n");
             sb.Append("\t}\n");
 
-            sb.Append($"\tpublic {tableName} Get{tableName}Data(int _id){{\n");
+            sb.Append($"\tpublic {tableName} Get{tableName}Data({keyType} _id){{\n");
             sb.Append($"\t\tif ({dicName}.TryGetValue(_id, out {tableName} value)){{\n");
             sb.Append($"\t\t\treturn value;\n");
             sb.Append($"\t\t}}\n");
@@ -95,12 +101,11 @@ public partial class DataManager
     private static void GenConfigTableData(StringBuilder sb)
     {
         sb.AppendLine();
-        var data = LoadCSVSync(CONFIG_TABLE_NAME);
+        var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, CONFIG_TABLE_NAME));
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         Enumerable.Range(2, rows.Count - 2).ToList().ForEach(i =>
         {
-            Debug.Log($"item[0] {rows[i][0]}, item[1] : {rows[i][1]}");
             var name = rows[i][0];
             var type = rows[i][1];
             sb.AppendLine($"\tpublic {type} {name};");
@@ -140,12 +145,12 @@ public partial class DataManager
     }
     private static void GenTableEnum(StringBuilder sb)
     {
-        var data = LoadCSVSync(ENUM_TABLE_NAME);
+        var data = Utill.LoadFromFile(Path.Combine(LOCAL_CSV_PATH, ENUM_TABLE_NAME));
         List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
 
         HashSet<string> keySet = new HashSet<string>();
 
-        Enumerable.Range(1, rows.Count - 1).ToList().ForEach(i =>
+        Enumerable.Range(2, rows.Count - 2).ToList().ForEach(i =>
         {
             string enumType = rows[i][0].ToString().ToUpper();
             if (!keySet.Contains(enumType))

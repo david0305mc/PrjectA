@@ -20,17 +20,16 @@ public class EditorMenu
     public static void GenerateTableCode()
     {
         if (EditorApplication.isPlaying) return;
-        CodeGenerator.GenDatatable();
-        Debug.Log("GenerateTableCode");
-        CodeGenerator.GenConfigTable();
-        Debug.Log("GenConfigTable");
+        DataManager.GenDatatable();
+        DataManager.GenConfigTable();
+        DataManager.GenTableEnum();
     }
 
     [MenuItem("Assets/GenerateTableEnum")]
     public static void GenerateTableEnum()
     {
         if (EditorApplication.isPlaying) return;
-        CodeGenerator.GenTableEnum();
+        DataManager.GenTableEnum();
         Debug.Log("GenerateTableEnum");
     }
     

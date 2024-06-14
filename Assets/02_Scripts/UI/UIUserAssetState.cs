@@ -19,7 +19,7 @@ public class UIUserAssetState : MonoBehaviour
     
     public void UpdateUI()
     {
-        goldText.text = UserDataStore.Instance.AccountData.Gold.Value.ToString();
-        seedText.text = UserDataStore.Instance.Seed.ToString();
+        //goldText.text = UserDataStore.Instance.AccountData.Gold.Value.ToString();
+        //seedText.text = UserDataStore.Instance.Seed.ToString();
     }
 }

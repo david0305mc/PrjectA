@@ -39,23 +39,23 @@ public partial class DataManagerTest : Singleton<DataManagerTest>
         _properties = new Dictionary<string, PropertyInfo>();
         _dicProperties = new Dictionary<string, PropertyInfo>();
         PropertyInfo[] props = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        for (int i = 0; i < props.Length; ++i)
-        {
-            if (props[i].Name.StartsWith(Datatable.DataTablePrefix))
-            {
-                object[] attrs = props[i].GetCustomAttributes(typeof(TableAttribute), false);
-                string tableName = attrs.Length != 0 ? ((TableAttribute)attrs[0]).name : props[i].Name.Replace(Datatable.DataTablePrefix, string.Empty);
-                _properties.Add(tableName, props[i]);
-            }
+        //for (int i = 0; i < props.Length; ++i)
+        //{
+        //    if (props[i].Name.StartsWith(Datatable.DataTablePrefix))
+        //    {
+        //        object[] attrs = props[i].GetCustomAttributes(typeof(TableAttribute), false);
+        //        string tableName = attrs.Length != 0 ? ((TableAttribute)attrs[0]).name : props[i].Name.Replace(Datatable.DataTablePrefix, string.Empty);
+        //        _properties.Add(tableName, props[i]);
+        //    }
 
-            if (props[i].Name.StartsWith(Datatable.DicDataTablePrefix))
-            {
-                object[] attrs = props[i].GetCustomAttributes(typeof(TableAttribute), false);
-                string tableName = attrs.Length != 0 ? ((TableAttribute)attrs[0]).name : props[i].Name.Replace(Datatable.DataTablePrefix, string.Empty);
-                _dicProperties.Add(tableName, props[i]);
-                //_dicProperties.Add(((TableAttribute)attrs[0]).name, props[i]);
-            }
-        }
+        //    if (props[i].Name.StartsWith(Datatable.DicDataTablePrefix))
+        //    {
+        //        object[] attrs = props[i].GetCustomAttributes(typeof(TableAttribute), false);
+        //        string tableName = attrs.Length != 0 ? ((TableAttribute)attrs[0]).name : props[i].Name.Replace(Datatable.DataTablePrefix, string.Empty);
+        //        _dicProperties.Add(tableName, props[i]);
+        //        //_dicProperties.Add(((TableAttribute)attrs[0]).name, props[i]);
+        //    }
+        //}
     }
     public void LoadDataAsync()
     {

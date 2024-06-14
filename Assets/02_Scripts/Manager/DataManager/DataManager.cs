@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.Networking;
 
 public class Table
 {
@@ -16,47 +17,66 @@ public partial class DataManager : Singleton<DataManager>
 {
 	public static string[] tableNames =
 		{
+			"Localization",
 			"Unitinfo",
+			"UnitGradeInfo",
+			"ProjectileInfo",
+			"StageInfo",
+			"StageRewardInfo",
+			"GachaList",
+			"WaveStage",
+			"TutorialInfo",
+			"Dialogue",
+			"Attendance",
+			"Level",
+			"DevilSay",
+			"WorldShipReward",
+			"PushReward",
 		};
 
-	
 	public async UniTask LoadDataAsync()
 	{
+		
 		foreach (var tableName in tableNames)
 		{
-			var data = await LoadCSVAsync($"{tableName}.csv");
-			MethodInfo method = GetType().GetMethod($"Bind{tableName}Data");
-            method.Invoke(DataManager.Instance, new object[] { Type.GetType($"DataManager+{tableName}"), data });
+			if (tableName == "Localization")
+				continue;
+#if DEV
+			string data = Resources.Load<TextAsset>(Path.Combine("Data", $"{tableName}")).ToString();
+#else
+			string data = await Utill.LoadFromFileAsync(Path.Combine(LOCAL_CSV_PATH, $"{tableName}.csv"));
+#endif
+
+			try
+			{
+				MethodInfo method = GetType().GetMethod($"Bind{tableName}Data");
+				method.Invoke(DataManager.Instance, new object[] { Type.GetType($"DataManager+{tableName}"), data });
+			}
+			catch
+			{
+				Debug.LogError($"Table Load Failed {tableName}");
+			}
         }
 	}
 
-	public async UniTask<string> LoadCSVAsync(string fileName)
+	public void LoadLocalization()
 	{
-#if DEV
-		return await Utill.LoadFromFileAsync($"{LOCAL_CSV_PATH}/dev/{fileName}");
-#else
-		
-		var result = await Resources.LoadAsync<TextAsset>(Path.Combine("Data", $"{Path.GetFileNameWithoutExtension(fileName)}"));
-		return ((TextAsset)result).text;
-#endif
-
-	}
-
-	public static string LoadCSVSync(string fileName)
-	{
-#if DEV
-		return Utill.LoadFromFile($"{LOCAL_CSV_PATH}/dev/{fileName}");
-#else
-		string path = Path.Combine("Data", $"{Path.GetFileNameWithoutExtension(fileName)}");
-		var textAsset = Resources.Load<TextAsset>(path);
-		return textAsset.text;
-#endif
+		string tableName = "Localization";
+		string data = Resources.Load<TextAsset>(Path.Combine("Data", $"{tableName}")).ToString();
+		MethodInfo method = GetType().GetMethod($"Bind{tableName}Data");
+		method.Invoke(DataManager.Instance, new object[] { Type.GetType($"DataManager+{tableName}"), data });
 	}
 
 	public async UniTask LoadConfigTable()
 	{
-		var data = await LoadCSVAsync(CONFIG_TABLE_NAME);
-		List<string[]> rows = CSVSerializer.ParseCSV(data, '|');
+#if DEV
+		string data = Resources.Load<TextAsset>(Path.Combine("Data", "ConfigTable")).ToString();
+#else
+		string path = Path.Combine(LOCAL_CSV_PATH, CONFIG_TABLE_NAME);
+        var data = (await UnityWebRequest.Get(path).SendWebRequest()).downloadHandler.text;
+#endif
+
+		List<string[]> rows = CSVSerializer.ParseCSV(data.ToString(), '|');
 		rows.RemoveRange(0, 2);
 		foreach (var rowItem in rows)
 		{
@@ -66,16 +86,15 @@ public partial class DataManager : Singleton<DataManager>
 			{
 				CSVSerializer.SetValue(ConfigTable.Instance, field, rowItem[2]);
 			}
-			catch 
+			catch
 			{
-				Debug.Log($"{rowItem[0]} invalid");
+				Debug.LogWarning($"{rowItem[0]} invalid");
 			}
 		}
-    }
-
-
+	}
 	object CSVDeserialize(string text, Type type, bool hasSkipLine = true)
 	{
+		
 		List<string[]> rows = CSVSerializer.ParseCSV(text, '|');
 		if (hasSkipLine)
 			rows.RemoveAt(1);

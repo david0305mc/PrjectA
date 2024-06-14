@@ -21,25 +21,25 @@ public class UIMain : MonoBehaviour
 
     private void Start()
     {
-        levelUpBtn.onClick.AddListener(() =>
-        {
-            UserDataStore.Instance.AccountData.Level.Value++;
-        });
+        //levelUpBtn.onClick.AddListener(() =>
+        //{
+        //    UserDataStore.Instance.AccountData.Level.Value++;
+        //});
 
-        buffUpBtn.onClick.AddListener(() =>
-        {
-            UserDataStore.Instance.AccountData.Buff.Value++;
-        });
-        acqireBoldBtn.onClick.AddListener(() => {
-            UserDataStore.Instance.AccountData.Gold.Value += 1000;
-        });
-        restartBtn.onClick.AddListener(() => {
-            UserDataStore.Instance.AccountData.DisposalbleClear();
-            SceneManager.LoadSceneAsync(SceneName.Splash);
-        });
-        rightBtn.onClick.AddListener(() => {
-            OnClickBtnShop().Forget();
-        });
+        //buffUpBtn.onClick.AddListener(() =>
+        //{
+        //    UserDataStore.Instance.AccountData.Buff.Value++;
+        //});
+        //acqireBoldBtn.onClick.AddListener(() => {
+        //    UserDataStore.Instance.AccountData.Gold.Value += 1000;
+        //});
+        //restartBtn.onClick.AddListener(() => {
+        //    UserDataStore.Instance.AccountData.DisposalbleClear();
+        //    SceneManager.LoadSceneAsync(SceneName.Splash);
+        //});
+        //rightBtn.onClick.AddListener(() => {
+        //    OnClickBtnShop().Forget();
+        //});
         //UserDataStore.Instance.AccountData.Level.SubscribeToText(levelText, item => $"Level {item}").AddTo(this);
         //UserDataStore.Instance.AccountData.Buff.SubscribeToText(buffText, item => $"Buff {item}").AddTo(this);
     }
