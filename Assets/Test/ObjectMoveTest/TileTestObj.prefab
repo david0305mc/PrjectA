@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 9115663074608430126}
   - component: {fileID: 9115663074608430127}
   - component: {fileID: 8221296580386324391}
-  m_Layer: 0
+  - component: {fileID: 7556788528277708252}
+  m_Layer: 6
   m_Name: TileTestObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,3 +183,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15210720a15c546a7a02238e9a4af14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 9115663074253450801}
+--- !u!65 &7556788528277708252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9115663074608430121}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

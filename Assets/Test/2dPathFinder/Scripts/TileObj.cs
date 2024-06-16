@@ -16,4 +16,5 @@ public class TileObj : MonoBehaviour
     {
         img.gameObject.SetActive(false);
     }
+
 }
