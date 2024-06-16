@@ -38,11 +38,30 @@ namespace TEST
                     var tileObj = Lean.Pool.LeanPool.Spawn(tileObjPrefab, floorRoot.transform);
                     tileObj.transform.position = new Vector3(startX + i * tileWidth, startY + j * tileWidth, 0);
                     tileObj.transform.localScale = new Vector3(tileWidth, tileWidth);
+                    tileObj.gameObject.name = $"obj {i}_{j} ";
                 }
 
             }
 
 
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var ray = myCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                var layerMask = 1 << LayerMask.NameToLayer("Tile");
+
+                if (Physics.Raycast(ray.origin, ray.direction * 10, out hit, layerMask))
+                {
+                    Debug.Log(hit.collider.gameObject.name.ToString());
+                }
+
+
+
+            }
         }
     }
 
