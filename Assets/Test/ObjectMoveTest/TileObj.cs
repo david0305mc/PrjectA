@@ -25,23 +25,26 @@ namespace TEST
             switch (status)
             {
                 case ObjectMoveTest.TileStatus.Normal:
-                    spriteRenderer.color = Color.black;
+                    SetColor(Color.black);
                     break;
                 case ObjectMoveTest.TileStatus.Start:
-                    spriteRenderer.color = Color.yellow;
+                    SetColor(Color.yellow);
                     break;
                 case ObjectMoveTest.TileStatus.Block:
-                    spriteRenderer.color = Color.green;
+                    SetColor(Color.green);
                     break;
                 case ObjectMoveTest.TileStatus.End:
-                    spriteRenderer.color = Color.red;
+                    SetColor(Color.red);
                     break;
                 case ObjectMoveTest.TileStatus.Path:
-                    spriteRenderer.color = Color.blue;
+                    SetColor(Color.blue);
                     break;
             }
         }
-
+        public void SetColor(Color _color)
+        {
+            spriteRenderer.color = _color;
+        }
         private void OnMouseUp()
         {
             action?.Invoke(this);

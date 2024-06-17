@@ -31,6 +31,7 @@ namespace TEST
         private AbsPathFinder jpsPathFinder;
         private TileObj[,] tiles;
         List<PathNode> path = new List<PathNode>();
+        List<TileObj> displayList = new List<TileObj>();
         private TileObj startNode;
         private TileObj endNode;
 
@@ -70,6 +71,8 @@ namespace TEST
             jpsPathFinder = new JPSPathFinder(this);
             jpsPathFinder.SetNode2Pos(Node2Pos);
             jpsPathFinder.InitMap(gridCol, gridRow);
+            jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
+            jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
 
             //var tileObj = Lean.Pool.LeanPool.Spawn(tileObjPrefab, floorRoot.transform);
             //tileObj.transform.position = new Vector3(startX, startY, 0);
@@ -91,6 +94,17 @@ namespace TEST
                     });
                 }
             }
+        }
+
+        private void DisplayRecord(PathNode node, Color color)
+        {
+            var tileObj = tiles[node.x, node.y];
+            if (tileObj == startNode || tileObj == endNode)
+                return;
+
+            if (!displayList.Contains(tileObj))
+                displayList.Add(tileObj);
+            tileObj.SetColor(color);
         }
 
         private void OnNodeClick(TileObj node)
@@ -165,22 +179,27 @@ namespace TEST
                 OnClickClear();
                 jpsPathFinder.SetStartNode(startNode.X, startNode.Y);
                 jpsPathFinder.SetEndNode(endNode.X, endNode.Y);
+                
                 path = jpsPathFinder.FindPath();
-
-                foreach (var item in path)
-                {
-                    tiles[item.x, item.y].SetData(TileStatus.Path);
-                }
             }
         }
         public void OnClickClear()
         {
             jpsPathFinder.Clear();
 
-            //foreach (var node in displayList)
-            //    node.img.gameObject.SetActive(false);
+            foreach (var node in displayList)
+                node.SetData(TileStatus.Normal);
 
-            //displayList.Clear();
+            displayList.Clear();
+        }
+
+        private void OnPlayEnd()
+        {
+            foreach (var node in path)
+            {
+                var tileObj = tiles[node.x, node.y];
+                tileObj.SetData(TileStatus.Path);
+            }
         }
 
         public void OnClickJPSPath()
