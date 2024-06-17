@@ -267,7 +267,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683338de2f1666746bd3c1bb27c1ab48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DontDestroyOnLoad: 1
   boidsObj: {fileID: 5551651849547132421, guid: 25b92ee8bded69d40a9f01f09d9701f5, type: 3}
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 1
+  _viewRadius: 3
+  _turnSpeed: 2
+  _forwardSpeed: 1
+  boidsObjList: []
 --- !u!4 &358566196
 Transform:
   m_ObjectHideFlags: 0
@@ -369,8 +378,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

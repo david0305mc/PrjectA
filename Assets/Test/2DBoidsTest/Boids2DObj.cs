@@ -8,17 +8,11 @@ namespace TEST
     {
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        public int _viewRadius = 3;
-        public int _turnSpeed = 3;
-        public float _forwardSpeed = 5;
 
-        public float _weightforward;
-        public float _weightCohesion;
-        public float _weightSeparation;
-        public float _weightAlignment;
         private void FixedUpdate()
         {
-            _rigidbody2D.MovePosition(CalculateVelocity());
+            _rigidbody2D.velocity = CalculateVelocity();
+            //_rigidbody2D.MovePosition(CalculateVelocity());
             FaceFront();
             //_rigidbody2D.SetRotation(CalculateVelocity());
         }
@@ -26,21 +20,21 @@ namespace TEST
         Vector2 CalculateVelocity()
         {
             List<Boids2DObj> neighboringFish_list = GetNeighboringFishList();
-
+            
             //adding all velocity of all rules
             Vector2 velocity = (
-                _weightforward * (Vector2)transform.right
-                + _weightCohesion * Rule1(neighboringFish_list)
-                + _weightSeparation * Rule2(neighboringFish_list)
-                + _weightAlignment * Rule3(neighboringFish_list)
-            ).normalized * _forwardSpeed;
+                 BoidsTest2DManager.Instance._weightforward * (Vector2)transform.right
+                + BoidsTest2DManager.Instance._weightCohesion * Rule1(neighboringFish_list)
+                + BoidsTest2DManager.Instance._weightSeparation * Rule2(neighboringFish_list)
+                + BoidsTest2DManager.Instance._weightAlignment * Rule3(neighboringFish_list)
+            ).normalized * BoidsTest2DManager.Instance._forwardSpeed;
             return velocity;
         }
 
         //rotate the fish to current velocity
         void FaceFront()
         {
-            float step = Time.fixedDeltaTime * _turnSpeed;
+            float step = Time.fixedDeltaTime * BoidsTest2DManager.Instance._turnSpeed;
             Vector3 newDir = Vector3.RotateTowards(transform.right, _rigidbody2D.velocity, step, 0);
 
             float zOffset = Vector2.SignedAngle(transform.right, newDir);
@@ -56,7 +50,7 @@ namespace TEST
                 //don't include itself
                 if (obj == this.gameObject) continue;
 
-                if (Vector2.Distance(transform.position, obj.transform.position) <= _viewRadius)
+                if (Vector2.Distance(transform.position, obj.transform.position) <= BoidsTest2DManager.Instance._viewRadius)
                 {
                     neighboringFish_list.Add(obj);
                 }
@@ -108,7 +102,7 @@ namespace TEST
             {
                 Vector2 awayFishVec = (Vector2)transform.position - (Vector2)fish.transform.position;
                 //the closer the bigger weight it get
-                float x = awayFishVec.magnitude / _viewRadius;
+                float x = awayFishVec.magnitude / BoidsTest2DManager.Instance._viewRadius;
                 float weight = 1;
 
                 direction += awayFishVec.normalized * weight;
