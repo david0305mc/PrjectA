@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using FT;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace TEST
 {
@@ -16,9 +19,10 @@ namespace TEST
             End,
             Path,
         }
-
+        [SerializeField] private TestMoveObj testMoveObjPrefab;
         [SerializeField] private TileObj tileObjPrefab;
         [SerializeField] private GameObject floorRoot;
+        [SerializeField] private GameObject fieldRoot;
         [SerializeField] private Camera myCamera;
 
         [SerializeField] private GameObject blockOnObj;
@@ -29,12 +33,13 @@ namespace TEST
         private readonly int gridCol = 10;
         private readonly int gridRow = 13;
         private AbsPathFinder jpsPathFinder;
+        private AbsPathFinder astarPathFinder;
         private TileObj[,] tiles;
         List<PathNode> path = new List<PathNode>();
         List<TileObj> displayList = new List<TileObj>();
         private TileObj startNode;
         private TileObj endNode;
-
+        private CancellationTokenSource cts;
         private void Start()
         {
             //jpsPathFinder = new JPSPathFinder(this);
@@ -43,7 +48,26 @@ namespace TEST
             //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
             //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
             InitMap();
+
+            //PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(1), false, DelayType.DeltaTime, PlayerLoopTiming.Update, cts.Token, obj =>
+            //{
+            //    TestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, fieldRoot.transform, false);
+            //    moveObj.InitData();
+            //}, null);
+            OnClickBlock();
         }
+
+        public void OnClickCreateMoveObj()
+        {
+            if (startNode == null || endNode == null || path == null)
+                return;
+
+            
+            TestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, fieldRoot.transform, false);
+            moveObj.transform.position = startNode.transform.position;
+            moveObj.InitData(path);
+        }
+
         public Vector3 Node2Pos(int i, int j)
         {
             float aspect = (float)Screen.width / Screen.height;
@@ -73,6 +97,12 @@ namespace TEST
             jpsPathFinder.InitMap(gridCol, gridRow);
             jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
             jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
+
+            astarPathFinder = new JPSPathFinder(this);
+            astarPathFinder.SetNode2Pos(Node2Pos);
+            astarPathFinder.InitMap(gridCol, gridRow);
+            astarPathFinder.recorder.SetDisplayAction(DisplayRecord);
+            astarPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
 
             //var tileObj = Lean.Pool.LeanPool.Spawn(tileObjPrefab, floorRoot.transform);
             //tileObj.transform.position = new Vector3(startX, startY, 0);
@@ -128,12 +158,14 @@ namespace TEST
             if (node.status == TileStatus.Normal)
             {
                 node.SetData(TileStatus.Block);
-                jpsPathFinder.RefreshWalkable(node.X, node.Y, true);
+                jpsPathFinder.RefreshWalkable(node.X, node.Y, false);
+                astarPathFinder.RefreshWalkable(node.X, node.Y, false);
             }
             else if (node.status == TileStatus.Block)
             {
                 node.SetData(TileStatus.Normal);
-                jpsPathFinder.RefreshWalkable(node.X, node.Y, false);
+                jpsPathFinder.RefreshWalkable(node.X, node.Y, true);
+                astarPathFinder.RefreshWalkable(node.X, node.Y, true);
             }
         }
 
@@ -151,7 +183,7 @@ namespace TEST
         {
             if (endNode != null)
             {
-                endNode.SetData(TileStatus.End);
+                endNode.SetData(TileStatus.Block);
             }
             endNode = node;
             endNode.SetData(TileStatus.End);
@@ -171,21 +203,32 @@ namespace TEST
 
             //}
         }
-
-        public void OnClickAstarFind()
+        public void OnClickJpsFind()
         {
             if (startNode != null && endNode != null)
             {
                 OnClickClear();
                 jpsPathFinder.SetStartNode(startNode.X, startNode.Y);
                 jpsPathFinder.SetEndNode(endNode.X, endNode.Y);
-                
+
                 path = jpsPathFinder.FindPath();
+            }
+        }
+        public void OnClickAstarFind()
+        {
+            if (startNode != null && endNode != null)
+            {
+                OnClickClear();
+                astarPathFinder.SetStartNode(startNode.X, startNode.Y);
+                astarPathFinder.SetEndNode(endNode.X, endNode.Y);
+                
+                path = astarPathFinder.FindPath();
             }
         }
         public void OnClickClear()
         {
             jpsPathFinder.Clear();
+            astarPathFinder.Clear();
 
             foreach (var node in displayList)
                 node.SetData(TileStatus.Normal);
@@ -202,11 +245,6 @@ namespace TEST
             }
         }
 
-        public void OnClickJPSPath()
-        {
-            jpsPathFinder.FindPath();
-
-        }
         public void OnClickBlock()
         {
             blockOnObj.SetActive(true);
