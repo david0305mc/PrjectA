@@ -8,6 +8,9 @@ namespace TEST
     {
         public List<Transform> WayPointList;
         [SerializeField] private Boids2DObj boidsObj;
+
+
+        [SerializeField] private int objectCount;
         public float _weightforward;
         public float _weightCohesion;
         public float _weightSeparation;
@@ -20,7 +23,7 @@ namespace TEST
 
         private void Start()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < objectCount; i++)
             {
                 Boids2DObj obj = Lean.Pool.LeanPool.Spawn(boidsObj, transform, false);
                 obj.transform.position = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0);

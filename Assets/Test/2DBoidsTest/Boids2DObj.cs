@@ -26,7 +26,7 @@ namespace TEST
         Vector2 CalculateVelocity()
         {
             var target = BoidsTest2DManager.Instance.WayPointList[targetIndex];
-            if (Vector2.Distance(target.position, transform.position) < 1)
+            if (Vector2.Distance(target.position, transform.position) < 2)
             {
                 targetIndex++;
                 if (targetIndex >= BoidsTest2DManager.Instance.WayPointList.Count)
