@@ -31,7 +31,7 @@ public partial class UserData : Singleton<UserData>
         }
         else
         {
-            PlayerPrefs.SetInt("NewUser", 1);
+            PlayerPrefs.SetInt("IsNewUser", 1);
             // NewGame
             InitNewGameData();
         }

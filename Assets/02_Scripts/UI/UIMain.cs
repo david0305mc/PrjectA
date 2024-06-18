@@ -10,13 +10,21 @@ using Cysharp.Threading.Tasks;
 public class UIMain : MonoBehaviour
 {
     [SerializeField] private Button levelUpBtn;
-    [SerializeField] private Button buffUpBtn;
-    [SerializeField] private Button acqireBoldBtn;
-    [SerializeField] private Button restartBtn;
-    [SerializeField] private Button rightBtn;
+    [SerializeField] private Button goldUpBtn;
 
-    [SerializeField] private Text levelText;
-    [SerializeField] private Text buffText;
+    private void Awake()
+    {
+        levelUpBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.CallEventLevelUp(1);
+        });
+
+        goldUpBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.CallEventAddGold(10);
+        });
+     
+    }
 
 
     private void Start()
