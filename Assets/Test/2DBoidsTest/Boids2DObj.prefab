@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5551651849547132420}
   - component: {fileID: 5551651849547132421}
   - component: {fileID: 2786437760784346009}
+  - component: {fileID: -1855961488481733652}
   m_Layer: 0
   m_Name: Boids2DObj
   m_TagString: Untagged
@@ -47,13 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 2786437760784346009}
-  _viewRadius: 3
-  _turnSpeed: 3
-  _forwardSpeed: 5
-  _weightforward: 1
-  _weightCohesion: 1
-  _weightSeparation: 1
-  _weightAlignment: 1
 --- !u!50 &2786437760784346009
 Rigidbody2D:
   serializedVersion: 4
@@ -75,6 +69,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-1855961488481733652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551651849547132442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abc171ea648601c439ec46b4d89cef36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8381907795541282234
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,12 @@ using UnityEngine;
 public class TeleportBoundery : MonoBehaviour
 {
  
-    [SerializeField] Boundary _boundary;
-    
+    private Boundary _boundary;
+
+    private void Awake()
+    {
+        _boundary = new Boundary();
+    }
     void FixedUpdate()
     {
         if (Mathf.Abs(transform.position.x) > _boundary.XLimit)

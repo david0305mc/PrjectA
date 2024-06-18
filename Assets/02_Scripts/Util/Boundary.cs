@@ -28,4 +28,13 @@ public class Boundary
             _xLimit = _yLimit * Screen.width / Screen.height;
         }
     }
+
+    public static Vector2 GetBoundaryLimit()
+    {
+        var limitY = Camera.main.orthographicSize;
+        var limitX = limitY * Screen.width / Screen.height;
+        return new Vector2(limitX, limitY);
+    }
 }
+
+

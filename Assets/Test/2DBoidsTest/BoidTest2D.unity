@@ -269,11 +269,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
   boidsObj: {fileID: 5551651849547132421, guid: 25b92ee8bded69d40a9f01f09d9701f5, type: 3}
-  _weightforward: 1
-  _weightCohesion: 1
-  _weightSeparation: 1
+  _weightforward: 10
+  _weightCohesion: 2
+  _weightSeparation: 2
   _weightAlignment: 1
-  _viewRadius: 3
+  _viewRadius: 10
   _turnSpeed: 2
   _forwardSpeed: 1
   boidsObjList: []
