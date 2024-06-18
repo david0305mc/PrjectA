@@ -6,6 +6,7 @@ namespace TEST
 {
     public class BoidsTest2DManager : SingletonMono<BoidsTest2DManager>
     {
+        public List<Transform> WayPointList;
         [SerializeField] private Boids2DObj boidsObj;
         public float _weightforward;
         public float _weightCohesion;

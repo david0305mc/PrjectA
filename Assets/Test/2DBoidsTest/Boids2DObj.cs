@@ -8,6 +8,7 @@ namespace TEST
     {
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        private int targetIndex;
 
         private void FixedUpdate()
         {
@@ -17,13 +18,30 @@ namespace TEST
             //_rigidbody2D.SetRotation(CalculateVelocity());
         }
 
+        private void Start()
+        {
+            targetIndex = 0;
+        }
+
         Vector2 CalculateVelocity()
         {
+            var target = BoidsTest2DManager.Instance.WayPointList[targetIndex];
+            if (Vector2.Distance(target.position, transform.position) < 1)
+            {
+                targetIndex++;
+                if (targetIndex >= BoidsTest2DManager.Instance.WayPointList.Count)
+                {
+                    targetIndex = 0;
+                }
+                target = BoidsTest2DManager.Instance.WayPointList[targetIndex];
+            }
             List<Boids2DObj> neighboringFish_list = GetNeighboringFishList();
-            
+            Vector2 targetVec = target.position - transform.position;
+
             //adding all velocity of all rules
             Vector2 velocity = (
-                 BoidsTest2DManager.Instance._weightforward * (Vector2)transform.right
+                 //BoidsTest2DManager.Instance._weightforward * (Vector2)transform.right
+                 BoidsTest2DManager.Instance._weightforward * targetVec
                 + BoidsTest2DManager.Instance._weightCohesion * Rule1(neighboringFish_list)
                 + BoidsTest2DManager.Instance._weightSeparation * Rule2(neighboringFish_list)
                 + BoidsTest2DManager.Instance._weightAlignment * Rule3(neighboringFish_list)
