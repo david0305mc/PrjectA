@@ -86,7 +86,6 @@ namespace TEST
         private void InitMap()
         {
             float aspect = (float)Screen.width / Screen.height;
-
             float worldHeight = myCamera.orthographicSize * 2;
             float worldWidth = worldHeight * aspect;
             float gridWidth = worldWidth;
