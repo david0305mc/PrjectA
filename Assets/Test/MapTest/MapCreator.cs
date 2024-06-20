@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using TEST;
 public class MapCreator : MonoBehaviour
 {
     
-    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private MapTestObj tilePrefab;
     [SerializeField] private Transform mapRoot;
     [SerializeField] private List<GameObject> tileList;
+    [SerializeField] private Transform objectField;
+    public Transform ObjectField { get { return objectField; } }
 
-    [SerializeField] private int gridCol = 10;
-    [SerializeField] private int gridRow = 13;
-    [SerializeField] private GameObject[,] tiles;
+    public int gridCol = 10;
+    public int gridRow = 13;
+    [SerializeField] private MapTestObj[,] tiles;
     [SerializeField] Camera myCamera;
+
     private float aspect;
     private float worldHeight;
     private float worldWidth;
@@ -42,15 +46,22 @@ public class MapCreator : MonoBehaviour
     private void CreateMap()
     {
         InitDefaultData();
-        tiles = new GameObject[gridCol, gridRow];
+        tiles = new MapTestObj[gridCol, gridRow];
         for (int i = 0; i < gridCol; i++)
         {
             for (int j = 0; j < gridRow; j++)
             {
-                var obj = Instantiate(tilePrefab, mapRoot);
+
+                //UnityEditor.PrefabUtility.InstantiatePrefab
+
+                //var obj = Instantiate(tilePrefab, mapRoot);
+                var obj = UnityEditor.PrefabUtility.InstantiatePrefab(tilePrefab, mapRoot) as MapTestObj;
+                //var obj = test as MapTestObj;
                 obj.transform.position = Node2Pos(i, j);
                 obj.transform.localScale = new Vector3(tileWidth, tileWidth);
                 obj.gameObject.name = $"obj {i}_{j} ";
+                obj.X = i;
+                obj.Y = j;
                 tiles[i, j] = obj;
 
                 //GameObject tileObj = Lean.Pool.LeanPool.Spawn(tilePrefab, mapRoot);
@@ -78,26 +89,27 @@ public class MapCreator : MonoBehaviour
         }
         tiles = null;
     }
-    [ContextMenu("Create Prefab From Selection")]
-    void DoCreatePrefab()
-    {
-        if (tileList != null)
-        {
-            foreach (var item in tileList)
-            {
-                DestroyImmediate(item.gameObject);
-            }
-        }
-        tileList = new List<GameObject>();
+
+    //[ContextMenu("Create Prefab From Selection")]
+    //void DoCreatePrefab()
+    //{
+    //    if (tileList != null)
+    //    {
+    //        foreach (var item in tileList)
+    //        {
+    //            DestroyImmediate(item.gameObject);
+    //        }
+    //    }
+    //    tileList = new List<GameObject>();
         
-        for (int i = 0; i < gridCol; i++)
-        {
-            for (int j = 0; j < gridRow; j++)
-            {
-                var obj = Instantiate(tilePrefab, mapRoot);
-                obj.transform.position = new Vector3(i, j, 0);
-                tileList.Add(obj);
-            }
-        }
-    }
+    //    for (int i = 0; i < gridCol; i++)
+    //    {
+    //        for (int j = 0; j < gridRow; j++)
+    //        {
+    //            var obj = Instantiate(tilePrefab, mapRoot);
+    //            obj.transform.position = new Vector3(i, j, 0);
+    //            tileList.Add(obj);
+    //        }
+    //    }
+    //}
 }
