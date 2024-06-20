@@ -14,8 +14,8 @@ namespace TEST
     public class MapTestObj : MonoBehaviour
     {
         [SerializeField] private TileType tileType;
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X;
+        public int Y;
     }
 
 }

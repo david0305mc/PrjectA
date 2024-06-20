@@ -36,7 +36,7 @@ namespace TEST
             //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
             jpsPathFinder.SetStartNode(startTile.X, startTile.Y);
             jpsPathFinder.SetEndNode(endTile.X, endTile.Y);
-
+            
             path = jpsPathFinder.FindPath();
         }
 

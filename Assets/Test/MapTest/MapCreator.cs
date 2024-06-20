@@ -22,7 +22,11 @@ public class MapCreator : MonoBehaviour
     private float worldWidth;
     private float gridWidth;
     private float tileWidth;
-    
+
+    private void Awake()
+    {
+        InitDefaultData();
+    }
     private void InitDefaultData()
     {
         aspect = (float)1080 / 1920;

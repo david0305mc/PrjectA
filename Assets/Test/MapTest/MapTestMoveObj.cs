@@ -27,7 +27,7 @@ public class MapTestMoveObj : MonoBehaviour
         }
 
         var dist = pathList[targetNode].location - rigidBody.position;
-        if (dist.magnitude < 0.3f)
+        if (dist.magnitude < 0.1f)
         {
             targetNode++;
             if (targetNode >= pathList.Count)
