@@ -8,6 +8,7 @@ namespace TEST
     {
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private bool isBoidsAlgorithm;
         private int targetIndex;
 
         private void FixedUpdate()
@@ -25,6 +26,19 @@ namespace TEST
 
         Vector2 CalculateVelocity()
         {
+            Transform target = GetNextTarget();
+            if (isBoidsAlgorithm)
+            {
+                return CalculateBoidsAlgorithm(target);
+            }
+            else
+            {
+                Vector2 targetVec = target.position - transform.position;
+                return targetVec.normalized * BoidsTest2DManager.Instance._forwardSpeed; 
+            }
+        }
+        Transform GetNextTarget()
+        {
             var target = BoidsTest2DManager.Instance.WayPointList[targetIndex];
             if (Vector2.Distance(target.position, transform.position) < 2)
             {
@@ -35,6 +49,11 @@ namespace TEST
                 }
                 target = BoidsTest2DManager.Instance.WayPointList[targetIndex];
             }
+            return target;
+        }
+
+        Vector2 CalculateBoidsAlgorithm(Transform target)
+        {
             List<Boids2DObj> neighboringFish_list = GetNeighboringFishList();
             Vector2 targetVec = target.position - transform.position;
 
@@ -48,7 +67,6 @@ namespace TEST
             ).normalized * BoidsTest2DManager.Instance._forwardSpeed;
             return velocity;
         }
-
         //rotate the fish to current velocity
         void FaceFront()
         {
