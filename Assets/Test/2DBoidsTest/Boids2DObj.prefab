@@ -48,6 +48,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 2786437760784346009}
+  isBoidsAlgorithm: 1
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 2
+  _weightSeparation: 2
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
 --- !u!50 &2786437760784346009
 Rigidbody2D:
   serializedVersion: 4
