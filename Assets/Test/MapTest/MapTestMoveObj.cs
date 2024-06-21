@@ -21,6 +21,11 @@ public class MapTestMoveObj : MonoBehaviour
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
         jpsPathFinder.SetStartNode(_startX, _startY);
         jpsPathFinder.SetEndNode(_endX, _endY);
+        var blockList =_mapCreator.GetBlockList();
+        foreach (var item in blockList)
+        {
+            jpsPathFinder.RefreshWalkable(item.X, item.Y, false);
+        }
 
         pathList = jpsPathFinder.FindPath();
         targetNode = 0;

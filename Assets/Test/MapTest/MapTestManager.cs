@@ -18,7 +18,6 @@ namespace TEST
                 return;
 
             MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
-            moveObj.transform.position = startTile.transform.position;
             moveObj.InitData(mapCreator, startTile.X, startTile.Y, endTile.X, endTile.Y);
         }
     }

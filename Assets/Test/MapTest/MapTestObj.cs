@@ -9,11 +9,12 @@ namespace TEST
         Normal,
         Start,
         End,
+        Block,
     }
 
     public class MapTestObj : MonoBehaviour
     {
-        [SerializeField] private TileType tileType;
+        public TileType tileType;
         public int X;
         public int Y;
     }

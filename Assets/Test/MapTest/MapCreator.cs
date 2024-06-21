@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 using TEST;
 public class MapCreator : MonoBehaviour
@@ -26,6 +27,8 @@ public class MapCreator : MonoBehaviour
     private void Awake()
     {
         InitDefaultData();
+
+
     }
     private void InitDefaultData()
     {
@@ -35,6 +38,13 @@ public class MapCreator : MonoBehaviour
         worldWidth = worldHeight * aspect;
         gridWidth = worldWidth;
         tileWidth = gridWidth / gridCol;
+        tiles = new MapTestObj[gridCol, gridRow];
+
+        var mapObjs = GetComponentsInChildren<MapTestObj>();
+        foreach (var item in mapObjs)
+        {
+            tiles[item.X, item.Y] = item;
+        }
     }
 
     public Vector3 Node2Pos(int i, int j)
@@ -50,7 +60,7 @@ public class MapCreator : MonoBehaviour
     private void CreateMap()
     {
         InitDefaultData();
-        tiles = new MapTestObj[gridCol, gridRow];
+        
         
         for (int j = 0; j < gridRow; j++)
         {
@@ -94,7 +104,21 @@ public class MapCreator : MonoBehaviour
         }
         tiles = null;
     }
-
+    public List<MapTestObj> GetBlockList()
+    {
+        List<MapTestObj> retList = new List<MapTestObj>();
+        for (int i = 0; i < tiles.GetLength(0); i++)
+        {
+            for (int j = 0; j < tiles.GetLength(1); j++)
+            {
+                if (tiles[i, j].tileType == TileType.Block)
+                {
+                    retList.Add(tiles[i, j]);
+                }
+            }
+        }
+        return retList;
+    }
     //[ContextMenu("Create Prefab From Selection")]
     //void DoCreatePrefab()
     //{
