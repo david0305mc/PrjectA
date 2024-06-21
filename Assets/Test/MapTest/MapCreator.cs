@@ -51,9 +51,10 @@ public class MapCreator : MonoBehaviour
     {
         InitDefaultData();
         tiles = new MapTestObj[gridCol, gridRow];
-        for (int i = 0; i < gridCol; i++)
+        
+        for (int j = 0; j < gridRow; j++)
         {
-            for (int j = 0; j < gridRow; j++)
+            for (int i = 0; i < gridCol; i++)
             {
 
                 //UnityEditor.PrefabUtility.InstantiatePrefab

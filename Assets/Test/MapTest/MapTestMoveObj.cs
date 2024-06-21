@@ -7,13 +7,24 @@ public class MapTestMoveObj : MonoBehaviour
 {
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private int speed;
+    private AbsPathFinder jpsPathFinder;
     List<PathNode> pathList;
     private int targetNode;
 
-    public void InitData(List<PathNode> _pathNodeList)
+    public void InitData(MapCreator _mapCreator, int _startX, int _startY, int _endX, int _endY)
     {
-        pathList = _pathNodeList;
+        jpsPathFinder = new JPSPathFinder(this);
+        jpsPathFinder.SetNode2Pos(_mapCreator.Node2Pos);
+
+        jpsPathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
+        //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
+        //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
+        jpsPathFinder.SetStartNode(_startX, _startY);
+        jpsPathFinder.SetEndNode(_endX, _endY);
+
+        pathList = jpsPathFinder.FindPath();
         targetNode = 0;
+        transform.position = _mapCreator.Node2Pos(_startX, _startY);
     }
 
     private void FixedUpdate()
