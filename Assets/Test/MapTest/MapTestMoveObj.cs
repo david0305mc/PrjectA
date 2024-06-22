@@ -49,6 +49,7 @@ public class MapTestMoveObj : Boids2D
             if (targetNode >= pathList.Count)
             {
                 Debug.LogError("Complete");
+                Lean.Pool.LeanPool.Despawn(gameObject);
                 return;
             }
         }

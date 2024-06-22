@@ -14,6 +14,7 @@ namespace TEST
         [SerializeField] private Vector2Int endPos;
 
         public List<Boids2D> mapMoveObjList = new List<Boids2D>();
+        
         public void OnClickSpawn()
         {
             for (int i = 0; i < 5; i++)
