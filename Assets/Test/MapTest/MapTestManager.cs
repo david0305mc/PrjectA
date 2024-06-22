@@ -13,12 +13,17 @@ namespace TEST
         [SerializeField] private Vector2Int startPos;
         [SerializeField] private Vector2Int endPos;
 
-        public List<MapTestMoveObj> mapMoveObjList = new List<MapTestMoveObj>();
+        public List<Boids2D> mapMoveObjList = new List<Boids2D>();
         public void OnClickSpawn()
         {
-            MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
-            moveObj.InitData(mapCreator, startPos.x, startPos.y, endPos.x, endPos.y);
-            mapMoveObjList.Add(moveObj);
+            for (int i = 0; i < 5; i++)
+            {
+                MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
+                moveObj.InitData(mapCreator, startPos.x, startPos.y, endPos.x, endPos.y);
+                moveObj.boidsObjList = mapMoveObjList;
+                mapMoveObjList.Add(moveObj);
+            }
+            
         }
     }
 }

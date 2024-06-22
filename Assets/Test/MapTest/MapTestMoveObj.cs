@@ -29,7 +29,7 @@ public class MapTestMoveObj : Boids2D
 
         pathList = jpsPathFinder.FindPath();
         targetNode = 0;
-        transform.position = _mapCreator.Node2Pos(_startX, _startY);
+        transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
     private void FixedUpdate()

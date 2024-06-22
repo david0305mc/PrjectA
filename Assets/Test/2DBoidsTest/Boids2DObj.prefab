@@ -57,6 +57,7 @@ MonoBehaviour:
   _viewRadius: 3
   _turnSpeed: 3
   _forwardSpeed: 3
+  boidsObjList: []
 --- !u!50 &2786437760784346009
 Rigidbody2D:
   serializedVersion: 4

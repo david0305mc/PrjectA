@@ -17,6 +17,7 @@ public class Boids2D : MonoBehaviour
     public int _turnSpeed = 3;
     public float _forwardSpeed = 3;
 
+    public List<Boids2D> boidsObjList;
 
     protected Vector2 CalculateBoidsAlgorithm(Vector2 target)
     {
@@ -47,7 +48,7 @@ public class Boids2D : MonoBehaviour
         List<Boids2D> neighboringFish_list = new List<Boids2D>();
         
         //get neghboring fish
-        foreach (var obj in TEST.MapTestManager.Instance.mapMoveObjList)
+        foreach (var obj in boidsObjList)
         {
             //don't include itself
             if (obj == this.gameObject) continue;

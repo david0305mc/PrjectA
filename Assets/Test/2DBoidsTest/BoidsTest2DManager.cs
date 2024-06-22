@@ -11,7 +11,7 @@ namespace TEST
         [SerializeField] private int objectCount;
         public List<Transform> WayPointList;
 
-        public List<Boids2DObj> boidsObjList = new List<Boids2DObj>();
+        public List<Boids2D> boidsObjList = new List<Boids2D>();
 
         private void Start()
         {
@@ -20,10 +20,17 @@ namespace TEST
 
         public void OnClickBtnSpawn()
         {
-            Boids2DObj obj = Lean.Pool.LeanPool.Spawn(boidsObj, transform, false);
-            obj.transform.position = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0);
-            obj.WayPointList = WayPointList;
-            boidsObjList.Add(obj);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Boids2DObj obj = Lean.Pool.LeanPool.Spawn(boidsObj, transform, false);
+                obj.transform.position = new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
+                //obj.transform.position = new Vector3(0, 0, 0);
+                obj.WayPointList = WayPointList;
+                obj.boidsObjList = boidsObjList;
+                boidsObjList.Add(obj);
+            }
+            
 
         }
 

@@ -4,22 +4,8 @@ using UnityEngine;
 
 namespace TEST
 {
-    public class Boids2DObj : MonoBehaviour
+    public class Boids2DObj : Boids2D
     {
-
-        [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private bool isBoidsAlgorithm;
-        public List<Transform> WayPointList;
-
-        public float _weightforward;
-        public float _weightCohesion;
-        public float _weightSeparation;
-        public float _weightAlignment;
-        public int _viewRadius = 3;
-        public int _turnSpeed = 3;
-        public float _forwardSpeed = 3;
-
-
         private int targetIndex;
 
         private void FixedUpdate()
@@ -42,9 +28,12 @@ namespace TEST
             Transform target = GetNextTarget();
             if (isBoidsAlgorithm)
             {
-                var velocity = CalculateBoidsAlgorithm(target);
-                Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, Time.deltaTime * _forwardSpeed);
-                //return CalculateBoidsAlgorithm(target);
+                var velocity = CalculateBoidsAlgorithm(target.position);
+                Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.fixedDeltaTime);
+
+                //var velocity = CalculateBoidsAlgorithm(target);
+                //Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, Time.deltaTime * _forwardSpeed);
+                ////return CalculateBoidsAlgorithm(target);
                 return newPos;
             }
             else
@@ -104,7 +93,7 @@ namespace TEST
 
                 if (Vector2.Distance(transform.position, obj.transform.position) <= _viewRadius)
                 {
-                    neighboringFish_list.Add(obj);
+                    //neighboringFish_list.Add(obj);
                 }
             }
             return neighboringFish_list;

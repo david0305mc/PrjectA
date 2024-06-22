@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7025658608906808508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,12 +102,13 @@ MonoBehaviour:
   isBoidsAlgorithm: 1
   WayPointList: []
   _weightforward: 1
-  _weightCohesion: 2
-  _weightSeparation: 2
+  _weightCohesion: 1
+  _weightSeparation: 1.1
   _weightAlignment: 0.1
-  _viewRadius: 3
+  _viewRadius: 1
   _turnSpeed: 3
   _forwardSpeed: 3
+  boidsObjList: []
 --- !u!50 &2745648838772978401
 Rigidbody2D:
   serializedVersion: 4
