@@ -41,6 +41,7 @@ namespace TEST
         {
             tileType = TileType.Block;
             UpdateTile();
+            MessageDispather.Publish(EMessage.UpdateTile, 1);
         }
     }
 

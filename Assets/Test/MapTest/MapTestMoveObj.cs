@@ -2,33 +2,64 @@ using FT;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class MapTestMoveObj : Boids2D
 {
-    private AbsPathFinder jpsPathFinder;
+    private AbsPathFinder pathFinder;
     List<PathNode> pathList;
     private int targetNode;
     private MapCreator mapCreator;
+    TEST.MapTestObj currTile;
+    TEST.MapTestObj endTile;
+
+    private void Awake()
+    {
+        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        {
+            //RefreshPath();
+
+            //var currNode = pathList[targetNode];
+            //var endNode = pathList[pathList.Count - 1];
+            
+            RefreshPath(currTile.X, currTile.Y, endTile.X, endTile.Y);
+
+        }).AddTo(gameObject);
+    }
+    private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
+    {
+        pathFinder.Clear();
+        pathFinder.SetStartNode(_startX, _startY);
+        pathFinder.SetEndNode(_endX, _endY);
+
+        foreach (var item in mapCreator.Tiles)
+        {
+            if (item.tileType == TEST.TileType.Block)
+            {
+                pathFinder.RefreshWalkable(item.X, item.Y, false);
+            }
+            else
+            {
+                pathFinder.RefreshWalkable(item.X, item.Y, true);
+            }
+        }
+        
+        pathList = pathFinder.FindPath();
+        targetNode = 0;
+    }
 
     public void InitData(MapCreator _mapCreator, int _startX, int _startY, int _endX, int _endY)
     {
         mapCreator = _mapCreator;
-        jpsPathFinder = new JPSPathFinder(this);
-        jpsPathFinder.SetNode2Pos(_mapCreator.Node2Pos);
-
-        jpsPathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
+        pathFinder = new AStarPathFinder(this);
+        pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
+        currTile = mapCreator.Tiles[_startX, _startY];
+        endTile = mapCreator.Tiles[_endX, _endY];
+        pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
-        jpsPathFinder.SetStartNode(_startX, _startY);
-        jpsPathFinder.SetEndNode(_endX, _endY);
-        var blockList =_mapCreator.GetBlockList();
-        foreach (var item in blockList)
-        {
-            jpsPathFinder.RefreshWalkable(item.X, item.Y, false);
-        }
-
-        pathList = jpsPathFinder.FindPath();
-        targetNode = 0;
+        RefreshPath(_startX, _startY, _endX, _endY);
+        
         transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
@@ -43,9 +74,10 @@ public class MapTestMoveObj : Boids2D
         }
 
         var dist = (Vector2)pathList[targetNode].location - _rigidbody2D.position;
-        if (dist.magnitude < 0.5f)
+        if (dist.magnitude < 0.1f)
         {
             targetNode++;
+            
             if (targetNode >= pathList.Count)
             {
                 Debug.LogError("Complete");
@@ -54,8 +86,9 @@ public class MapTestMoveObj : Boids2D
             }
         }
 
-        var target = pathList[targetNode];
 
+        var target = pathList[targetNode];
+        currTile = mapCreator.Tiles[target.x, target.y];
         Vector2 newPos;
         if (isBoidsAlgorithm)
         {

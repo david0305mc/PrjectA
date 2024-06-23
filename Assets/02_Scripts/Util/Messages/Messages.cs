@@ -48,6 +48,8 @@ public enum EMessage
 
     HeartTouch,
     HeartHarvest,
+
+    UpdateTile,
 }
 
 

@@ -9,7 +9,6 @@ public class MapCreator : MonoBehaviour
     
     [SerializeField] private MapTestObj tilePrefab;
     [SerializeField] private Transform mapRoot;
-    [SerializeField] private List<GameObject> tileList;
     [SerializeField] private Transform objectField;
     public Transform ObjectField { get { return objectField; } }
 
@@ -18,6 +17,7 @@ public class MapCreator : MonoBehaviour
     [SerializeField] private MapTestObj[,] tiles;
     [SerializeField] Camera myCamera;
 
+    public MapTestObj[,] Tiles { get => tiles; }
     private float aspect;
     private float worldHeight;
     private float worldWidth;
