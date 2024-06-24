@@ -22,6 +22,7 @@ public class MapTestMoveObj : Boids2D
 
             //var currNode = pathList[targetNode];
             //var endNode = pathList[pathList.Count - 1];
+            Debug.Log($"MessageDispather.Receive {currNodeIndex}");
             RefreshPath(pathList[currNodeIndex].x, pathList[currNodeIndex].y, endTile.X, endTile.Y);
 
         }).AddTo(gameObject);
@@ -137,13 +138,13 @@ public class MapTestMoveObj : Boids2D
         //currTile.currNodeMark.SetActive(true);
 
         Vector2 distBetweenNode;
-        if (currNodeIndex == -1)
+        if (targetNodeIndex == 0)
         {
-            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[0].location;
+            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[targetNodeIndex].location;
         }
         else
         {
-            distBetweenNode = (Vector2)pathList[currNodeIndex].location - (Vector2)pathList[currNodeIndex + 1].location;
+            distBetweenNode = (Vector2)pathList[targetNodeIndex].location - (Vector2)pathList[targetNodeIndex - 1].location;
         }
 
         if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
