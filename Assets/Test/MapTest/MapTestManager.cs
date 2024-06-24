@@ -17,7 +17,7 @@ namespace TEST
         
         public void OnClickSpawn()
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 5; i++)
             {
                 MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
                 moveObj.InitData(mapCreator, startPos.x, startPos.y, endPos.x, endPos.y);

@@ -99,15 +99,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 2745648838772978401}
-  isBoidsAlgorithm: 0
+  isBoidsAlgorithm: 1
   WayPointList: []
-  _weightforward: 1
+  _weightforward: 3
   _weightCohesion: 1
-  _weightSeparation: 1.1
-  _weightAlignment: 0.1
+  _weightSeparation: 1.01
+  _weightAlignment: 0.2
   _viewRadius: 1
   _turnSpeed: 3
-  _forwardSpeed: 0.3
+  _forwardSpeed: 3
   boidsObjList: []
 --- !u!50 &2745648838772978401
 Rigidbody2D:

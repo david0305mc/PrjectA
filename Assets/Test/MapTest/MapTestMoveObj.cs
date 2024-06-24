@@ -14,16 +14,22 @@ public class MapTestMoveObj : Boids2D
     TEST.MapTestObj startTile;
     TEST.MapTestObj endTile;
 
+    private bool isActive;
     private void Awake()
     {
         MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
         {
             //RefreshPath();
+            if (!isActive)
+                return;
 
             //var currNode = pathList[targetNode];
             //var endNode = pathList[pathList.Count - 1];
+            int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+            int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+
             Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-            RefreshPath(pathList[currNodeIndex].x, pathList[currNodeIndex].y, endTile.X, endTile.Y);
+            RefreshPath(x, y, endTile.X, endTile.Y);
 
         }).AddTo(gameObject);
     }
@@ -32,6 +38,9 @@ public class MapTestMoveObj : Boids2D
         pathFinder.Clear();
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
+
+        startTile = mapCreator.Tiles[_startX, _startY];
+        startTile.currNodeMark.SetActive(true);
 
         foreach (var item in mapCreator.Tiles)
         {
@@ -87,9 +96,8 @@ public class MapTestMoveObj : Boids2D
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
         currNodeIndex = -1;
-        
-        startTile = mapCreator.Tiles[_startX, _startY];
-        startTile.currNodeMark.SetActive(true);
+        isActive = true;
+
         endTile = mapCreator.Tiles[_endX, _endY];
         pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
@@ -114,8 +122,9 @@ public class MapTestMoveObj : Boids2D
         if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
             return;
 
-        if (targetNodeIndex >= pathList.Count)
+        if (!isActive)
         {
+            Debug.LogError("is InActive");
             return;
         }
         DrawPathLine();
@@ -130,6 +139,7 @@ public class MapTestMoveObj : Boids2D
             {
                 Debug.LogError("Complete");
                 Lean.Pool.LeanPool.Despawn(gameObject);
+                isActive = false;
                 return;
             }
             distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
