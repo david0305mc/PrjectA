@@ -8,9 +8,10 @@ public class MapTestMoveObj : Boids2D
 {
     private AbsPathFinder pathFinder;
     List<PathNode> pathList;
-    private int targetNode;
+    private int targetNodeIndex;
+    private int currNodeIndex;
     private MapCreator mapCreator;
-    TEST.MapTestObj currTile;
+    TEST.MapTestObj startTile;
     TEST.MapTestObj endTile;
 
     private void Awake()
@@ -21,8 +22,7 @@ public class MapTestMoveObj : Boids2D
 
             //var currNode = pathList[targetNode];
             //var endNode = pathList[pathList.Count - 1];
-            
-            RefreshPath(currTile.X, currTile.Y, endTile.X, endTile.Y);
+            RefreshPath(pathList[currNodeIndex].x, pathList[currNodeIndex].y, endTile.X, endTile.Y);
 
         }).AddTo(gameObject);
     }
@@ -45,7 +45,39 @@ public class MapTestMoveObj : Boids2D
         }
         
         pathList = pathFinder.FindPath();
-        targetNode = 0;
+        targetNodeIndex = 0;
+        currNodeIndex = -1;
+
+        if (targetNodeIndex < pathList.Count)
+        {
+            var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
+            Vector2 distBetweenNode;
+            if (currNodeIndex == -1)
+            {
+                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[0].location;
+            }
+            else
+            {
+                distBetweenNode = (Vector2)pathList[currNodeIndex].location - (Vector2)pathList[currNodeIndex + 1].location;
+            }
+
+            if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
+            {
+                if (currNodeIndex < targetNodeIndex)
+                {
+                    if (currNodeIndex == -1)
+                    {
+                        startTile.currNodeMark.SetActive(false);
+                    }
+                    else
+                    {
+                        mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].currNodeMark.SetActive(false);
+                    }
+                    currNodeIndex = targetNodeIndex;
+                    mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].currNodeMark.SetActive(true);
+                }
+            }
+        }
     }
 
     public void InitData(MapCreator _mapCreator, int _startX, int _startY, int _endX, int _endY)
@@ -53,7 +85,10 @@ public class MapTestMoveObj : Boids2D
         mapCreator = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
-        currTile = mapCreator.Tiles[_startX, _startY];
+        currNodeIndex = -1;
+        
+        startTile = mapCreator.Tiles[_startX, _startY];
+        startTile.currNodeMark.SetActive(true);
         endTile = mapCreator.Tiles[_endX, _endY];
         pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
@@ -75,41 +110,69 @@ public class MapTestMoveObj : Boids2D
 
     private void FixedUpdate()
     {
-        if (pathList.Count == 0 || targetNode >= pathList.Count)
+        if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
             return;
 
-        if (targetNode >= pathList.Count)
+        if (targetNodeIndex >= pathList.Count)
         {
             return;
         }
         DrawPathLine();
         
 
-        var dist = (Vector2)pathList[targetNode].location - _rigidbody2D.position;
-        if (dist.magnitude < 0.1f)
+        var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
+        if (distToTarget.magnitude < 0.05f)
         {
-            targetNode++;
+            targetNodeIndex++;
             
-            if (targetNode >= pathList.Count)
+            if (targetNodeIndex >= pathList.Count)
             {
                 Debug.LogError("Complete");
                 Lean.Pool.LeanPool.Despawn(gameObject);
                 return;
             }
         }
+        //currTile = mapCreator.Tiles[_startX, _startY];
+        //currTile.currNodeMark.SetActive(true);
 
+        Vector2 distBetweenNode;
+        if (currNodeIndex == -1)
+        {
+            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[0].location;
+        }
+        else
+        {
+            distBetweenNode = (Vector2)pathList[currNodeIndex].location - (Vector2)pathList[currNodeIndex + 1].location;
+        }
 
-        var target = pathList[targetNode];
-        currTile = mapCreator.Tiles[target.x, target.y];
+        if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
+        {
+            if (currNodeIndex < targetNodeIndex)
+            {
+                if (currNodeIndex == -1)
+                {
+                    startTile.currNodeMark.SetActive(false);
+                }
+                else
+                {
+                    mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].currNodeMark.SetActive(false);
+                }
+                
+                currNodeIndex = targetNodeIndex;
+                mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].currNodeMark.SetActive(true);
+            }
+        }
+
+        var targetNode = pathList[targetNodeIndex];
         Vector2 newPos;
         if (isBoidsAlgorithm)
         {
-            var velocity = CalculateBoidsAlgorithm((Vector2)target.location);
+            var velocity = CalculateBoidsAlgorithm((Vector2)targetNode.location);
             newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.fixedDeltaTime);
         }
         else
         {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)target.location, _forwardSpeed * Time.fixedDeltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.fixedDeltaTime);
         }
         _rigidbody2D.MovePosition(newPos);
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);

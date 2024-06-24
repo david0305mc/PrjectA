@@ -14,6 +14,7 @@ namespace TEST
 
     public class MapTestObj : MonoBehaviour
     {
+        public GameObject currNodeMark;
         public TileType tileType;
         public SpriteRenderer sprite;
 
