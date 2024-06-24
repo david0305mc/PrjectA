@@ -131,6 +131,7 @@ public class MapTestMoveObj : Boids2D
                 Lean.Pool.LeanPool.Despawn(gameObject);
                 return;
             }
+            distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
         }
         //currTile = mapCreator.Tiles[_startX, _startY];
         //currTile.currNodeMark.SetActive(true);
