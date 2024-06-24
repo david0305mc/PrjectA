@@ -63,6 +63,16 @@ public class MapTestMoveObj : Boids2D
         transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
+
+    private void DrawPathLine()
+    {
+        for (int i = 0; i < pathList.Count - 1; i++)
+        {
+            Debug.DrawLine(pathList[i].location, pathList[i + 1].location, Color.red);
+        }
+        
+    }
+
     private void FixedUpdate()
     {
         if (pathList.Count == 0 || targetNode >= pathList.Count)
@@ -72,6 +82,8 @@ public class MapTestMoveObj : Boids2D
         {
             return;
         }
+        DrawPathLine();
+        
 
         var dist = (Vector2)pathList[targetNode].location - _rigidbody2D.position;
         if (dist.magnitude < 0.1f)
