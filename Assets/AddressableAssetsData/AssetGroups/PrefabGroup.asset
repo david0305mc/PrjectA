@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PrefabGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: PrefabGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 11b83b048f6e3fb4b9be4c60b12cdf8f
+  m_SerializeEntries:
+  - m_GUID: 2a58f77851d7ac6468132c350e9198ec
+    m_Address: Unit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3f3aab4e191de664faab9c041694525e
+    m_Address: Projectile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c57470fc061f1ca43a8889df8d7de487
+    m_Address: BoomEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 875bbb1e4d77f4844ad04bdfec0a41d4
+    m_Address: Stage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 96c5be0f6faf5a04f9c42e0ac75724cf
+    m_Address: SpriteAtlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0edae494a2994c04b84e0951e19675a8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5f7bebc31e282c24cb1f67002b10af58, type: 2}
+    - {fileID: 11400000, guid: 4c1017ce5970a7a43a09019289732c3a, type: 2}
