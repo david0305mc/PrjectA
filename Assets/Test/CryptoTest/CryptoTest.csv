@@ -1,5 +1,0 @@
-Id|RewardType|RewardIdx|RewardCnt|Cooltime
-int|int|string|string|int
-1|11|1101|1|300
-2|12|1201|1|300
-3|40|3|1|300
