@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameDefine 
 {
-
+    public static int layerUnit = 7;
+    public static int LayerMaskUnit = 1 << layerUnit;
 }
 
 public class GamePath

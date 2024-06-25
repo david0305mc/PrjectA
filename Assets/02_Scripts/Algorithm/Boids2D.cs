@@ -13,7 +13,7 @@ public class Boids2D : MonoBehaviour
     public float _weightCohesion = 1;
     public float _weightSeparation = 1;
     public float _weightAlignment = 0.1f;
-    public int _viewRadius = 3;
+    public float _viewRadius = 3;
     public int _turnSpeed = 3;
     public float _forwardSpeed = 3;
 
@@ -46,18 +46,33 @@ public class Boids2D : MonoBehaviour
     List<Boids2D> GetNeighboringFishList()
     {
         List<Boids2D> neighboringFish_list = new List<Boids2D>();
-        
-        //get neghboring fish
-        foreach (var obj in boidsObjList)
-        {
-            //don't include itself
-            if (obj == this.gameObject) continue;
 
-            if (Vector2.Distance(transform.position, obj.transform.position) <= _viewRadius)
+        var colliders = Physics2D.OverlapCircleAll(transform.position, 0.3f, GameDefine.LayerMaskUnit);
+        foreach (var collider in colliders)
+        {
+            if (collider == this.gameObject)
+                continue;
+
+            if (neighboringFish_list.Count >= 5)
+                continue;
+
+            var unitObj = collider.GetComponent<Boids2D>();
+            if (unitObj != null)
             {
-                neighboringFish_list.Add(obj);
+                neighboringFish_list.Add(unitObj);
             }
         }
+        //get neghboring fish
+        //foreach (var obj in boidsObjList)
+        //{
+        //    //don't include itself
+        //    if (obj == this.gameObject) continue;
+
+        //    if (Vector2.Distance(transform.position, obj.transform.position) <= _viewRadius)
+        //    {
+        //        neighboringFish_list.Add(obj);
+        //    }
+        //}
         return neighboringFish_list;
     }
 
