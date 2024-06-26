@@ -333,6 +333,7 @@ public partial class UserData : Singleton<UserData>
 
     public bool IsOnTutorial()
     {
+        return false;
         return LocalData.CurrTutorialID < Game.GameConfig.LastTutorial;
     }
     public void LoadLocalData()
@@ -343,7 +344,7 @@ public partial class UserData : Singleton<UserData>
             try
             {
                 var localData = Utill.LoadFromFile(LocalFilePath);
-                localData = Utill.EncryptXOR(localData);
+                //localData = Utill.EncryptXOR(localData);
                 LocalData = JsonUtility.FromJson<LocalSaveData>(localData);
                 OfflineTimeSeconds = GameTime.Get() - LocalData.LastLoginTime;
             }
@@ -372,7 +373,7 @@ public partial class UserData : Singleton<UserData>
     {
         LocalData.LastLoginTime = GameTime.Get();
         var saveData = JsonUtility.ToJson(LocalData);
-        saveData = Utill.EncryptXOR(saveData);
+        //saveData = Utill.EncryptXOR(saveData);
         Utill.SaveFile(LocalFilePath, saveData);
         if (PlayerPrefs.GetInt("NewUser", 0) == 0)
         {
