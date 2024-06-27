@@ -8,12 +8,19 @@ using Game;
 
 public partial class GameManager : SingletonMono<GameManager>
 {
+    [SerializeField] private MapTestMoveObj testMoveObjPrefab;
+    [SerializeField] private Vector2Int startPos;
+    [SerializeField] private Vector2Int endPos;
+    
+
     [SerializeField] private Transform objRoot;
     [SerializeField] private MainUI mainUI;
     [SerializeField] private InGameUI ingameUI;
     [SerializeField] private WorldMap worldMap;
 
+    private MapCreator mapCreator;
     private GameConfig.GameState gameState;
+    public List<Boids2D> mapMoveObjList = new List<Boids2D>();
 
     // Spacae Survival
     private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -39,7 +46,7 @@ public partial class GameManager : SingletonMono<GameManager>
         {
             currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
             await currMapOpHandler;
-            //currStageObj = currStageOpHandler.Result.GetComponent<StageObject>();
+            mapCreator = currMapOpHandler.Result.GetComponent<MapCreator>();
         });
     }
 
@@ -76,5 +83,13 @@ public partial class GameManager : SingletonMono<GameManager>
         //RemoveAllBattleHero();
         //RemoveAllEnemy();
         //RemoveAllProjectile();
+    }
+
+    public void SpawnTest()
+    {
+        MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
+        moveObj.InitData(mapCreator, startPos.x, startPos.y, endPos.x, endPos.y);
+        moveObj.boidsObjList = mapMoveObjList;
+        mapMoveObjList.Add(moveObj);
     }
 }

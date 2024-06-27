@@ -202,7 +202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228335613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -535,10 +535,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
+  testMoveObjPrefab: {fileID: 3722663857480657099, guid: 3c3d42cf6445d8c4a9eb4d6af29891a1, type: 3}
+  startPos: {x: 5, y: 12}
+  endPos: {x: 3, y: 0}
   objRoot: {fileID: 684310350}
   mainUI: {fileID: 1746086362950791859}
   ingameUI: {fileID: 1746086362031738043}
   worldMap: {fileID: 3123656513177866222}
+  mapMoveObjList: []
 --- !u!1001 &1243510927
 PrefabInstance:
   m_ObjectHideFlags: 0

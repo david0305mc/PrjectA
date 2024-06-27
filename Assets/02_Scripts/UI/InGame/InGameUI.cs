@@ -24,6 +24,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private LoadingUI loadingUI;
     [SerializeField] private Button pauseBtn;
     [SerializeField] private Button speedBtn;
+    [SerializeField] private Button testSpawnBtn;
 
     private double timeLeft;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -42,6 +43,10 @@ public class InGameUI : MonoBehaviour
     private void Awake()
     {
         timeLeft = 0;
+        testSpawnBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.SpawnTest();
+        });
         speedBtn.onClick.AddListener(() =>
         {
             Time.timeScale = UserData.Instance.NextGameSpeed();
