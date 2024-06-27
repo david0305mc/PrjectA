@@ -66,7 +66,9 @@ public class InGameUI : MonoBehaviour
                 () =>
                 {
                     popup.Hide();
-                    MGameManager.Instance.ExitStage();
+                    //MGameManager.Instance.ExitStage();
+                    GameManager.Instance.ExitStage();   
+
                 });
         });
     }

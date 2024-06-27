@@ -37,6 +37,14 @@ MonoBehaviour:
     m_Address: SpriteAtlas
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 681d57148d03783438f75b9b9a3650b8
+    m_Address: SurvivalMap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dab1e3eacace73d459d493d218e97b99
+    m_Address: SurvivalUnit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0edae494a2994c04b84e0951e19675a8, type: 2}
   m_SchemaSet:

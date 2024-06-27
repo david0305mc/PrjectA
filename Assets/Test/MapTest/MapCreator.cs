@@ -26,9 +26,9 @@ public class MapCreator : MonoBehaviour
 
     private void Awake()
     {
+        if (myCamera == null)
+            myCamera = Camera.main;
         InitDefaultData();
-
-
     }
     private void InitDefaultData()
     {

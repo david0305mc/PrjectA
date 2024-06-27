@@ -54,6 +54,7 @@ public partial class MGameManager : SingletonMono<MGameManager>
 
     public float AttackRangeW = 0.1f;
     public float AttackRangeH = 0.1f;
+
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
@@ -1121,4 +1122,5 @@ public partial class MGameManager : SingletonMono<MGameManager>
         timerCts?.Cancel();
         timerCts?.Dispose();
     }
+
 }
