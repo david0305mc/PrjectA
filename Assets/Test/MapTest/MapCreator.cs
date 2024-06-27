@@ -92,6 +92,11 @@ public class MapCreator : MonoBehaviour
         }
     }
 
+    private void UpdateTilePosScale()
+    { 
+    
+    }
+
     [ContextMenu("RemoveTilesAll")]
     private void RemoveTilesAll()
     {
