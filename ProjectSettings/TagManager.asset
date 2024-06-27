@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: "\uD29C\uD1A0\uB9AC\uC5BC \uC2A4\uD0B5"
+  - name: Background
     uniqueID: 2918470533
     locked: 0
   - name: Default

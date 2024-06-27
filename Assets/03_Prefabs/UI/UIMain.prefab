@@ -897,7 +897,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1259217269
+  m_SortingLayerID: -1316233001
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &405216246082505423
@@ -1328,7 +1328,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1259217269
+  m_SortingLayerID: -1316233001
   m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &888755916485555945
@@ -9570,6 +9570,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5654903275575241464, guid: f5ab0f37f999c8741b357a94381c32e8, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1316233001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5ab0f37f999c8741b357a94381c32e8, type: 3}
 --- !u!224 &3787550856575976710 stripped
@@ -9708,6 +9712,10 @@ PrefabInstance:
     - target: {fileID: 3595674282326815017, guid: 1fc96a9fe751b6d4f976a2717229e7af, type: 3}
       propertyPath: m_Camera
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595674282326815017, guid: 1fc96a9fe751b6d4f976a2717229e7af, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -786721011
       objectReference: {fileID: 0}
     - target: {fileID: 4822377368184622974, guid: 1fc96a9fe751b6d4f976a2717229e7af, type: 3}
       propertyPath: m_SizeDelta.x

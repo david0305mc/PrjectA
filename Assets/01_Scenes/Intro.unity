@@ -2154,6 +2154,10 @@ PrefabInstance:
       propertyPath: m_lineSpacing
       value: 38.81
       objectReference: {fileID: 0}
+    - target: {fileID: 7478374945459781950, guid: ffec867c1eaa4fe44b1d5e9095f09dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffec867c1eaa4fe44b1d5e9095f09dd7, type: 3}
 --- !u!114 &777193116 stripped
@@ -10942,7 +10946,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1259217269
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 5
   m_MeshDistribution: 0
