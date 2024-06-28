@@ -1,23 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-using TEST;
-public class MapCreator : MonoBehaviour
+public class GridMap : MonoBehaviour
 {
-    
-    [SerializeField] private MapTestObj tilePrefab;
+
+    [SerializeField] private TileObject tilePrefab;
     [SerializeField] private Transform mapRoot;
     [SerializeField] private Transform objectField;
     public Transform ObjectField { get { return objectField; } }
 
     public int gridCol = 10;
     public int gridRow = 13;
-    [SerializeField] private MapTestObj[,] tiles;
+    [SerializeField] private TileObject[,] tiles;
     [SerializeField] Camera myCamera;
 
-    public MapTestObj[,] Tiles { get => tiles; }
+    public TileObject[,] Tiles { get => tiles; }
     private float aspect;
     private float worldHeight;
     private float worldWidth;
@@ -38,9 +36,9 @@ public class MapCreator : MonoBehaviour
         worldWidth = worldHeight * aspect;
         gridWidth = worldWidth;
         tileWidth = gridWidth / gridCol;
-        tiles = new MapTestObj[gridCol, gridRow];
+        tiles = new TileObject[gridCol, gridRow];
 
-        var mapObjs = GetComponentsInChildren<MapTestObj>();
+        var mapObjs = GetComponentsInChildren<TileObject>();
         foreach (var item in mapObjs)
         {
             tiles[item.X, item.Y] = item;
@@ -60,8 +58,8 @@ public class MapCreator : MonoBehaviour
     private void CreateMap()
     {
         InitDefaultData();
-        
-        
+
+
         for (int j = 0; j < gridRow; j++)
         {
             for (int i = 0; i < gridCol; i++)
@@ -70,7 +68,7 @@ public class MapCreator : MonoBehaviour
                 //UnityEditor.PrefabUtility.InstantiatePrefab
 
                 //var obj = Instantiate(tilePrefab, mapRoot);
-                var obj = UnityEditor.PrefabUtility.InstantiatePrefab(tilePrefab, mapRoot) as MapTestObj;
+                var obj = UnityEditor.PrefabUtility.InstantiatePrefab(tilePrefab, mapRoot) as TileObject;
                 //var obj = test as MapTestObj;
                 obj.transform.position = Node2Pos(i, j);
                 obj.transform.localScale = new Vector3(tileWidth, tileWidth);
@@ -91,54 +89,4 @@ public class MapCreator : MonoBehaviour
             }
         }
     }
-
-    [ContextMenu("RemoveTilesAll")]
-    private void RemoveTilesAll()
-    {
-        for (int i = 0; i < tiles.GetLength(0); i++)
-        {
-            for (int j = 0; j < tiles.GetLength(1); j++)
-            {
-                DestroyImmediate(tiles[i, j]);
-            }
-        }
-        tiles = null;
-    }
-    public List<MapTestObj> GetBlockList()
-    {
-        List<MapTestObj> retList = new List<MapTestObj>();
-        for (int i = 0; i < tiles.GetLength(0); i++)
-        {
-            for (int j = 0; j < tiles.GetLength(1); j++)
-            {
-                if (tiles[i, j].tileType == TEST.TileType.Block)
-                {
-                    retList.Add(tiles[i, j]);
-                }
-            }
-        }
-        return retList;
-    }
-    //[ContextMenu("Create Prefab From Selection")]
-    //void DoCreatePrefab()
-    //{
-    //    if (tileList != null)
-    //    {
-    //        foreach (var item in tileList)
-    //        {
-    //            DestroyImmediate(item.gameObject);
-    //        }
-    //    }
-    //    tileList = new List<GameObject>();
-        
-    //    for (int i = 0; i < gridCol; i++)
-    //    {
-    //        for (int j = 0; j < gridRow; j++)
-    //        {
-    //            var obj = Instantiate(tilePrefab, mapRoot);
-    //            obj.transform.position = new Vector3(i, j, 0);
-    //            tileList.Add(obj);
-    //        }
-    //    }
-    //}
 }
