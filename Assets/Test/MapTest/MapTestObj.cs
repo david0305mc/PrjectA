@@ -26,6 +26,12 @@ namespace TEST
             UpdateTile();
         }
 
+        public void SetCurrNodeMark(bool _value)
+        {
+            return;
+            currNodeMark.SetActive(_value);
+        }
+
         public void UpdateTile()
         {
             switch (tileType)

@@ -1,31 +1,26 @@
-using FT;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FT;
 using UniRx;
 
-public class MapTestMoveObj : Boids2D
+public class MoveObj : Boids2D
 {
-    [SerializeField] private Transform spriteRoot;
     private AbsPathFinder pathFinder;
     List<PathNode> pathList;
     private int targetNodeIndex;
     private int currNodeIndex;
     private MapCreator mapCreator;
-    TEST.MapTestObj startTile;
-    TEST.MapTestObj endTile;
-
+    private TEST.MapTestObj startTile;
+    private TEST.MapTestObj endTile;
     private bool isActive;
     private void Awake()
     {
         MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
         {
-            //RefreshPath();
             if (!isActive)
                 return;
 
-            //var currNode = pathList[targetNode];
-            //var endNode = pathList[pathList.Count - 1];
             int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
             int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
@@ -54,7 +49,7 @@ public class MapTestMoveObj : Boids2D
                 pathFinder.RefreshWalkable(item.X, item.Y, true);
             }
         }
-        
+
         pathList = pathFinder.FindPath();
         targetNodeIndex = 0;
         currNodeIndex = -1;
@@ -104,7 +99,7 @@ public class MapTestMoveObj : Boids2D
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
         RefreshPath(_startX, _startY, _endX, _endY);
-        
+
         transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
@@ -115,7 +110,7 @@ public class MapTestMoveObj : Boids2D
         {
             Debug.DrawLine(pathList[i].location, pathList[i + 1].location, Color.red);
         }
-        
+
     }
 
     private void FixedUpdate()
@@ -129,13 +124,13 @@ public class MapTestMoveObj : Boids2D
             return;
         }
         DrawPathLine();
-        
+
 
         var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {
             targetNodeIndex++;
-            
+
             if (targetNodeIndex >= pathList.Count)
             {
                 Debug.LogError("Complete");
@@ -170,7 +165,7 @@ public class MapTestMoveObj : Boids2D
                 {
                     mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
                 }
-                
+
                 currNodeIndex = targetNodeIndex;
                 mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
             }
@@ -187,30 +182,9 @@ public class MapTestMoveObj : Boids2D
         {
             newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.fixedDeltaTime);
         }
-        if (transform.position.x < newPos.x)
-        {
-            FlipObj(false);
-        }
-        else if (transform.position.x > newPos.x)
-        {
-            FlipObj(true);
-        }
         _rigidbody2D.MovePosition(newPos);
-
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
 
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
-    }
-
-    private void FlipObj(bool _val)
-    {
-        if (_val)
-        {
-            spriteRoot.localScale = new Vector3(-1, 1);
-        }
-        else
-        {
-            spriteRoot.localScale = new Vector3(1, 1);
-        }
     }
 }
