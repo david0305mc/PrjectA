@@ -10,9 +10,9 @@ public class MoveObj : Boids2D
     List<PathNode> pathList;
     private int targetNodeIndex;
     private int currNodeIndex;
-    private MapCreator mapCreator;
-    private TEST.MapTestObj startTile;
-    private TEST.MapTestObj endTile;
+    private GridMap gridMap;
+    private TileObject startTile;
+    private TileObject endTile;
     private bool isActive;
     private void Awake()
     {
@@ -35,12 +35,12 @@ public class MoveObj : Boids2D
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
 
-        startTile = mapCreator.Tiles[_startX, _startY];
+        startTile = gridMap.Tiles[_startX, _startY];
         startTile.SetCurrNodeMark(true);
 
-        foreach (var item in mapCreator.Tiles)
+        foreach (var item in gridMap.Tiles)
         {
-            if (item.tileType == TEST.TileType.Block)
+            if (item.tileType == TileType.Block)
             {
                 pathFinder.RefreshWalkable(item.X, item.Y, false);
             }
@@ -77,30 +77,30 @@ public class MoveObj : Boids2D
                     }
                     else
                     {
-                        mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
+                        gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
                     }
                     currNodeIndex = targetNodeIndex;
-                    mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
+                    gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
                 }
             }
         }
     }
 
-    public void InitData(MapCreator _mapCreator, int _startX, int _startY, int _endX, int _endY)
+    public void InitData(GridMap _mapCreator, int _startX, int _startY, int _endX, int _endY)
     {
-        mapCreator = _mapCreator;
+        gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
         currNodeIndex = -1;
         isActive = true;
 
-        endTile = mapCreator.Tiles[_endX, _endY];
+        endTile = gridMap.Tiles[_endX, _endY];
         pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
         RefreshPath(_startX, _startY, _endX, _endY);
 
-        transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        transform.position = (Vector2)gridMap.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
 
@@ -163,11 +163,11 @@ public class MoveObj : Boids2D
                 }
                 else
                 {
-                    mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
+                    gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
                 }
 
                 currNodeIndex = targetNodeIndex;
-                mapCreator.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
+                gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
             }
         }
 

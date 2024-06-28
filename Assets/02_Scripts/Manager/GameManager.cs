@@ -8,7 +8,7 @@ using Game;
 
 public partial class GameManager : SingletonMono<GameManager>
 {
-    [SerializeField] private MapTestMoveObj testMoveObjPrefab;
+    [SerializeField] private MoveObj testMoveObjPrefab;
     [SerializeField] private Vector2Int startPos;
     [SerializeField] private Vector2Int endPos;
     
@@ -18,7 +18,7 @@ public partial class GameManager : SingletonMono<GameManager>
     [SerializeField] private InGameUI ingameUI;
     [SerializeField] private WorldMap worldMap;
 
-    private MapCreator mapCreator;
+    private GridMap gridMap;
     private GameConfig.GameState gameState;
     public List<Boids2D> mapMoveObjList = new List<Boids2D>();
 
@@ -46,7 +46,7 @@ public partial class GameManager : SingletonMono<GameManager>
         {
             currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
             await currMapOpHandler;
-            mapCreator = currMapOpHandler.Result.GetComponent<MapCreator>();
+            gridMap = currMapOpHandler.Result.GetComponent<GridMap>();
         });
     }
 
@@ -87,8 +87,8 @@ public partial class GameManager : SingletonMono<GameManager>
 
     public void SpawnTest()
     {
-        MapTestMoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, mapCreator.ObjectField, false);
-        moveObj.InitData(mapCreator, startPos.x, startPos.y, endPos.x, endPos.y);
+        MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+        moveObj.InitData(gridMap, startPos.x, startPos.y, endPos.x, endPos.y);
         moveObj.boidsObjList = mapMoveObjList;
         mapMoveObjList.Add(moveObj);
     }

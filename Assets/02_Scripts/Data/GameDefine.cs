@@ -167,3 +167,12 @@ public class VersionData
     public string cdn_url;
     public int coupon_use;
 }
+
+
+public enum TileType
+{
+    Normal,
+    Start,
+    End,
+    Block,
+}
