@@ -298,7 +298,8 @@ public class MCameraManager : SingletonMono<MCameraManager>
     }
 
     public void SetZoomAndSize(float _zoomSize, float _zoomMin, float _zoomMax, int _sizeMinX, int _sizeMaxX, int _sizeMinY, int _sizeMaxY)
-    { 
+    {
+        return;
         minZoomFactor = _zoomMin;
         maxZoomFactor = _zoomMax;
 
