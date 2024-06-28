@@ -16,7 +16,11 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 1f8c175c51f342946bf8515f2b311528
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 1bcb6650de93a024f9f21f1c368a558f
+    m_Address: Assets/12_AddressableResources/SpaceSurvival/Atlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 0edae494a2994c04b84e0951e19675a8, type: 2}
   m_SchemaSet:
