@@ -3,24 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game;
+using UnityEngine.EventSystems;
+using System.Linq;
 
 public class DragTestCamaera : SingletonMono<DragTestCamaera>
 {
-
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private Camera mainCamera;
 
     private Vector3 newPos;
     private Vector3 oldPos;
     private Vector3 dragStartInputPos;
-    private bool groundDragStarted;
-    private GameObject selectedObject;
+    private bool dragStarted;
+    
+    [SerializeField] private UnitIconTest unitIconPrefab;
+    [SerializeField] private Transform worldRoot;
+    private UnitIconTest selectedObject;
+
 
     private void Update()
     {
         UpdateOneTouch();
     }
-
+    
 
     protected override void OnSingletonAwake()
     {
@@ -28,6 +33,7 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
         mainCamera = GetComponent<Camera>();
         newPos = transform.position;
         oldPos = newPos;
+        
     }
 
     private void UpdateOneTouch()
@@ -36,21 +42,28 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
             return;
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject hitObj = TryGetRayCastObject(Input.mousePosition, GameConfig.ItemLayerMask);
+            GameObject hitObj = TryGetRayCastUIItem(Input.mousePosition);
             if (hitObj != null)
             {
-                selectedObject = hitObj;
+                //selectedObject = hitObj;
+                
                 dragStartInputPos = Input.mousePosition;
-                groundDragStarted = true;
+                dragStarted = true;
+
+                selectedObject = Lean.Pool.LeanPool.Spawn(unitIconPrefab, this.transform);
+                Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
+                selectedObject.transform.position = (Vector2)hitPoint;
             }
         }
         if (Input.GetMouseButton(0))
         {
-            if (groundDragStarted)
+            if (dragStarted)
             {
                 newPos = Input.mousePosition - dragStartInputPos;
-                selectedObject.transform.position = newPos;
-                //Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
+                //selectedObject.transform.position = (Vector2)newPos;
+                Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
+                selectedObject.transform.position = (Vector2)hitPoint;
+                
                 //if (!hitPoint.Equals(PositiveInfinityVector))
                 //{
 
@@ -68,10 +81,12 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (Vector3.Distance(dragStartInputPos, Input.mousePosition) <= 10f)
+            if (dragStarted)
             {
-                //touchAction?.Invoke();
+                dragStarted = false;
+                selectedObject = null;
             }
+            
             //groundDragStarted = false;
             //dragStartPos = PositiveInfinityVector;
         }
@@ -105,4 +120,49 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
         return null;
     }
 
+    public GameObject TryGetRayCastUIItem(Vector2 _touchPoint)
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        var itemLayerList = results.Where(item => item.gameObject.layer == LayerMask.NameToLayer("Item"));
+        if (itemLayerList.Count() > 0)
+        {
+            return itemLayerList.First().gameObject;
+        }
+
+        return null;
+    }
+
+    public bool IsUsingUI()
+    {
+        //return EventSystem.current.IsPointerOverGameObject();
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        if (results.Count > 0)
+        {
+            int count = 0;
+            foreach (var item in results)
+            {
+                if (item.gameObject.layer == LayerMask.NameToLayer("UI"))
+                {
+                    count++;
+                }
+                if (item.gameObject.layer == LayerMask.NameToLayer("HUD"))
+                {
+                    continue;
+                }
+            }
+            return count > 0;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
