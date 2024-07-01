@@ -42,7 +42,7 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
             return;
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject hitObj = TryGetRayCastUIItem(Input.mousePosition);
+            GameObject hitObj = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
             if (hitObj != null)
             {
                 //selectedObject = hitObj;
@@ -130,14 +130,14 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
         return null;
     }
 
-    public GameObject TryGetRayCastUIItem(Vector2 _touchPoint)
+    public GameObject TryGetRayCastUIItem(Vector2 _touchPoint, string _layerName)
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 
-        var itemLayerList = results.Where(item => item.gameObject.layer == LayerMask.NameToLayer("Item"));
+        var itemLayerList = results.Where(item => item.gameObject.layer == LayerMask.NameToLayer(_layerName));
         if (itemLayerList.Count() > 0)
         {
             return itemLayerList.First().gameObject;

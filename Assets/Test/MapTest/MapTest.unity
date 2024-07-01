@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 1711822917}
   - component: {fileID: 1711822916}
   - component: {fileID: 1711822918}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

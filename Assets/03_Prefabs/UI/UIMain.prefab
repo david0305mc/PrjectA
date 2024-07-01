@@ -8257,7 +8257,7 @@ GameObject:
   - component: {fileID: 4794286232621007294}
   - component: {fileID: 7987243922255909462}
   - component: {fileID: 8590205502697788173}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: TestUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9038,7 +9038,7 @@ GameObject:
   - component: {fileID: 7043471029796219028}
   - component: {fileID: 7027668213589711453}
   - component: {fileID: 1443561758621139800}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: UnitIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10262,7 +10262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814267221213658286, guid: f5ab0f37f999c8741b357a94381c32e8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3535197515284292741, guid: f5ab0f37f999c8741b357a94381c32e8, type: 3}
       propertyPath: m_Pivot.x
