@@ -30,7 +30,7 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
-        mainCamera = GetComponent<Camera>();
+        mainCamera = Camera.main;
         newPos = transform.position;
         oldPos = newPos;
         
@@ -84,6 +84,16 @@ public class DragTestCamaera : SingletonMono<DragTestCamaera>
             if (dragStarted)
             {
                 dragStarted = false;
+                // selectedObject Targeting Move
+                var tileObj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
+                if (tileObj != null)
+                {
+                    selectedObject.MoveToTarget(tileObj.transform.position);
+                }
+                else
+                {
+                    Lean.Pool.LeanPool.Despawn(selectedObject);
+                }
                 selectedObject = null;
             }
             

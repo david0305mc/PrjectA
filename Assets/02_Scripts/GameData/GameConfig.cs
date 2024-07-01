@@ -48,6 +48,7 @@ namespace Game
         public static int UnitLayerMask = LayerMask.GetMask("Unit");
         public static int ItemLayerMask = LayerMask.GetMask("Item");
         public static int GroundLayerMask = LayerMask.GetMask("Ground");
+        public static int TileLayerMask = LayerMask.GetMask("Tile");
         public static int StageSlotLayerMask = LayerMask.GetMask("StageSlot");
         public static int ShopRewardLayerMask = LayerMask.GetMask("ShipReward");
         public static int UILayerMask = LayerMask.GetMask("UI");
