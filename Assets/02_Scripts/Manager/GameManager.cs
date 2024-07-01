@@ -36,7 +36,7 @@ public partial class GameManager : SingletonMono<GameManager>
         mainUI.SetActive(false);
         mainUI.HideStageInfo();
         ingameUI.SetActive(true);
-        worldMap.SelectStage(-1);
+        //worldMap.SelectStage(-1);
     }
     public void StartSpaceSurvival(string mapPrefab)
     {
