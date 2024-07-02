@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using FT;
 using UniRx;
+using MonsterLove.StateMachine;
 
 public class MoveObj : Boids2D
 {
+    protected StateMachine<UnitStates, StateDriverUnity> fsm;
     private AbsPathFinder pathFinder;
     List<PathNode> pathList;
     private int targetNodeIndex;
@@ -16,6 +18,9 @@ public class MoveObj : Boids2D
     private bool isActive;
     private void Awake()
     {
+        fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
+        fsm.ChangeState(UnitStates.Idle);
+
         MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
         {
             if (!isActive)
@@ -29,6 +34,32 @@ public class MoveObj : Boids2D
 
         }).AddTo(gameObject);
     }
+    void Idle_Enter()
+    {
+        Debug.Log("Idle_Enter");
+    }
+    void Idle_Update()
+    {
+        Debug.Log("Idle_Update");
+    }
+    void Move_Enter()
+    {
+        Debug.Log("Move_Enter");
+    }
+    void Move_Update()
+    {
+        Debug.Log("Move_Update");
+    }
+    void Attack_Enter()
+    {
+        Debug.Log("Attack_Enter");
+    }
+    void Attack_Update()
+    {
+        Debug.Log("Attack_Update");
+    }
+
+
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
     {
         pathFinder.Clear();

@@ -27,20 +27,20 @@ public class WorldMap : MonoBehaviour
 
     public void UpdateWorld()
     {
-        foreach (var item in tileLists)
-        {
-            item.UpdateData();
-        }
+        //foreach (var item in tileLists)
+        //{
+        //    item.UpdateData();
+        //}
 
-        foreach (var item in stageDic)
-        {
-            item.Value.UpdateData();
-        }
+        //foreach (var item in stageDic)
+        //{
+        //    item.Value.UpdateData();
+        //}
 
-        foreach (var item in stageObjLists)
-        {
-            item.UpdateData();
-        }
+        //foreach (var item in stageObjLists)
+        //{
+        //    item.UpdateData();
+        //}
     }
 
     public void SelectStage(int _stage)

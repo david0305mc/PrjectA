@@ -176,3 +176,11 @@ public enum TileType
     End,
     Block,
 }
+
+public enum UnitStates
+{
+    Idle,
+    Move,
+    Attack,
+    End,
+}
