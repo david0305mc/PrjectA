@@ -56,7 +56,7 @@ public class MainUI : MonoBehaviour
         });
         startSpaceAreaBtn.onClick.AddListener(() =>
         {
-            GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
+            SS.GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
         });
     }
     private void OnEnable()

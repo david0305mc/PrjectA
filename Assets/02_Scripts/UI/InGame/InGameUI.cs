@@ -45,7 +45,7 @@ public class InGameUI : MonoBehaviour
         timeLeft = 0;
         testSpawnBtn.onClick.AddListener(() =>
         {
-            GameManager.Instance.SpawnTest();
+            SS.GameManager.Instance.SpawnTest();
         });
         speedBtn.onClick.AddListener(() =>
         {
@@ -72,7 +72,7 @@ public class InGameUI : MonoBehaviour
                 {
                     popup.Hide();
                     //MGameManager.Instance.ExitStage();
-                    GameManager.Instance.ExitStage();   
+                    SS.GameManager.Instance.ExitStage();   
 
                 });
         });
