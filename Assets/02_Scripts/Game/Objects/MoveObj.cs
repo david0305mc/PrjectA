@@ -16,45 +16,35 @@ public class MoveObj : Boids2D
     private TileObject startTile;
     private TileObject endTile;
     private bool isActive;
-    private void Awake()
+    private long unitUID;
+    private CompositeDisposable compositeDisposable;
+
+    private void Update()
     {
-        fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
-        fsm.ChangeState(UnitStates.Idle);
-
-        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
-        {
-            if (!isActive)
-                return;
-
-            int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-            int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-            Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-            RefreshPath(x, y, endTile.X, endTile.Y);
-
-        }).AddTo(gameObject);
+        fsm.Driver.Update.Invoke();
     }
-    void Idle_Enter()
+
+    protected void Idle_Enter()
     {
         Debug.Log("Idle_Enter");
     }
-    void Idle_Update()
+    protected void Idle_Update()
     {
         Debug.Log("Idle_Update");
     }
-    void Move_Enter()
+    protected void Move_Enter()
     {
         Debug.Log("Move_Enter");
     }
-    void Move_Update()
+    protected void Move_Update()
     {
         Debug.Log("Move_Update");
     }
-    void Attack_Enter()
+    protected void Attack_Enter()
     {
         Debug.Log("Attack_Enter");
     }
-    void Attack_Update()
+    protected void Attack_Update()
     {
         Debug.Log("Attack_Update");
     }
@@ -117,21 +107,40 @@ public class MoveObj : Boids2D
         }
     }
 
-    public void InitData(GridMap _mapCreator, int _startX, int _startY, int _endX, int _endY)
+    public void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
+        unitUID = _unitUID;
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
         currNodeIndex = -1;
         isActive = true;
 
-        endTile = gridMap.Tiles[_endX, _endY];
+        endTile = gridMap.Tiles[_endTile.x, _endTile.y];
         pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
-        RefreshPath(_startX, _startY, _endX, _endY);
+        RefreshPath(_startTile.x, _startTile.y, _endTile.x, _endTile.y);
 
-        transform.position = (Vector2)gridMap.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        compositeDisposable?.Clear();
+        compositeDisposable = new CompositeDisposable();
+
+        fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
+        fsm.ChangeState(UnitStates.Move);
+
+        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        {
+            if (!isActive)
+                return;
+
+            int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+            int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+
+            Debug.Log($"MessageDispather.Receive {currNodeIndex}");
+            RefreshPath(x, y, endTile.X, endTile.Y);
+
+        }).AddTo(compositeDisposable);
     }
 
 
@@ -141,7 +150,6 @@ public class MoveObj : Boids2D
         {
             Debug.DrawLine(pathList[i].location, pathList[i + 1].location, Color.red);
         }
-
     }
 
     private void FixedUpdate()

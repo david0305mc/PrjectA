@@ -10,7 +10,7 @@ namespace SS
 {
     public partial class GameManager : SingletonMono<GameManager>
     {
-        [SerializeField] private BaseObj testMoveObjPrefab;
+        [SerializeField] private MoveObj testMoveObjPrefab;
         [SerializeField] private Vector2Int startPos;
         [SerializeField] private Vector2Int endPos;
 
@@ -23,7 +23,7 @@ namespace SS
         private GridMap gridMap;
         private GameConfig.GameState gameState;
         public List<Boids2D> mapMoveObjList = new List<Boids2D>();
-        private Dictionary<long, BaseObj> enemyObjDic = new Dictionary<long, BaseObj>();
+        private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -60,10 +60,10 @@ namespace SS
             //moveObj.InitData(gridMap, startPos.x, startPos.y, endPos.x, endPos.y);
             //moveObj.boidsObjList = mapMoveObjList;
             //mapMoveObjList.Add(moveObj);
-            var enemyData = UserData.Instance.AddEnemyData(1, 100);
-            BaseObj enemyObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
-            enemyObjDic.Add(enemyData.battleUID, enemyObj);
-            enemyObj.InitObject(enemyData.battleUID);
+            //var enemyData = UserData.Instance.AddEnemyData(1, 100);
+            //MoveObj enemyObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            //enemyObjDic.Add(enemyData.battleUID, enemyObj);
+            //enemyObj.InitData.InitObject(enemyData.battleUID);
 
             //Enumerable.Range(0, _waveStageInfo.unitcnt).ToList().ForEach(i =>
             //{
@@ -129,7 +129,7 @@ namespace SS
         public void SpawnTest()
         {
             MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
-            moveObj.InitData(gridMap, startPos.x, startPos.y, endPos.x, endPos.y);
+            moveObj.InitData(1, gridMap, startPos, endPos);
             moveObj.boidsObjList = mapMoveObjList;
             mapMoveObjList.Add(moveObj);
         }
