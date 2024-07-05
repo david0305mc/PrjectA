@@ -179,6 +179,7 @@ public enum TileType
 
 public enum UnitStates
 {
+    Drag,
     Idle,
     Move,
     Attack,

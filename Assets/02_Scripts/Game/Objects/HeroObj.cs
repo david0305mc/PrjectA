@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using MonsterLove.StateMachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -7,9 +8,15 @@ using UnityEngine;
 public class HeroObj : MoveObj
 {
     private CancellationTokenSource cts;
-
-    public void MoveToTarget(Vector2 _target)
+    public int TileX;
+    public int TileY;
+    public void DragToTarget(Vector2 _target, int _tileX, int _tileY)
     {
+        TileX = _tileX;
+        TileY = _tileY;
+
+        //fsm = StateMachine<UnitStates>.Initialize(this, UnitStates.Drag);
+
         cts?.Clear();
         cts = new CancellationTokenSource();
 
@@ -22,9 +29,7 @@ public class HeroObj : MoveObj
                 transform.position = newPos;
             }
         });
-
         transform.position = _target;
     }
-
 
 }

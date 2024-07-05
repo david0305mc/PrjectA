@@ -158,7 +158,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356352337084507}
-  - component: {fileID: 9138923351762266842}
+  - component: {fileID: 2025629594896566305}
+  - component: {fileID: 4245658507267085169}
   m_Layer: 8
   m_Name: Hero01
   m_TagString: Untagged
@@ -183,7 +184,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9138923351762266842
+--- !u!114 &2025629594896566305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,10 +193,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 4802356352337084481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 910623bd5762947e9820b558cf3704e0, type: 3}
+  m_Script: {fileID: 11500000, guid: fc6fbb98e17678e4dbc481ef3d3637c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  _rigidbody2D: {fileID: 0}
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
+  TileX: 0
+  TileY: 0
+--- !u!58 &4245658507267085169
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802356352337084481}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &4802356352436331195
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,9 +15,9 @@ public class CameraManager : SingletonMono<DragTestCamaera>
     private Vector3 dragStartInputPos;
     private bool dragStarted;
 
-    [SerializeField] private UnitIconTest unitIconPrefab;
+    [SerializeField] private HeroObj unitIconPrefab;
     [SerializeField] private Transform worldRoot;
-    private UnitIconTest selectedObject;
+    private HeroObj selectedObject;
 
 
     private void Update()
@@ -84,10 +84,11 @@ public class CameraManager : SingletonMono<DragTestCamaera>
             {
                 dragStarted = false;
                 // selectedObject Targeting Move
-                var tileObj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
-                if (tileObj != null)
+                var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);    
+                if (obj != null)
                 {
-                    selectedObject.MoveToTarget(tileObj.transform.position);
+                    var tileObj = obj.GetComponent<TileObject>();
+                    selectedObject.DragToTarget(tileObj.transform.position, tileObj.X, tileObj.Y);
                 }
                 else
                 {

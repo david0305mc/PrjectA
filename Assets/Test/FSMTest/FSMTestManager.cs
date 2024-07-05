@@ -5,19 +5,20 @@ using UnityEngine;
 
 public class FSMTestManager : MonoBehaviour
 {
-    protected StateMachine<UnitStates, StateDriverUnity> fsm;
+    protected StateMachine<UnitStates> fsm;
     private void Awake()
     {
-        fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
-        fsm.ChangeState(UnitStates.Idle);
+        fsm = StateMachine<UnitStates>.Initialize(this, UnitStates.Idle);
+        //fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
+        //fsm.ChangeState(UnitStates.Idle);
 
 
     }
 
-    private void Update()
-    {
-        fsm.Driver.Update.Invoke();
-    }
+    //private void Update()
+    //{
+    //    fsm.Driver.Update.Invoke();
+    //}
 
     void Idle_Enter()
     {
@@ -26,6 +27,11 @@ public class FSMTestManager : MonoBehaviour
     void Idle_Update()
     {
         Debug.Log("Idle_Update");
+    }
+
+    void Idle_FixedUpdate()
+    {
+        Debug.Log("Idle_FixedUpdate");
     }
     void Move_Enter()
     {

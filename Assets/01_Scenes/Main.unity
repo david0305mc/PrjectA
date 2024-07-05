@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  unitIconPrefab: {fileID: 2179240191942709020, guid: 660711c81239fe348849b3445cc50815, type: 3}
+  unitIconPrefab: {fileID: 2025629594896566305, guid: 51060ab157b5f794ca4f783b9dd80960, type: 3}
   worldRoot: {fileID: 1955878364}
 --- !u!1001 &273100694
 PrefabInstance:
