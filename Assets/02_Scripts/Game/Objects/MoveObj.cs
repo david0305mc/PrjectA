@@ -21,6 +21,7 @@ public class MoveObj : Boids2D
     private int currTileY;
     private CompositeDisposable compositeDisposable;
     private MoveObj targetObj;      // null¿Ã∏È endTile
+    private float attackDelay;
 
     protected void Idle_Enter()
     {
@@ -30,13 +31,19 @@ public class MoveObj : Boids2D
     {
         Debug.Log("Idle_Update");
         HeroObj targetEnemy = SearchEnemy();
+        
         if (targetEnemy != default)
         {
+            targetObj = targetEnemy;
             compositeDisposable?.Clear();
             compositeDisposable = new CompositeDisposable();
 
+            // GetOuterCells
+            // finding nearest outer cell
+
             RefreshPath(currTileX, currTileY, targetEnemy.TileX, targetEnemy.TileY);
             fsm.ChangeState(UnitStates.Move);
+
             MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
             {
                 if (!isActive)
@@ -62,15 +69,28 @@ public class MoveObj : Boids2D
     protected void Move_FixedUpdate()
     {
         Debug.Log("Move_FixedUpdate");
-        MoveEvent();
+        if (CheckTargetRange())
+        {
+            fsm.ChangeState(UnitStates.Attack);   
+        }
+        else
+        {
+            MoveEvent();
+        }
     }
     protected void Attack_Enter()
     {
         Debug.Log("Attack_Enter");
+        attackDelay = 3f;
     }
     protected void Attack_Update()
     {
-        Debug.Log("Attack_Update");
+        attackDelay -= Time.deltaTime;
+        if (attackDelay <= 0)
+        {
+            attackDelay = 3f;
+            Debug.Log("Attack");
+        }
     }
 
 
@@ -163,12 +183,6 @@ public class MoveObj : Boids2D
         }
     }
 
-    private void MoveToTarget(HeroObj _targetObj)
-    {
-        targetObj = _targetObj;
-
-    }
-
     private HeroObj SearchEnemy()
     {
         HeroObj targetObj = default;
@@ -202,6 +216,18 @@ public class MoveObj : Boids2D
         return targetObj;
     }
 
+    private bool CheckTargetRange()
+    {
+        if (targetObj == null)
+            return false;
+
+        float dist = Vector2.Distance(targetObj.transform.position, transform.position);
+        if (dist < 2f)
+        {
+            return true;
+        }
+        return false;
+    }
     private void MoveEvent()
     {
         if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
