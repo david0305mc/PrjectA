@@ -19,7 +19,7 @@ public class HeroObj : MoveObj
 
         cts?.Clear();
         cts = new CancellationTokenSource();
-
+        
         UniTask.Create(async () =>
         {
             while (Vector2.Distance(transform.position, _target) > 0.1f)
@@ -27,6 +27,8 @@ public class HeroObj : MoveObj
                 await UniTask.Yield(cancellationToken: cts.Token);
                 var newPos = Vector2.MoveTowards(transform.position, _target, 3f * Time.deltaTime);
                 transform.position = newPos;
+
+                SS.GameManager.Instance.AddHeroObj(this);
             }
         });
         transform.position = _target;

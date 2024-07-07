@@ -24,6 +24,7 @@ namespace SS
         private GameConfig.GameState gameState;
         public List<Boids2D> mapMoveObjList = new List<Boids2D>();
         private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
+        private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -53,6 +54,10 @@ namespace SS
             });
         }
 
+        public static long GenerateUID()
+        {
+            return UserData.Instance.uidSeed++;
+        }
 
         private void SpawnWaveEnemy()
         {
@@ -132,6 +137,24 @@ namespace SS
             moveObj.InitData(1, gridMap, startPos, endPos);
             moveObj.boidsObjList = mapMoveObjList;
             mapMoveObjList.Add(moveObj);
+        }
+        
+        public void EnemyAttackHero(long _heroID)
+        {
+            if (!heroObjDic.ContainsKey(_heroID))
+            {
+                Debug.LogError($"heroObjDic.ContainsKey {_heroID}");
+                return;
+            }
+            Lean.Pool.LeanPool.Despawn(heroObjDic[_heroID]);
+            heroObjDic.Remove(_heroID);
+        }
+
+        public void AddHeroObj(HeroObj _obj)
+        {
+            // To Do : create hero Data
+            _obj.UnitUID = GenerateUID();
+            heroObjDic.Add(_obj.UnitUID, _obj);
         }
     }
 

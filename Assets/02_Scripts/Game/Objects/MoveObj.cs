@@ -16,11 +16,11 @@ public class MoveObj : Boids2D
     private TileObject startTile;
     private TileObject endTile;
     private bool isActive;
-    private long unitUID;
+    public long UnitUID;
     private int currTileX;
     private int currTileY;
     private CompositeDisposable compositeDisposable;
-    private MoveObj targetObj;      // null¿Ã∏È endTile
+    protected MoveObj targetObj;      // null???? endTile
     private float attackDelay;
 
     protected void Idle_Enter()
@@ -89,10 +89,16 @@ public class MoveObj : Boids2D
         if (attackDelay <= 0)
         {
             attackDelay = 3f;
-            Debug.Log("Attack");
+            
+            DoAttack();
         }
     }
 
+    protected virtual void DoAttack()
+    {
+        Debug.Log("Attack");
+        fsm.ChangeState(UnitStates.Idle);
+    }
 
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
     {
@@ -155,7 +161,7 @@ public class MoveObj : Boids2D
 
     public void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
-        unitUID = _unitUID;
+        UnitUID = _unitUID;
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
