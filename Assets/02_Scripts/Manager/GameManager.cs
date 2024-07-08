@@ -25,6 +25,7 @@ namespace SS
         public List<Boids2D> mapMoveObjList = new List<Boids2D>();
         private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
         private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
+        public Dictionary<long, HeroObj> HeroObjDic { get { return heroObjDic; } } 
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -146,14 +147,17 @@ namespace SS
                 Debug.LogError($"heroObjDic.ContainsKey {_heroID}");
                 return;
             }
+
             Lean.Pool.LeanPool.Despawn(heroObjDic[_heroID]);
             heroObjDic.Remove(_heroID);
+            UserData.Instance.RemoveHeroData(_heroID);
         }
 
         public void AddHeroObj(HeroObj _obj)
         {
             // To Do : create hero Data
-            _obj.UnitUID = GenerateUID();
+            var heroData = SS.UserData.Instance.AddHeroData(0);
+            _obj.UnitUID = heroData.uid;
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
     }

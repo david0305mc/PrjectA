@@ -7,14 +7,25 @@ namespace SS
     public class UserData : Singleton<UserData>
     {
         public long uidSeed;
-        public Dictionary<int, UnitBattleData> enemyDataDic;
-        public Dictionary<int, UnitBattleData> battleHeroDataDic;
+        public Dictionary<long, SS.UnitData> enemyDataDic = new Dictionary<long, UnitData>();
+        public Dictionary<long, SS.UnitData> battleHeroDataDic = new Dictionary<long, UnitData>();
 
-        public UnitBattleData AddEnemyData(int _tid, int _powerRate)
+        public UnitData AddEnemyData(long _tid)
         {
-            var data = UnitBattleData.Create(MGameManager.GenerateFlashUID(), -1, _tid, 1, 1, true, _powerRate);
-            enemyDataDic.Add(data.battleUID, data);
+            var data = SS.UnitData.Create(GameManager.GenerateUID(), 1, 1, 1, true);
+            enemyDataDic.Add(data.uid, data);
             return data;
+        }
+
+        public UnitData AddHeroData(long _tid)
+        {
+            var data = UnitData.Create(GameManager.GenerateUID(), -1, 1, 1, false);
+            battleHeroDataDic.Add(data.uid, data);
+            return data;
+        }
+        public void RemoveHeroData(long _uid)
+        {
+            battleHeroDataDic.Remove(_uid);
         }
 
     }

@@ -5,40 +5,75 @@ using UnityEngine;
 
 public class FSMTestManager : MonoBehaviour
 {
-    protected StateMachine<UnitStates> fsm;
-    private void Awake()
+    public class Driver
     {
-        fsm = StateMachine<UnitStates>.Initialize(this, UnitStates.Idle);
-        //fsm = new StateMachine<UnitStates, StateDriverUnity>(this);
-        //fsm.ChangeState(UnitStates.Idle);
-
-
+        public StateEvent Update;
+        public StateEvent FixedUpdate;
     }
 
-    //private void Update()
-    //{
-    //    fsm.Driver.Update.Invoke();
-    //}
-
-    void Idle_Enter()
+    public enum States
     {
-        Debug.Log("Idle_Enter");
-    }
-    void Idle_Update()
-    {
-        Debug.Log("Idle_Update");
+        Init,
+        Play,
+        Win,
+        Lose
     }
 
-    void Idle_FixedUpdate()
+    StateMachine<States, Driver> fsm;
+
+    void Awake()
     {
-        Debug.Log("Idle_FixedUpdate");
+        fsm = new StateMachine<States, Driver>(this);
+
+        fsm.ChangeState(States.Init); //3. Easily trigger state transitions
     }
-    void Move_Enter()
+
+    private void Update()
     {
-        Debug.Log("Move_Enter");
+        fsm.Driver.Update.Invoke();
     }
-    void Move_Update()
+
+    private void FixedUpdate()
     {
-        Debug.Log("Move_Update");
+        fsm.Driver.FixedUpdate.Invoke();
+    }
+    public void Init_Enter()
+    {
+        Debug.Log("Ready");
+    }
+
+    public void Play_Enter()
+    {
+        Debug.Log("Spawning Player");
+    }
+
+    public void Play_FixedUpdate()
+    {
+        Debug.Log("Doing Physics stuff");
+    }
+
+    public void Play_Update()
+    {
+        Debug.Log("Play_Update");
+    }
+
+    public void Play_Exit()
+    {
+        Debug.Log("Despawning Player");
+    }
+
+    public void Win_Enter()
+    {
+        Debug.Log("Game Over - you won!");
+    }
+
+    void Lose_Enter()
+    {
+        Debug.Log("Game Over - you lost!");
+    }
+
+    public void OnClickPlay()
+    {
+        fsm.ChangeState(States.Play);
     }
 }

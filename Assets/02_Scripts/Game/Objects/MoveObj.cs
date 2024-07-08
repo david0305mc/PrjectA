@@ -7,7 +7,13 @@ using MonsterLove.StateMachine;
 
 public class MoveObj : Boids2D
 {
-    protected StateMachine<UnitStates> fsm;
+    public class Driver
+    {
+        public StateEvent Update;
+        public StateEvent FixedUpdate;
+    }
+    
+    protected StateMachine<UnitStates, Driver> fsm;
     private AbsPathFinder pathFinder;
     List<PathNode> pathList;
     private int targetNodeIndex;
@@ -23,20 +29,31 @@ public class MoveObj : Boids2D
     protected MoveObj targetObj;      // null???? endTile
     private float attackDelay;
 
+    private void Update()
+    {
+        if (fsm == null)
+            return;
+        fsm.Driver.Update.Invoke();
+    }
+
+    private void FixedUpdate()
+    {
+        if (fsm == null)
+            return;
+        fsm.Driver.FixedUpdate.Invoke();
+    }
     protected void Idle_Enter()
     {
         Debug.Log("Idle_Enter");
     }
     protected void Idle_Update()
     {
-        Debug.Log("Idle_Update");
         HeroObj targetEnemy = SearchEnemy();
         
         if (targetEnemy != default)
         {
             targetObj = targetEnemy;
-            compositeDisposable?.Clear();
-            compositeDisposable = new CompositeDisposable();
+
 
             // GetOuterCells
             // finding nearest outer cell
@@ -44,18 +61,20 @@ public class MoveObj : Boids2D
             RefreshPath(currTileX, currTileY, targetEnemy.TileX, targetEnemy.TileY);
             fsm.ChangeState(UnitStates.Move);
 
-            MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
-            {
-                if (!isActive)
-                    return;
+            //compositeDisposable?.Clear();
+            //compositeDisposable = new CompositeDisposable();
+            //MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+            //{
+            //    if (!isActive)
+            //        return;
 
-                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+            //    int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+            //    int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
-                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-                RefreshPath(x, y, endTile.X, endTile.Y);
+            //    Debug.Log($"MessageDispather.Receive {currNodeIndex}");
+            //    RefreshPath(x, y, endTile.X, endTile.Y);
 
-            }).AddTo(compositeDisposable);
+            //}).AddTo(compositeDisposable);
         }
     }
     protected void Move_Enter()
@@ -64,20 +83,19 @@ public class MoveObj : Boids2D
     }
     protected void Move_Update()
     {
-        Debug.Log("Move_Update");
-    }
-    protected void Move_FixedUpdate()
-    {
-        Debug.Log("Move_FixedUpdate");
         if (CheckTargetRange())
         {
-            fsm.ChangeState(UnitStates.Attack);   
+            fsm.ChangeState(UnitStates.Attack);
         }
         else
         {
             MoveEvent();
         }
     }
+    //protected void Move_FixedUpdate()
+    //{
+    //    Debug.Log("Move_FixedUpdate");
+    //}
     protected void Attack_Enter()
     {
         Debug.Log("Attack_Enter");
@@ -88,7 +106,7 @@ public class MoveObj : Boids2D
         attackDelay -= Time.deltaTime;
         if (attackDelay <= 0)
         {
-            attackDelay = 3f;
+            attackDelay = 1f;
             
             DoAttack();
         }
@@ -177,7 +195,8 @@ public class MoveObj : Boids2D
         currTileX = _startTile.x;
         currTileY = _startTile.y;
         transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-        fsm = StateMachine<UnitStates>.Initialize(this, UnitStates.Idle);
+        fsm = new StateMachine<UnitStates, Driver>(this);
+        fsm.ChangeState(UnitStates.Idle);
     }
 
 
@@ -193,28 +212,29 @@ public class MoveObj : Boids2D
     {
         HeroObj targetObj = default;
         float distTarget = 0;
-        var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
-        if (detectedObjs.Length > 0)
+        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
+        foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
         {
-            foreach (var obj in detectedObjs)
+            if (enemyObj != null)
             {
-                HeroObj enemyObj = obj.GetComponent<HeroObj>();
-                if (enemyObj != null)
+                if (!SS.UserData.Instance.battleHeroDataDic.ContainsKey(enemyObj.UnitUID))
                 {
-                    float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
-                    if (targetObj == default)
+                    Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
+                    continue;
+                }
+                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
+                if (targetObj == default)
+                {
+                    targetObj = enemyObj;
+                    distTarget = dist;
+                }
+                else
+                {
+                    if (distTarget > dist)
                     {
+                        // change Target
                         targetObj = enemyObj;
                         distTarget = dist;
-                    }
-                    else
-                    {
-                        if (distTarget > dist)
-                        {
-                            // change Target
-                            targetObj = enemyObj;
-                            distTarget = dist;
-                        }
                     }
                 }
             }
@@ -299,11 +319,11 @@ public class MoveObj : Boids2D
         if (isBoidsAlgorithm)
         {
             var velocity = CalculateBoidsAlgorithm((Vector2)targetNode.location);
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.fixedDeltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.deltaTime);
         }
         else
         {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.fixedDeltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
         }
         _rigidbody2D.MovePosition(newPos);
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
