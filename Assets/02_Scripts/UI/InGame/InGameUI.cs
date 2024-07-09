@@ -43,10 +43,10 @@ public class InGameUI : MonoBehaviour
     private void Awake()
     {
         timeLeft = 0;
-        testSpawnBtn.onClick.AddListener(() =>
+        testSpawnBtn.onClick.AddListener((UnityEngine.Events.UnityAction)(() =>
         {
-            SS.GameManager.Instance.SpawnTest();
-        });
+            SS.GameManager.Instance.AddEnemyObj();
+        }));
         speedBtn.onClick.AddListener(() =>
         {
             Time.timeScale = UserData.Instance.NextGameSpeed();

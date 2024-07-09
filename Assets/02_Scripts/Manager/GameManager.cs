@@ -22,7 +22,6 @@ namespace SS
 
         private GridMap gridMap;
         private GameConfig.GameState gameState;
-        public List<Boids2D> mapMoveObjList = new List<Boids2D>();
         private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
         private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
         public Dictionary<long, HeroObj> HeroObjDic { get { return heroObjDic; } } 
@@ -131,14 +130,6 @@ namespace SS
             //RemoveAllEnemy();
             //RemoveAllProjectile();
         }
-
-        public void SpawnTest()
-        {
-            MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
-            moveObj.InitData(1, gridMap, startPos, endPos);
-            moveObj.boidsObjList = mapMoveObjList;
-            mapMoveObjList.Add(moveObj);
-        }
         
         public void EnemyAttackHero(long _heroID)
         {
@@ -155,10 +146,17 @@ namespace SS
 
         public void AddHeroObj(HeroObj _obj)
         {
-            // To Do : create hero Data
             var heroData = SS.UserData.Instance.AddHeroData(0);
             _obj.UnitUID = heroData.uid;
             heroObjDic.Add(_obj.UnitUID, _obj);
+        }
+
+        public void AddEnemyObj()
+        {
+            var enemyData = SS.UserData.Instance.AddHeroData(0);
+            MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            moveObj.InitData(enemyData.uid, gridMap, startPos, endPos);
+            enemyObjDic.Add(moveObj.UnitUID, moveObj);
         }
     }
 
