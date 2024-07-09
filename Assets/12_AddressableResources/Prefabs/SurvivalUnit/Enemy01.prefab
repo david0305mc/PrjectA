@@ -637,7 +637,7 @@ Transform:
   m_GameObject: {fileID: 1203326412667898325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.06, y: 16.53, z: -0.0000019073486}
-  m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1203326414002272120}
@@ -727,6 +727,7 @@ MonoBehaviour:
   _turnSpeed: 3
   _forwardSpeed: 3
   boidsObjList: []
+  UnitUID: 0
 --- !u!1 &1203326412679166392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,7 +1151,7 @@ Transform:
   m_GameObject: {fileID: 1203326414002272123}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1203326413778398370}

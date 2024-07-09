@@ -12,7 +12,10 @@ public class MoveObj : Boids2D
         public StateEvent Update;
         public StateEvent FixedUpdate;
     }
-    
+    protected Animator animator;
+    protected AnimationLink animationLink;
+    private Transform renderRoot;
+
     protected StateMachine<UnitStates, Driver> fsm;
     private AbsPathFinder pathFinder;
     List<PathNode> pathList;
@@ -29,6 +32,15 @@ public class MoveObj : Boids2D
     protected MoveObj targetObj;      // null???? endTile
     private float attackDelay;
 
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animationLink = animator.GetComponent<AnimationLink>();
+            renderRoot = animator.transform;
+        }
+    }
     private void Update()
     {
         if (fsm == null)
@@ -42,9 +54,22 @@ public class MoveObj : Boids2D
             return;
         fsm.Driver.FixedUpdate.Invoke();
     }
+
+    protected void PlayAni(string str)
+    {
+        if (animator == null)
+            return;
+        //ResetTrigger();
+        //animator.SetTrigger(str);
+
+        animator.Play(str);
+        animator.Update(0);
+    }
+
     protected void Idle_Enter()
     {
         Debug.Log("Idle_Enter");
+        PlayAni("Walk");
     }
     protected void Idle_Update()
     {
@@ -80,6 +105,7 @@ public class MoveObj : Boids2D
     protected void Move_Enter()
     {
         Debug.Log("Move_Enter");
+        PlayAni("Walk");
     }
     protected void Move_Update()
     {
@@ -100,6 +126,8 @@ public class MoveObj : Boids2D
     {
         Debug.Log("Attack_Enter");
         attackDelay = 3f;
+        PlayAni("Attack");
+        FlipRenderers(transform.position.x <= targetObj.transform.position.x);
     }
     protected void Attack_Update()
     {
@@ -325,9 +353,22 @@ public class MoveObj : Boids2D
         {
             newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
         }
+        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);
         _rigidbody2D.MovePosition(newPos);
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
 
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
+    }
+
+    protected virtual void FlipRenderers(bool right)
+    {
+        if (right)
+        {
+            renderRoot.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            renderRoot.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }
