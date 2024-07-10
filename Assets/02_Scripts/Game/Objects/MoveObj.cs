@@ -4,6 +4,7 @@ using UnityEngine;
 using FT;
 using UniRx;
 using MonsterLove.StateMachine;
+using UnityEngine.UI;
 
 public class MoveObj : Boids2D
 {
@@ -12,6 +13,9 @@ public class MoveObj : Boids2D
         public StateEvent Update;
         public StateEvent FixedUpdate;
     }
+
+    [SerializeField] protected Slider hpBar;
+
     protected Animator animator;
     protected AnimationLink animationLink;
     private Transform renderRoot;
@@ -25,12 +29,13 @@ public class MoveObj : Boids2D
     private TileObject startTile;
     private TileObject endTile;
     private bool isActive;
-    public long UnitUID;
+    public long UnitUID { get { return unitData.uid; } }
     private int currTileX;
     private int currTileY;
     private CompositeDisposable compositeDisposable;
     protected MoveObj targetObj;      // null???? endTile
     private float attackDelay;
+    protected SS.UnitData unitData;
 
     private void Awake()
     {
@@ -125,7 +130,7 @@ public class MoveObj : Boids2D
     protected void Attack_Enter()
     {
         Debug.Log("Attack_Enter");
-        attackDelay = 3f;
+        attackDelay = 0f;
         PlayAni("Attack");
         FlipRenderers(transform.position.x <= targetObj.transform.position.x);
     }
@@ -142,8 +147,6 @@ public class MoveObj : Boids2D
 
     protected virtual void DoAttack()
     {
-        Debug.Log("Attack");
-        fsm.ChangeState(UnitStates.Idle);
     }
 
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
@@ -205,9 +208,8 @@ public class MoveObj : Boids2D
         }
     }
 
-    public void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    public virtual void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
-        UnitUID = _unitUID;
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
@@ -225,6 +227,7 @@ public class MoveObj : Boids2D
         transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
         fsm = new StateMachine<UnitStates, Driver>(this);
         fsm.ChangeState(UnitStates.Idle);
+        UpdateUI();
     }
 
 
@@ -245,7 +248,7 @@ public class MoveObj : Boids2D
         {
             if (enemyObj != null)
             {
-                if (!SS.UserData.Instance.battleHeroDataDic.ContainsKey(enemyObj.UnitUID))
+                if (SS.UserData.Instance.GetHeroData(enemyObj.UnitUID) == null)
                 {
                     Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
                     continue;
@@ -370,5 +373,17 @@ public class MoveObj : Boids2D
         {
             renderRoot.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public void GetAttacked()
+    {
+        UpdateUI();
+    }
+
+    protected void UpdateUI()
+    {
+        if (hpBar == null)
+            return;
+        hpBar.value = (float)unitData.hp / unitData.maxHp;
     }
 }

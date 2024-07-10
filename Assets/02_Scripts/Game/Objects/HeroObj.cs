@@ -11,6 +11,12 @@ public class HeroObj : MoveObj
     public int TileY;
 
     public static int spawnCount = 0;
+    public override void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    {
+        unitData = SS.UserData.Instance.GetHeroData(_unitUID);
+        UpdateUI();
+    }
+
     public void DragToTarget(Vector2 _target, int _tileX, int _tileY)
     {
         Debug.Log($"STest drag Count {++spawnCount}");

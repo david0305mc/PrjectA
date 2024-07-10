@@ -133,21 +133,27 @@ namespace SS
         
         public void EnemyAttackHero(long _heroID)
         {
-            if (!heroObjDic.ContainsKey(_heroID))
+            var heroData = UserData.Instance.GetHeroData(_heroID);
+            if (heroData == null)
             {
                 Debug.LogError($"heroObjDic.ContainsKey {_heroID}");
                 return;
             }
-
-            Lean.Pool.LeanPool.Despawn(heroObjDic[_heroID]);
-            heroObjDic.Remove(_heroID);
-            UserData.Instance.RemoveHeroData(_heroID);
+            var heroObj = heroObjDic[_heroID];
+            UserData.Instance.AttackToHero(_heroID, 1);
+            heroObj.GetAttacked();
+            if (heroData.state == UnitDataStates.Dead)
+            {
+                Lean.Pool.LeanPool.Despawn(heroObj);
+                heroObjDic.Remove(_heroID);
+                UserData.Instance.RemoveHeroData(_heroID);
+            }
         }
 
         public void AddHeroObj(HeroObj _obj)
         {
             var heroData = SS.UserData.Instance.AddHeroData(0);
-            _obj.UnitUID = heroData.uid;
+            _obj.InitData(heroData.uid, null, default, default);
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 

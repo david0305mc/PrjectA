@@ -185,3 +185,9 @@ public enum UnitStates
     Attack,
     End,
 }
+
+public enum UnitDataStates
+{ 
+    Alive,
+    Dead,
+}

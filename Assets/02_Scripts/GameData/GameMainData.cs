@@ -11,9 +11,12 @@ namespace SS
         public long uid;
         public int tid;
         public bool IsEnemy;
+        public int maxHp;
         public int hp;
         public int grade;
         public int count;
+
+        public UnitDataStates state;
 
         public static UnitData Create(long _uid, int _tid, int _grade, int _count, bool _isEnemy)
         {
@@ -24,9 +27,11 @@ namespace SS
                 grade = _grade,
                 IsEnemy = _isEnemy,
                 count = _count,
+                state = UnitDataStates.Alive,
             };
             data.UpdateRefData();
-            data.hp = 10;
+            data.maxHp = 3;
+            data.hp = data.maxHp;
 
             return data;
         }
