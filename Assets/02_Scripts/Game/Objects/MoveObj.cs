@@ -36,7 +36,7 @@ public class MoveObj : Boids2D
     protected MoveObj targetObj;      // null???? endTile
     private float attackDelay;
     protected SS.UnitData unitData;
-
+    protected bool isHero;
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -78,7 +78,7 @@ public class MoveObj : Boids2D
     }
     protected void Idle_Update()
     {
-        HeroObj targetEnemy = SearchEnemy();
+        MoveObj targetEnemy = SearchEnemy();
         
         if (targetEnemy != default)
         {
@@ -88,7 +88,7 @@ public class MoveObj : Boids2D
             // GetOuterCells
             // finding nearest outer cell
 
-            RefreshPath(currTileX, currTileY, targetEnemy.TileX, targetEnemy.TileY);
+            RefreshPath(currTileX, currTileY, targetEnemy.currTileX, targetEnemy.currTileX);
             fsm.ChangeState(UnitStates.Move);
 
             //compositeDisposable?.Clear();
@@ -239,11 +239,12 @@ public class MoveObj : Boids2D
         }
     }
 
-    private HeroObj SearchEnemy()
+    protected virtual  HeroObj SearchEnemy()
     {
         HeroObj targetObj = default;
         float distTarget = 0;
         //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
+        
         foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
         {
             if (enemyObj != null)

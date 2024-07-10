@@ -6,6 +6,10 @@ namespace SS
 {
     public class EnemyObj : MoveObj
     {
+        private void Awake()
+        {
+            isHero = false;
+        }
         public override void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
         {
             unitData = SS.UserData.Instance.GetHeroData(_unitUID);
@@ -22,6 +26,40 @@ namespace SS
             {
                 fsm.ChangeState(UnitStates.Idle);
             }
+        }
+        protected override HeroObj SearchEnemy()
+        {
+            HeroObj targetObj = default;
+            float distTarget = 0;
+            //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
+
+            foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
+            {
+                if (enemyObj != null)
+                {
+                    if (SS.UserData.Instance.GetHeroData(enemyObj.UnitUID) == null)
+                    {
+                        Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
+                        continue;
+                    }
+                    float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
+                    if (targetObj == default)
+                    {
+                        targetObj = enemyObj;
+                        distTarget = dist;
+                    }
+                    else
+                    {
+                        if (distTarget > dist)
+                        {
+                            // change Target
+                            targetObj = enemyObj;
+                            distTarget = dist;
+                        }
+                    }
+                }
+            }
+            return targetObj;
         }
     }
 

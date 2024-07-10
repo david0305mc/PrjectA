@@ -153,7 +153,7 @@ namespace SS
         public void AddHeroObj(HeroObj _obj)
         {
             var heroData = SS.UserData.Instance.AddHeroData(0);
-            _obj.InitData(heroData.uid, null, default, default);
+            _obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), default);
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 

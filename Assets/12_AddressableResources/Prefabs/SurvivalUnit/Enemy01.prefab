@@ -727,7 +727,7 @@ MonoBehaviour:
   _turnSpeed: 3
   _forwardSpeed: 3
   boidsObjList: []
-  UnitUID: 0
+  hpBar: {fileID: 1203326412487857635}
 --- !u!1 &1203326412679166392
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 1259217269
+  m_SortingLayerID: -1316233001
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &1203326413256064339
