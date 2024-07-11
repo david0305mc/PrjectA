@@ -45,6 +45,24 @@ public class MoveObj : Boids2D
             animationLink = animator.GetComponent<AnimationLink>();
             renderRoot = animator.transform;
         }
+
+
+        compositeDisposable?.Clear();
+        compositeDisposable = new CompositeDisposable();
+        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        {
+            if (!isActive)
+                return;
+            if (fsm != null && fsm.State == UnitStates.Move)
+            {
+
+                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+
+                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
+                RefreshPath(x, y, endTile.X, endTile.Y);
+            }
+        }).AddTo(compositeDisposable);
     }
     private void Update()
     {
