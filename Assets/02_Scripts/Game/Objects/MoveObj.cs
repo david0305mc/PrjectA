@@ -79,7 +79,7 @@ public class MoveObj : Boids2D
     protected void Idle_Update()
     {
         MoveObj targetEnemy = SearchEnemy();
-        
+
         if (targetEnemy != default)
         {
             targetObj = targetEnemy;
@@ -106,6 +106,11 @@ public class MoveObj : Boids2D
 
             //}).AddTo(compositeDisposable);
         }
+        //else
+        //{
+        //    RefreshPath(currTileX, currTileY, endTile.X, endTile.Y);
+        //    fsm.ChangeState(UnitStates.Move);
+        //}
     }
     protected void Move_Enter()
     {

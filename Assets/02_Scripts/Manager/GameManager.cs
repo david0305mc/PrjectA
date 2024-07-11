@@ -21,6 +21,7 @@ namespace SS
         [SerializeField] private WorldMap worldMap;
 
         private GridMap gridMap;
+        public GridMap GridMap { get { return gridMap; } }
         private GameConfig.GameState gameState;
         private Dictionary<long, EnemyObj> enemyObjDic = new Dictionary<long, EnemyObj>();
         private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
@@ -154,7 +155,8 @@ namespace SS
         public void AddHeroObj(HeroObj _obj)
         {
             var heroData = SS.UserData.Instance.AddHeroData(0);
-            _obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), default);
+            //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
+            _obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 

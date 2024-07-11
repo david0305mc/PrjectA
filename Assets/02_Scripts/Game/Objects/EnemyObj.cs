@@ -18,10 +18,12 @@ namespace SS
         }
         protected override void DoAttack()
         {
-            if (targetObj != null)
+            if (targetObj == null)
             {
-                GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
+                return;
             }
+
+            GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
             base.DoAttack();
             if (UserData.Instance.GetHeroData(targetObj.UnitUID) == null)
             {

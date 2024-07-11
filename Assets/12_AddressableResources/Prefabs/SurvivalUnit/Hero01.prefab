@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8673290583580292372}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4035634366902031405}
   - component: {fileID: 5617874629127956407}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Enemy_Spear_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356352281800749}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: L_leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,9 +159,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4802356352337084507}
   - component: {fileID: 4188738569121616669}
-  - component: {fileID: 2025629594896566305}
   - component: {fileID: 4245658507267085169}
-  m_Layer: 8
+  - component: {fileID: 2025629594896566305}
+  m_Layer: 13
   m_Name: Hero01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,6 +206,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &4245658507267085169
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802356352337084481}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &2025629594896566305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,22 +248,6 @@ MonoBehaviour:
   hpBar: {fileID: 1150130642449733621}
   TileX: 0
   TileY: 0
---- !u!58 &4245658507267085169
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4802356352337084481}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &4802356352436331195
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802356352436331192}
   - component: {fileID: 4802356352436331193}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356352624198714}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: L_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802356353097669355}
   - component: {fileID: 4802356353097669352}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 4802356353135673068}
   - component: {fileID: 4802356353135673058}
   - component: {fileID: 4802356353135673069}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356353224022263}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: R_leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356353282252399}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: R_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4802356353313400118}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -628,7 +628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802356353517966385}
   - component: {fileID: 4802356353517966390}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -712,7 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802356353626756398}
   - component: {fileID: 4802356353626756399}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 4802356353864971460}
   - component: {fileID: 4802356353864971463}
   - component: {fileID: 4802356353864971462}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -893,7 +893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5071596155049600965}
   - component: {fileID: 5071596155049600964}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -977,7 +977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5071596155130984471}
   - component: {fileID: 5071596155130984470}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5071596156161333340}
   - component: {fileID: 5071596156161333315}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 7466391368664890853}
   - component: {fileID: 5404092220789932209}
   - component: {fileID: 3221044204817112186}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1216,7 +1216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3852478285377895535}
   - component: {fileID: 1211328959508407083}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Enemy_Spear_Effect (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1297,13 +1297,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4802356353864971457}
     m_Modifications:
+    - target: {fileID: 761812592768940434, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631832076843793586, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1631832076843793586, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919087921854569710, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919087921854569710, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868059449460283876, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5121512521793343444, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5864823818027106692, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1316,6 +1336,10 @@ PrefabInstance:
     - target: {fileID: 6386348859714515528, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
       propertyPath: m_Name
       value: HP_Monster
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386348859714515528, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6609575542628068897, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
       propertyPath: m_Pivot.x

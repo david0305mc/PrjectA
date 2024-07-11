@@ -49,7 +49,7 @@ public class CameraManager : SingletonMono<DragTestCamaera>
                 dragStartInputPos = Input.mousePosition;
                 dragStarted = true;
 
-                selectedObject = Lean.Pool.LeanPool.Spawn(unitIconPrefab, this.transform);
+                selectedObject = Lean.Pool.LeanPool.Spawn(unitIconPrefab, SS.GameManager.Instance.GridMap.ObjectField);
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;
             }

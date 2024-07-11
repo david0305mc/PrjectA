@@ -564,7 +564,6 @@ MonoBehaviour:
   mainUI: {fileID: 1746086362950791859}
   ingameUI: {fileID: 1746086362031738043}
   worldMap: {fileID: 3123656513177866222}
-  mapMoveObjList: []
 --- !u!1001 &1131196366
 PrefabInstance:
   m_ObjectHideFlags: 0
