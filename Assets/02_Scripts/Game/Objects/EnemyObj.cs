@@ -6,13 +6,14 @@ namespace SS
 {
     public class EnemyObj : MoveObj
     {
-        private void Awake()
+        protected override void Awake()
         {
             isHero = false;
+            base.Awake();
         }
         public override void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
         {
-            unitData = SS.UserData.Instance.GetHeroData(_unitUID);
+            unitData = SS.UserData.Instance.GetEnemyData(_unitUID);
             base.InitData(_unitUID, _mapCreator, _startTile, _endTile);
         }
         protected override void DoAttack()
@@ -27,9 +28,10 @@ namespace SS
                 fsm.ChangeState(UnitStates.Idle);
             }
         }
-        protected override HeroObj SearchEnemy()
+        protected override MoveObj SearchEnemy()
         {
-            HeroObj targetObj = default;
+            base.SearchEnemy();
+            MoveObj targetObj = default;
             float distTarget = 0;
             //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
 

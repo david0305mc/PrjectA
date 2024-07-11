@@ -10,7 +10,7 @@ namespace SS
 {
     public partial class GameManager : SingletonMono<GameManager>
     {
-        [SerializeField] private MoveObj testMoveObjPrefab;
+        [SerializeField] private EnemyObj testMoveObjPrefab;
         [SerializeField] private Vector2Int startPos;
         [SerializeField] private Vector2Int endPos;
 
@@ -22,9 +22,10 @@ namespace SS
 
         private GridMap gridMap;
         private GameConfig.GameState gameState;
-        private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
+        private Dictionary<long, EnemyObj> enemyObjDic = new Dictionary<long, EnemyObj>();
         private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
         public Dictionary<long, HeroObj> HeroObjDic { get { return heroObjDic; } } 
+        public Dictionary<long, EnemyObj> EnemyObjDic { get { return enemyObjDic; } }
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -159,8 +160,8 @@ namespace SS
 
         public void AddEnemyObj()
         {
-            var enemyData = SS.UserData.Instance.AddHeroData(0);
-            MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            var enemyData = SS.UserData.Instance.AddEnemyData(0);
+            EnemyObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
             moveObj.InitData(enemyData.uid, gridMap, startPos, endPos);
             enemyObjDic.Add(moveObj.UnitUID, moveObj);
         }

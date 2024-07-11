@@ -37,7 +37,7 @@ public class MoveObj : Boids2D
     private float attackDelay;
     protected SS.UnitData unitData;
     protected bool isHero;
-    private void Awake()
+    protected virtual void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         if (animator != null)
@@ -239,39 +239,9 @@ public class MoveObj : Boids2D
         }
     }
 
-    protected virtual  HeroObj SearchEnemy()
+    protected virtual MoveObj SearchEnemy()
     {
-        HeroObj targetObj = default;
-        float distTarget = 0;
-        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
-        
-        foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
-        {
-            if (enemyObj != null)
-            {
-                if (SS.UserData.Instance.GetHeroData(enemyObj.UnitUID) == null)
-                {
-                    Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
-                    continue;
-                }
-                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
-                if (targetObj == default)
-                {
-                    targetObj = enemyObj;
-                    distTarget = dist;
-                }
-                else
-                {
-                    if (distTarget > dist)
-                    {
-                        // change Target
-                        targetObj = enemyObj;
-                        distTarget = dist;
-                    }
-                }
-            }
-        }
-        return targetObj;
+        return default;
     }
 
     private bool CheckTargetRange()
