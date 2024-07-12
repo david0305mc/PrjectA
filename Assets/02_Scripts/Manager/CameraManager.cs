@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CameraManager : SingletonMono<DragTestCamaera>
+public class CameraManager : SingletonMono<CameraManager>
 {
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private Camera mainCamera;
@@ -18,7 +18,7 @@ public class CameraManager : SingletonMono<DragTestCamaera>
     [SerializeField] private HeroObj unitIconPrefab;
     [SerializeField] private Transform worldRoot;
     private HeroObj selectedObject;
-
+    public Vector2Int TestTarget = new Vector2Int(0, 0);
 
     private void Update()
     {
@@ -84,7 +84,7 @@ public class CameraManager : SingletonMono<DragTestCamaera>
             {
                 dragStarted = false;
                 // selectedObject Targeting Move
-                var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);    
+                var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
                 if (obj != null)
                 {
                     var tileObj = obj.GetComponent<TileObject>();
@@ -96,7 +96,16 @@ public class CameraManager : SingletonMono<DragTestCamaera>
                 }
                 selectedObject = null;
             }
-
+            else
+            {
+                var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
+                if (obj != null)
+                {
+                    var tileObj = obj.GetComponent<TileObject>();
+                    TestTarget = new Vector2Int(tileObj.X, tileObj.Y);
+                    MessageDispather.Publish(EMessage.UpdateTile, 1);
+                }
+            }
             //groundDragStarted = false;
             //dragStartPos = PositiveInfinityVector;
         }

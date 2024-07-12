@@ -45,24 +45,6 @@ public class MoveObj : Boids2D
             animationLink = animator.GetComponent<AnimationLink>();
             renderRoot = animator.transform;
         }
-
-
-        compositeDisposable?.Clear();
-        compositeDisposable = new CompositeDisposable();
-        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
-        {
-            if (!isActive)
-                return;
-            if (fsm != null && fsm.State == UnitStates.Move)
-            {
-
-                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-                RefreshPath(x, y, endTile.X, endTile.Y);
-            }
-        }).AddTo(compositeDisposable);
     }
     private void Update()
     {
@@ -106,7 +88,7 @@ public class MoveObj : Boids2D
             // GetOuterCells
             // finding nearest outer cell
 
-            RefreshPath(currTileX, currTileY, targetEnemy.currTileX, targetEnemy.currTileX);
+            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY);
             fsm.ChangeState(UnitStates.Move);
 
             //compositeDisposable?.Clear();
@@ -126,6 +108,7 @@ public class MoveObj : Boids2D
         }
         //else
         //{
+        //    endTile = gridMap.Tiles[CameraManager.Instance.TestTarget.x, CameraManager.Instance.TestTarget.y];
         //    RefreshPath(currTileX, currTileY, endTile.X, endTile.Y);
         //    fsm.ChangeState(UnitStates.Move);
         //}
@@ -134,6 +117,23 @@ public class MoveObj : Boids2D
     {
         Debug.Log("Move_Enter");
         PlayAni("Walk");
+        compositeDisposable?.Clear();
+        compositeDisposable = new CompositeDisposable();
+        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        {
+            if (!isActive)
+                return;
+            if (fsm != null)
+            {
+
+                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+
+                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
+                //RefreshPath(x, y, endTile.X, endTile.Y);
+                RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY);
+            }
+        }).AddTo(compositeDisposable);
     }
     protected void Move_Update()
     {
@@ -145,6 +145,10 @@ public class MoveObj : Boids2D
         {
             MoveEvent();
         }
+    }
+    protected void Move_Exit()
+    {
+        compositeDisposable?.Clear();
     }
     //protected void Move_FixedUpdate()
     //{
@@ -296,12 +300,13 @@ public class MoveObj : Boids2D
         if (distToTarget.magnitude < 0.05f)
         {
             targetNodeIndex++;
-
+            MessageDispather.Publish(EMessage.UpdateTile, 1);
             if (targetNodeIndex >= pathList.Count)
             {
                 Debug.LogError("Complete");
-                Lean.Pool.LeanPool.Despawn(gameObject);
-                isActive = false;
+                //Lean.Pool.LeanPool.Despawn(gameObject);
+                //isActive = false;
+                fsm.ChangeState(UnitStates.Idle);
                 return;
             }
             distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
