@@ -281,6 +281,7 @@ MonoBehaviour:
   m_DontDestroyOnLoad: 1
   unitIconPrefab: {fileID: 2025629594896566305, guid: 51060ab157b5f794ca4f783b9dd80960, type: 3}
   worldRoot: {fileID: 1955878364}
+  TestTarget: {x: 0, y: 0}
 --- !u!1001 &273100694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -571,6 +572,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1560306969}
     m_Modifications:
+    - target: {fileID: 1963376397056706870, guid: a8b0ff180049de1419b133402ed370d6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8753300a26dcaf34baa74fe9853c607c, type: 3}
+    - target: {fileID: 5502047698683431241, guid: a8b0ff180049de1419b133402ed370d6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6531581660307359226, guid: a8b0ff180049de1419b133402ed370d6, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -1091,14 +1091,14 @@ public partial class MGameManager : SingletonMono<MGameManager>
                 if (GameTime.Get() < timeStamp && count < 10)
                 {
                     count++;
-                    NotificationManager.Instance.SendNotification(LocalizeManager.Instance.GetLocalString(item.title), LocalizeManager.Instance.GetLocalString(item.message), rewardTime);
+                    //NotificationManager.Instance.SendNotification(LocalizeManager.Instance.GetLocalString(item.title), LocalizeManager.Instance.GetLocalString(item.message), rewardTime);
                 }
             }
             UserData.Instance.SaveLocalData();
         }
         else
         {
-            NotificationManager.Instance.FlushNotifications();
+            //NotificationManager.Instance.FlushNotifications();
             UserData.Instance.OfflineTimeSeconds = GameTime.Get() - UserData.Instance.LocalData.LastLoginTime;
             UniTask.Create(async () =>
             {

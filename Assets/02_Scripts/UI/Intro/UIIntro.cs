@@ -35,8 +35,8 @@ public class UIIntro : MonoBehaviour
     private void InitNotification()
     {
         NotificationManager.Instance.RequestAuthorization();
-        NotificationManager.Instance.Initialize();
-        NotificationManager.Instance.FlushNotifications();
+        //NotificationManager.Instance.Initialize();
+        //NotificationManager.Instance.FlushNotifications();
         NotificationManager.Instance.RegisterNotificationChannel();
     }
 
