@@ -38,7 +38,6 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: f7f531215b0fd4743a752404ed806ecd, type: 3}
   - {fileID: -1174489575, guid: 73dee19142136a945a5d2ea2eb878a69, type: 3}
   - {fileID: -1917591836, guid: 73dee19142136a945a5d2ea2eb878a69, type: 3}
   - {fileID: 1932813328, guid: 73dee19142136a945a5d2ea2eb878a69, type: 3}
@@ -205,7 +204,6 @@ SpriteAtlas:
   - {fileID: -539097477, guid: 6d954fef8824f3a4fae851b846daf74d, type: 3}
   - {fileID: 1365146396, guid: 6d954fef8824f3a4fae851b846daf74d, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Character_Circle
   - character_Goblin_Stone_1
   - character_Goblin_Stone_0
   - character_Goblin_Stone_3
