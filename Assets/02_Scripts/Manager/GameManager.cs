@@ -132,23 +132,41 @@ namespace SS
             //RemoveAllEnemy();
             //RemoveAllProjectile();
         }
-        
-        public void EnemyAttackHero(long _heroID)
+
+        public void HeroAttackEnemy(long _enemyUID)
         {
-            var heroData = UserData.Instance.GetHeroData(_heroID);
-            if (heroData == null)
+            var enemyData = UserData.Instance.GetEnemyData(_enemyUID);
+            if (enemyData == null)
             {
-                Debug.LogError($"heroObjDic.ContainsKey {_heroID}");
+                Debug.LogError($"heroObjDic.ContainsKey {_enemyUID}");
                 return;
             }
-            var heroObj = heroObjDic[_heroID];
-            UserData.Instance.AttackToHero(_heroID, 1);
+            var enemyObj = enemyObjDic[_enemyUID];
+            UserData.Instance.AttackToEnemy(_enemyUID, 1);
+            enemyObj.GetAttacked();
+            if (enemyData.state == UnitDataStates.Dead)
+            {
+                Lean.Pool.LeanPool.Despawn(enemyObj);
+                enemyObjDic.Remove(_enemyUID);
+                UserData.Instance.RemoveEnemyData(_enemyUID);
+            }
+        }
+        public void EnemyAttackHero(long _heroUID)
+        {
+            var heroData = UserData.Instance.GetHeroData(_heroUID);
+            if (heroData == null)
+            {
+                Debug.LogError($"heroObjDic.ContainsKey {_heroUID}");
+                return;
+            }
+            var heroObj = heroObjDic[_heroUID];
+            UserData.Instance.AttackToHero(_heroUID, 1);
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {
                 Lean.Pool.LeanPool.Despawn(heroObj);
-                heroObjDic.Remove(_heroID);
-                UserData.Instance.RemoveHeroData(_heroID);
+                heroObjDic.Remove(_heroUID);
+                UserData.Instance.RemoveHeroData(_heroUID);
             }
         }
 
@@ -156,7 +174,7 @@ namespace SS
         {
             var heroData = SS.UserData.Instance.AddHeroData(0);
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
-            _obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(7, 7));
+            _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 
@@ -164,7 +182,7 @@ namespace SS
         {
             var enemyData = SS.UserData.Instance.AddEnemyData(0);
             EnemyObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
-            moveObj.InitData(enemyData.uid, gridMap, startPos, endPos);
+            moveObj.InitData(false, enemyData.uid, gridMap, startPos, endPos);
             enemyObjDic.Add(moveObj.UnitUID, moveObj);
         }
     }

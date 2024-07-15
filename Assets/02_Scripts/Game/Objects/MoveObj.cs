@@ -78,7 +78,7 @@ public class MoveObj : Boids2D
     }
     protected void Idle_Update()
     {
-        MoveObj targetEnemy = SearchEnemy();
+        MoveObj targetEnemy = SearchTarget();
 
         if (targetEnemy != default)
         {
@@ -172,8 +172,28 @@ public class MoveObj : Boids2D
         }
     }
 
-    protected virtual void DoAttack()
+    protected void DoAttack()
     {
+        if (targetObj == null)
+        {
+            return;
+        }
+        if (isHero)
+        {
+            SS.GameManager.Instance.HeroAttackEnemy(targetObj.UnitUID);
+            if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == null)
+            {
+                fsm.ChangeState(UnitStates.Idle);
+            }
+        }
+        else
+        {
+            SS.GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
+            if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == null)
+            {
+                fsm.ChangeState(UnitStates.Idle);
+            }
+        }
     }
 
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
@@ -234,9 +254,18 @@ public class MoveObj : Boids2D
             }
         }
     }
-
-    public virtual void InitData(long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    public void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
+        isHero = _isHero;
+        if (_isHero)
+        {
+            unitData = SS.UserData.Instance.GetHeroData(_unitUID);
+        }
+        else
+        {
+            unitData = SS.UserData.Instance.GetEnemyData(_unitUID);
+        }
+        
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
@@ -266,9 +295,79 @@ public class MoveObj : Boids2D
         }
     }
 
-    protected virtual MoveObj SearchEnemy()
+    private MoveObj SearchTarget()
     {
-        return default;
+        if (isHero)
+            return SearchEnemy();
+        return SearchHero();
+    }
+    private MoveObj SearchEnemy()
+    {
+        MoveObj targetObj = default;
+        float distTarget = 0;
+        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
+
+        foreach (var enemyObj in SS.GameManager.Instance.EnemyObjDic.Values)
+        {
+            if (enemyObj != null)
+            {
+                if (SS.UserData.Instance.GetEnemyData(enemyObj.UnitUID) == null)
+                {
+                    Debug.LogError($"battleEnemyDataDic not found {enemyObj.UnitUID}");
+                    continue;
+                }
+                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
+                if (targetObj == default)
+                {
+                    targetObj = enemyObj;
+                    distTarget = dist;
+                }
+                else
+                {
+                    if (distTarget > dist)
+                    {
+                        // change Target
+                        targetObj = enemyObj;
+                        distTarget = dist;
+                    }
+                }
+            }
+        }
+        return targetObj;
+    }
+    private MoveObj SearchHero()
+    {
+        MoveObj targetObj = default;
+        float distTarget = 0;
+        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
+
+        foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
+        {
+            if (enemyObj != null)
+            {
+                if (SS.UserData.Instance.GetHeroData(enemyObj.UnitUID) == null)
+                {
+                    Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
+                    continue;
+                }
+                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
+                if (targetObj == default)
+                {
+                    targetObj = enemyObj;
+                    distTarget = dist;
+                }
+                else
+                {
+                    if (distTarget > dist)
+                    {
+                        // change Target
+                        targetObj = enemyObj;
+                        distTarget = dist;
+                    }
+                }
+            }
+        }
+        return targetObj;
     }
 
     private bool CheckTargetRange()
@@ -385,4 +484,5 @@ public class MoveObj : Boids2D
             return;
         hpBar.value = (float)unitData.hp / unitData.maxHp;
     }
+
 }

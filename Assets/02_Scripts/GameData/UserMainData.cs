@@ -37,6 +37,20 @@ namespace SS
             battleHeroDataDic.Remove(_uid);
         }
 
+        public void RemoveEnemyData(long _uid)
+        {
+            enemyDataDic.Remove(_uid);
+        }
+
+        public void AttackToEnemy(long _enemyUID, int _amt)
+        {
+            var enemyData = enemyDataDic[_enemyUID];
+            enemyData.hp -= _amt;
+            if (enemyData.hp <= 0)
+            {
+                enemyData.state = UnitDataStates.Dead;
+            }
+        }
         public void AttackToHero(long _heroUID, int _amt)
         {
             var heroData = battleHeroDataDic[_heroUID];
