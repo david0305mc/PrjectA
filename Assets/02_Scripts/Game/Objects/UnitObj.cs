@@ -7,7 +7,7 @@ using MonsterLove.StateMachine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
-public class MoveObj : Boids2D
+public class UnitObj : Boids2D
 {
     public class Driver
     {
@@ -34,7 +34,7 @@ public class MoveObj : Boids2D
     private int currTileX;
     private int currTileY;
     private CompositeDisposable compositeDisposable;
-    protected MoveObj targetObj;      // null???? endTile
+    protected UnitObj targetObj;      // null???? endTile
     private float attackDelay;
     protected SS.UnitData unitData;
     protected bool isHero;
@@ -79,7 +79,7 @@ public class MoveObj : Boids2D
     }
     protected void Idle_Update()
     {
-        MoveObj targetEnemy = SearchTarget();
+        UnitObj targetEnemy = SearchTarget();
 
         if (targetEnemy != default)
         {
@@ -127,19 +127,22 @@ public class MoveObj : Boids2D
                 return;
             if (!isActive)
                 return;
+            if (isHero)
+            {
+                if (SS.UserData.Instance.GetHeroData(UnitUID) == default)
+                    return;
+                if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
+                    return;
+            }
+            else
+            {
+                if (SS.UserData.Instance.GetEnemyData(UnitUID) == default)
+                    return;
+                if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
+                    return;
+            }
             if (fsm != null)
             {
-                if (isHero)
-                {
-                    if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
-                        return;
-                }
-                else
-                {
-                    if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
-                        return;
-                }
-
                 int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
                 int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
@@ -231,7 +234,15 @@ public class MoveObj : Boids2D
             }
         }
 
-        pathList = pathFinder.FindPath();
+        try
+        {
+            pathList = pathFinder.FindPath();
+        }
+        catch
+        { 
+            Debug.LogError("pathFinder.FindPath");
+        }
+        
         targetNodeIndex = 0;
         currNodeIndex = -1;
 
@@ -309,15 +320,15 @@ public class MoveObj : Boids2D
         }
     }
 
-    private MoveObj SearchTarget()
+    private UnitObj SearchTarget()
     {
         if (isHero)
             return SearchEnemy();
         return SearchHero();
     }
-    private MoveObj SearchEnemy()
+    private UnitObj SearchEnemy()
     {
-        MoveObj targetObj = default;
+        UnitObj targetObj = default;
         float distTarget = 0;
         //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
 
@@ -349,9 +360,9 @@ public class MoveObj : Boids2D
         }
         return targetObj;
     }
-    private MoveObj SearchHero()
+    private UnitObj SearchHero()
     {
-        MoveObj targetObj = default;
+        UnitObj targetObj = default;
         float distTarget = 0;
         //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
 

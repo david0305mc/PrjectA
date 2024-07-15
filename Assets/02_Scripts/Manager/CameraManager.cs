@@ -15,9 +15,9 @@ public class CameraManager : SingletonMono<CameraManager>
     private Vector3 dragStartInputPos;
     private bool dragStarted;
 
-    [SerializeField] private MoveObj unitIconPrefab;
+    [SerializeField] private UnitObj unitIconPrefab;
     [SerializeField] private Transform worldRoot;
-    private MoveObj selectedObject;
+    private UnitObj selectedObject;
     public Vector2Int TestTarget = new Vector2Int(0, 0);
 
     private void Update()
