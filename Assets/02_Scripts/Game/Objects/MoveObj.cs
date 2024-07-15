@@ -5,6 +5,7 @@ using FT;
 using UniRx;
 using MonsterLove.StateMachine;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 public class MoveObj : Boids2D
 {
@@ -113,6 +114,7 @@ public class MoveObj : Boids2D
         //    fsm.ChangeState(UnitStates.Move);
         //}
     }
+
     protected void Move_Enter()
     {
         Debug.Log("Move_Enter");
@@ -121,10 +123,22 @@ public class MoveObj : Boids2D
         compositeDisposable = new CompositeDisposable();
         MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
         {
+            if (targetObj == null)
+                return;
             if (!isActive)
                 return;
             if (fsm != null)
             {
+                if (isHero)
+                {
+                    if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
+                        return;
+                }
+                else
+                {
+                    if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
+                        return;
+                }
 
                 int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
                 int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
@@ -483,6 +497,24 @@ public class MoveObj : Boids2D
         if (hpBar == null)
             return;
         hpBar.value = (float)unitData.hp / unitData.maxHp;
+    }
+
+    public void DragToTarget(Vector2 _target, System.Action _callback)
+    {
+
+        //fsm = StateMachine<UnitStates>.Initialize(this, UnitStates.Drag);
+
+        UniTask.Create(async () =>
+        {
+            while (Vector2.Distance(transform.position, _target) > 0.1f)
+            {
+                await UniTask.Yield();
+                var newPos = Vector2.MoveTowards(transform.position, _target, 3f * Time.deltaTime);
+                transform.position = newPos;
+            }
+            _callback?.Invoke();
+        });
+        transform.position = _target;
     }
 
 }

@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 4802356352337084507}
   - component: {fileID: 4188738569121616669}
   - component: {fileID: 4245658507267085169}
-  - component: {fileID: 2025629594896566305}
+  - component: {fileID: -685380939219837733}
   m_Layer: 13
   m_Name: Hero01
   m_TagString: Untagged
@@ -222,7 +222,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2025629594896566305
+--- !u!114 &-685380939219837733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4802356352337084481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6fbb98e17678e4dbc481ef3d3637c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 4188738569121616669}
@@ -245,9 +245,7 @@ MonoBehaviour:
   _turnSpeed: 3
   _forwardSpeed: 3
   boidsObjList: []
-  hpBar: {fileID: 1150130642449733621}
-  TileX: 0
-  TileY: 0
+  hpBar: {fileID: 0}
 --- !u!1 &4802356352436331195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,17 +1425,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
---- !u!114 &1150130642449733621 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4566627910256913786, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
-  m_PrefabInstance: {fileID: 3506613449142401679}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7714687832862348462 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6609575542628068897, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}

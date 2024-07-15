@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  unitIconPrefab: {fileID: 2025629594896566305, guid: 51060ab157b5f794ca4f783b9dd80960, type: 3}
+  unitIconPrefab: {fileID: -685380939219837733, guid: 51060ab157b5f794ca4f783b9dd80960, type: 3}
   worldRoot: {fileID: 1955878364}
   TestTarget: {x: 0, y: 0}
 --- !u!1001 &273100694
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  testMoveObjPrefab: {fileID: 4796987728776485775, guid: cb1e39f12bc7acd4697b42e873087812, type: 3}
+  testMoveObjPrefab: {fileID: 2657120043920418800, guid: cb1e39f12bc7acd4697b42e873087812, type: 3}
   startPos: {x: 5, y: 12}
   endPos: {x: 3, y: 0}
   objRoot: {fileID: 684310350}

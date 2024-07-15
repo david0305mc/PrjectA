@@ -15,9 +15,9 @@ public class CameraManager : SingletonMono<CameraManager>
     private Vector3 dragStartInputPos;
     private bool dragStarted;
 
-    [SerializeField] private HeroObj unitIconPrefab;
+    [SerializeField] private MoveObj unitIconPrefab;
     [SerializeField] private Transform worldRoot;
-    private HeroObj selectedObject;
+    private MoveObj selectedObject;
     public Vector2Int TestTarget = new Vector2Int(0, 0);
 
     private void Update()
@@ -88,13 +88,16 @@ public class CameraManager : SingletonMono<CameraManager>
                 if (obj != null)
                 {
                     var tileObj = obj.GetComponent<TileObject>();
-                    selectedObject.DragToTarget(tileObj.transform.position, tileObj.X, tileObj.Y);
+                    selectedObject.DragToTarget(tileObj.transform.position, ()=> {
+                        SS.GameManager.Instance.AddHeroObj(selectedObject, tileObj.X, tileObj.Y);
+                        selectedObject = null;
+                    });
                 }
                 else
                 {
                     Lean.Pool.LeanPool.Despawn(selectedObject);
+                    selectedObject = null;
                 }
-                selectedObject = null;
             }
             else
             {

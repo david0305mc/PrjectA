@@ -10,7 +10,7 @@ namespace SS
 {
     public partial class GameManager : SingletonMono<GameManager>
     {
-        [SerializeField] private EnemyObj testMoveObjPrefab;
+        [SerializeField] private MoveObj testMoveObjPrefab;
         [SerializeField] private Vector2Int startPos;
         [SerializeField] private Vector2Int endPos;
 
@@ -23,10 +23,10 @@ namespace SS
         private GridMap gridMap;
         public GridMap GridMap { get { return gridMap; } }
         private GameConfig.GameState gameState;
-        private Dictionary<long, EnemyObj> enemyObjDic = new Dictionary<long, EnemyObj>();
-        private Dictionary<long, HeroObj> heroObjDic = new Dictionary<long, HeroObj>();
-        public Dictionary<long, HeroObj> HeroObjDic { get { return heroObjDic; } } 
-        public Dictionary<long, EnemyObj> EnemyObjDic { get { return enemyObjDic; } }
+        private Dictionary<long, MoveObj> enemyObjDic = new Dictionary<long, MoveObj>();
+        private Dictionary<long, MoveObj> heroObjDic = new Dictionary<long, MoveObj>();
+        public Dictionary<long, MoveObj> HeroObjDic { get { return heroObjDic; } } 
+        public Dictionary<long, MoveObj> EnemyObjDic { get { return enemyObjDic; } }
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -170,18 +170,18 @@ namespace SS
             }
         }
 
-        public void AddHeroObj(HeroObj _obj)
+        public void AddHeroObj(MoveObj _obj, int _gridX, int _gridY)
         {
             var heroData = SS.UserData.Instance.AddHeroData(0);
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
-            _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(7, 7));
+            _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 
         public void AddEnemyObj()
         {
             var enemyData = SS.UserData.Instance.AddEnemyData(0);
-            EnemyObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            MoveObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
             moveObj.InitData(false, enemyData.uid, gridMap, startPos, endPos);
             enemyObjDic.Add(moveObj.UnitUID, moveObj);
         }

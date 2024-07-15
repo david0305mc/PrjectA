@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 846166027004553642}
   - component: {fileID: 846166027004553641}
   - component: {fileID: 846166027004553640}
-  - component: {fileID: 5503500525183818533}
+  - component: {fileID: 1636159152911293203}
   m_Layer: 13
   m_Name: Hero02
   m_TagString: Untagged
@@ -523,7 +523,7 @@ SortingGroup:
   m_SortingLayerID: 1183348365
   m_SortingLayer: 1
   m_SortingOrder: 1
---- !u!114 &5503500525183818533
+--- !u!114 &1636159152911293203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 846166027004553647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6fbb98e17678e4dbc481ef3d3637c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 846166027004553642}
@@ -547,8 +547,6 @@ MonoBehaviour:
   _forwardSpeed: 3
   boidsObjList: []
   hpBar: {fileID: 846166027167954329}
-  TileX: 0
-  TileY: 0
 --- !u!1 &846166027167954335
 GameObject:
   m_ObjectHideFlags: 0

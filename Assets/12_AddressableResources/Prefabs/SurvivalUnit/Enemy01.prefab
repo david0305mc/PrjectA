@@ -620,7 +620,7 @@ GameObject:
   - component: {fileID: 1203326412667898320}
   - component: {fileID: 1203326412667898323}
   - component: {fileID: 1203326412667898322}
-  - component: {fileID: 4796987728776485775}
+  - component: {fileID: 2657120043920418800}
   m_Layer: 13
   m_Name: Enemy01
   m_TagString: Untagged
@@ -704,7 +704,7 @@ SortingGroup:
   m_SortingLayerID: 1183348365
   m_SortingLayer: 1
   m_SortingOrder: 1
---- !u!114 &4796987728776485775
+--- !u!114 &2657120043920418800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1203326412667898325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6136487ca4455748b7572437b5428ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 1203326412667898320}
