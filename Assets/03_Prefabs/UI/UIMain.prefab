@@ -900,6 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3a84f7442124d4fafa3a221bbb54d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testUnitTIDList: d1070000d2070000d3070000d4070000
   unitSlotList:
   - {fileID: 3120575791093639392}
   - {fileID: 1750950271510277750}
