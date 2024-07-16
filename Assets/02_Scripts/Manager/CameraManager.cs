@@ -41,11 +41,11 @@ public class CameraManager : SingletonMono<CameraManager>
             return;
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject hitObj = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
-            if (hitObj != null)
+            var uiUnitSlot = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
+            if (uiUnitSlot != null)
             {
                 //selectedObject = hitObj;
-
+                
                 dragStartInputPos = Input.mousePosition;
                 dragStarted = true;
 
@@ -142,17 +142,17 @@ public class CameraManager : SingletonMono<CameraManager>
         return null;
     }
 
-    public GameObject TryGetRayCastUIItem(Vector2 _touchPoint, string _layerName)
+    public UIUnitSlot TryGetRayCastUIItem(Vector2 _touchPoint, string _layerName)
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = new Vector2(_touchPoint.x, _touchPoint.y);
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 
-        var itemLayerList = results.Where(item => item.gameObject.layer == LayerMask.NameToLayer(_layerName));
+        var itemLayerList = results.Where(item => item.gameObject.layer == LayerMask.NameToLayer(_layerName) && item.gameObject.GetComponent<UIUnitSlot>() != null);
         if (itemLayerList.Count() > 0)
         {
-            return itemLayerList.First().gameObject;
+            return itemLayerList.First().gameObject.GetComponent<UIUnitSlot>();
         }
 
         return null;

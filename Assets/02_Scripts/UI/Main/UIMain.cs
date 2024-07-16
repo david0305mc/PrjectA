@@ -11,7 +11,26 @@ public class UIMain : SingletonMono<UIMain>
     [SerializeField] private UIDamageText uiDamageTextPref;
 
     [SerializeField] private Canvas worldCanvas;
+    [SerializeField] private Button startSpaceAreaBtn;
+    
+    [SerializeField] private GameObject ingameUI;
+    [SerializeField] private GameObject worldUI;
+    [SerializeField] private Button testSpawnBtn;
 
+    private void Awake()
+    {
+        ingameUI.SetActive(false);
+        startSpaceAreaBtn.onClick.AddListener(() =>
+        {
+            SS.GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
+            ingameUI.SetActive(true);
+        });
+
+        testSpawnBtn.onClick.AddListener(() =>
+        {
+            SS.GameManager.Instance.AddEnemyObj();
+        });
+    }
 
     public void SetUIWorldPosToCameraPos(RectTransform ui, Vector2 _worldPos)
     {

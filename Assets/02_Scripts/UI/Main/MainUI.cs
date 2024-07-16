@@ -33,7 +33,6 @@ public class MainUI : MonoBehaviour
     [SerializeField] private Button attendanceButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button testLevelBtn;
-    [SerializeField] private Button startSpaceAreaBtn;
 
     [SerializeField] private GameObject subMenuObject;
 
@@ -53,10 +52,6 @@ public class MainUI : MonoBehaviour
         optionButton.onClick.AddListener(() =>
         {
             PopupManager.Instance.Show<OptionPopup>();
-        });
-        startSpaceAreaBtn.onClick.AddListener(() =>
-        {
-            SS.GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
         });
     }
     private void OnEnable()

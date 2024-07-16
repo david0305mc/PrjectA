@@ -6,22 +6,30 @@ using System.Linq;
 
 public class BattleUI : MonoBehaviour
 {
-    [SerializeField] private Image unitIconImage;
-    [SerializeField] private Image unitBGImage;
-    private UnitData unitData;
+    [SerializeField] private List<UIUnitSlot> unitSlotList;
 
     private void Start()
     {
-        UpdateUI();
+        CreateUnitSlot();
     }
 
-    private void UpdateUI()
+    private void CreateUnitSlot()
     {
-        unitData = UserData.Instance.LocalData.HeroDataDic.Values.First();
+        var heroDataList = UserData.Instance.LocalData.HeroDataDic.ToList();
 
-        unitIconImage.sprite = MResourceManager.Instance.GetSpriteFromAtlas(unitData.refData.thumbnailpath);
-        unitBGImage.sprite = MResourceManager.Instance.GetBuildAtlas($"RatingBG_{(int)unitData.refData.unitrarity}");
+        for (int i = 0; i < unitSlotList.Count; i++)
+        {
+            if (heroDataList.Count < i)
+            {
+                unitSlotList[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                unitSlotList[i].gameObject.SetActive(true);
+                unitSlotList[i].SetData(heroDataList[i].Value.refData.id);
+            }
+        }
+            
     }
-
 
 }
