@@ -224,7 +224,23 @@ public class UnitObj : Boids2D
 
     private bool HasPath(int _startX, int _startY, int _endX, int _endY)
     {
-        return true;
+        pathFinder.Clear();
+        pathFinder.SetStartNode(_startX, _startY);
+        pathFinder.SetEndNode(_endX, _endY);
+
+        foreach (var item in gridMap.Tiles)
+        {
+            if (item.tileType == TileType.Block)
+            {
+                pathFinder.RefreshWalkable(item.X, item.Y, false);
+            }
+            else
+            {
+                pathFinder.RefreshWalkable(item.X, item.Y, true);
+            }
+        }
+
+        return pathFinder.FindPath().Count > 0;
     }
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
     {
@@ -347,14 +363,14 @@ public class UnitObj : Boids2D
     private UnitObj SearchTarget()
     {
         UnitObj obj = SearchNearestOpponent();
-        if (!HasPath(1, 1, 1, 1))
-        { 
-        
+        if (obj != null && !HasPath(currTileX, currTileY, obj.currTileX, obj.currTileY))
+        {
+            obj = SearchNearestOpponent(true);
         }
         return obj;
     }
 
-    private UnitObj SearchNearestOpponent()
+    private UnitObj SearchNearestOpponent(bool _passBuilding = false)
     {
         UnitObj targetObj = default;
         float distTarget = 0;
@@ -390,10 +406,14 @@ public class UnitObj : Boids2D
                 }
             }
 
-            if (opponentObj.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+            if (!_passBuilding)
             {
-                continue;
+                if (opponentObj.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+                {
+                    continue;
+                }
             }
+            
 
             float dist = Vector2.Distance(opponentObj.Value.transform.position, transform.position);
             if (targetObj == default)
