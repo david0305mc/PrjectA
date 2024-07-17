@@ -9,6 +9,7 @@ slot_anim_type|Active|1|활성화 됨|||
 slot_anim_type|UnActive|2|비활성화 됨|||
 unit_type|tanker|0|탱커|||
 unit_type|archer|1|궁수|||
+unit_type|building|2|건물|||
 item_type|unit|0|조각|||
 item_type|soul|1|영혼 아이템 (재화)|||
 item_type|exp|2|경험치|||

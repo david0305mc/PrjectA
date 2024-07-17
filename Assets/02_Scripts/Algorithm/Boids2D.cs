@@ -5,7 +5,9 @@ using UnityEngine;
 public class Boids2D : MonoBehaviour
 {
 
-    [SerializeField] protected Rigidbody2D _rigidbody2D;
+    // Component
+    protected Rigidbody2D _rigidbody2D;
+
     [SerializeField] protected bool isBoidsAlgorithm;
     public List<Transform> WayPointList;
 
@@ -19,6 +21,10 @@ public class Boids2D : MonoBehaviour
 
     public List<Boids2D> boidsObjList;
 
+    protected virtual void Awake()
+    {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
     protected Vector2 CalculateBoidsAlgorithm(Vector2 target)
     {
         List<Boids2D> neighboringFish_list = GetNeighboringFishList();

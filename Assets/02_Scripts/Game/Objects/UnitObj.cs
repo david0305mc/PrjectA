@@ -15,7 +15,10 @@ public class UnitObj : Boids2D
         public StateEvent FixedUpdate;
     }
 
-    [SerializeField] protected Slider hpBar;
+    public int TID { get; set; }
+    // Component
+    private Canvas canvas;
+    private Slider hpBar;
 
     protected Animator animator;
     protected AnimationLink animationLink;
@@ -38,14 +41,20 @@ public class UnitObj : Boids2D
     private float attackDelay;
     protected SS.UnitData unitData;
     protected bool isHero;
-    protected virtual void Awake()
+
+    
+
+    protected override void Awake()
     {
+        base.Awake();
         animator = GetComponentInChildren<Animator>();
         if (animator != null)
         {
             animationLink = animator.GetComponent<AnimationLink>();
             renderRoot = animator.transform;
         }
+        canvas = GetComponentInChildren<Canvas>();
+        hpBar = canvas.GetComponentInChildren<Slider>();
     }
     private void Update()
     {
@@ -306,9 +315,12 @@ public class UnitObj : Boids2D
         currTileX = _startTile.x;
         currTileY = _startTile.y;
         transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-        fsm = new StateMachine<UnitStates, Driver>(this);
-        fsm.ChangeState(UnitStates.Idle);
         UpdateUI();
+        if (unitData.refData.unit_type != UNIT_TYPE.BUILDING)
+        {
+            fsm = new StateMachine<UnitStates, Driver>(this);
+            fsm.ChangeState(UnitStates.Idle);
+        }
     }
 
 

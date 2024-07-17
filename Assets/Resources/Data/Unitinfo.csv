@@ -43,11 +43,11 @@ int|string|string|unit_type|int|int|int|int|rarity_type|string|string|string|str
 11009|Indian_Flag_Alter|(근거리)Indian_Flag_Alter|0|50|-1|1|20|0|name_11009|unit_icon_11009|Unit/Enemy/Chapter_1_Object/11009_Indian_Flag_Alter.prefab|Prefabs/Particle/Flag_Change_Effect_01
 11010|Indian_House|(근거리)Indian_House|0|50|-1|1|20|0|name_11010|unit_icon_11010|Unit/Enemy/Chapter_1_Object/11010_Indian_House.prefab|Prefabs/Particle/Building_Destory_Effect_01
 11011|Indian_Fire|(근거리)Indian_Fire|0|50|-1|1|20|0|name_11011|unit_icon_11011|Unit/Enemy/Chapter_1_Object/11011_Indian_Fire.prefab|Prefabs/Particle/Building_Destory_Effect_01
-11012|Indian_Wall_2|(근거리)Indian_Wall_2|0|50|-1|1|20|0|name_11012|unit_icon_11012|Unit/Enemy/Chapter_1_Object/11012_Indian_Wall_2.prefab|Prefabs/Particle/Building_Destory_Effect_01
+11012|Indian_Wall_2|(근거리)Indian_Wall_2|2|50|-1|1|20|0|name_11012|unit_icon_2030|Unit/Enemy/Chapter_1_Object/11012_Indian_Wall_2.prefab|Prefabs/Particle/Building_Destory_Effect_01
 20001|DevilCastle|(근거리)DevilCastle|0|50|1|1|20|3|name_20001|unit_icon_20001|Unit/Hero/20001_DevilCastle.prefab|Prefabs/Particle/Building_Destory_Effect_01
 2001|Slime|(근거리)Slime|0|50|1|1|20|0|name_2001|unit_icon_2001|Unit/Hero/2001_Slime.prefab|Prefabs/Particle/Enemy_Die_Effect
 2002|Slime_Archer|(원거리)Slime_Archer|1|50|1|1|20|0|name_2002|unit_icon_2002|Unit/Hero/2002_Slime_Archer.prefab|Prefabs/Particle/Enemy_Die_Effect
-2003|Skeleton_Sword|(근거리)Skeleton_Sword|0|50|1|1|20|0|name_2003|unit_icon_2003|Unit/Hero/2003_Skeleton_Sword.prefab|Prefabs/Particle/Enemy_Die_Effect
+2003|Skeleton_Sword|(근거리)Skeleton_Sword|2|50|1|1|20|0|name_2003|unit_icon_2003|Unit/Hero/2003_Skeleton_Sword.prefab|Prefabs/Particle/Enemy_Die_Effect
 2004|Skeleton_Archer|(원거리)Skeleton_Archer|1|50|1|1|20|0|name_2004|unit_icon_2004|Unit/Hero/2004_Skeleton_Archer.prefab|Prefabs/Particle/Enemy_Die_Effect
 2005|Skeleton_Witch|(원거리)Skeleton_Witch|1|50|1|1|20|0|name_2005|unit_icon_2005|Unit/Hero/2005_Skeleton_Witch.prefab|Prefabs/Particle/Enemy_Die_Effect
 2006|Zombie_Hand|(근거리)Zombie_Hand|0|50|1|1|20|0|name_2006|unit_icon_2006|Unit/Hero/2006_Zombie_Hand.prefab|Prefabs/Particle/Enemy_Die_Effect

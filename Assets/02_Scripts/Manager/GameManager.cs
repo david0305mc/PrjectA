@@ -170,17 +170,17 @@ namespace SS
             }
         }
 
-        public void AddHeroObj(UnitObj _obj, int _gridX, int _gridY)
+        public void AddHeroObj(UnitObj _obj, int _tid, int _gridX, int _gridY)
         {
-            var heroData = SS.UserData.Instance.AddHeroData(0);
+            var heroData = SS.UserData.Instance.AddHeroData(_tid);
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
             _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 
-        public void AddEnemyObj()
+        public void AddEnemyObj(int _tid)
         {
-            var enemyData = SS.UserData.Instance.AddEnemyData(0);
+            var enemyData = SS.UserData.Instance.AddEnemyData(_tid);
             UnitObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
             moveObj.InitData(false, enemyData.uid, gridMap, startPos, endPos);
             enemyObjDic.Add(moveObj.UnitUID, moveObj);

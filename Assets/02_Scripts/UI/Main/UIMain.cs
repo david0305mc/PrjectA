@@ -28,7 +28,7 @@ public class UIMain : SingletonMono<UIMain>
 
         testSpawnBtn.onClick.AddListener(() =>
         {
-            SS.GameManager.Instance.AddEnemyObj();
+            SS.GameManager.Instance.AddEnemyObj(2006);
         });
     }
 

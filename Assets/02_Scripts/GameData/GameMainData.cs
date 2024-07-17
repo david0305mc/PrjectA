@@ -16,6 +16,7 @@ namespace SS
         public int grade;
         public int count;
 
+        public DataManager.Unitinfo refData;
         public UnitDataStates state;
 
         public static UnitData Create(long _uid, int _tid, int _grade, int _count, bool _isEnemy)
@@ -37,7 +38,7 @@ namespace SS
         }
         public void UpdateRefData()
         {
-            //refData = DataManager.Instance.GetUnitinfoData(tid);
+            refData = DataManager.Instance.GetUnitinfoData(tid);
             //refUnitGradeData = DataManager.Instance.GetUnitGrade(tid, grade);
         }
     }

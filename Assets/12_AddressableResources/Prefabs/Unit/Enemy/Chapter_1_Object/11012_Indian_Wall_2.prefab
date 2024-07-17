@@ -190,11 +190,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6994962672477025605}
-  - component: {fileID: 5904893085664081336}
   - component: {fileID: 6994962672477025600}
   - component: {fileID: 6994962672477025614}
   - component: {fileID: 8457698664762049644}
-  - component: {fileID: 2455347401986255189}
+  - component: {fileID: 3824364253356015855}
   m_Layer: 8
   m_Name: 11012_Indian_Wall_2
   m_TagString: Untagged
@@ -219,28 +218,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5904893085664081336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6994962672477025615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c546fc5b4bb69a04d8a6c69de0687ff6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 6795072700901448551}
-  agent: {fileID: 0}
-  rigidBody2d: {fileID: 6994962672477025600}
-  firePos: {fileID: 0}
-  tid: 11012
-  state: 
-  targetObj_Test: {fileID: 0}
-  targetoffset: {x: 0, y: 0, z: 0}
-  isEnemyBoss: 0
-  rangeCheckForEditor: 0
 --- !u!50 &6994962672477025600
 Rigidbody2D:
   serializedVersion: 4
@@ -271,7 +248,7 @@ SortingGroup:
   m_GameObject: {fileID: 6994962672477025615}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 1
 --- !u!58 &8457698664762049644
 CircleCollider2D:
@@ -289,22 +266,28 @@ CircleCollider2D:
   m_Offset: {x: -0.027932823, y: 0.0940547}
   serializedVersion: 2
   m_Radius: 0.48339492
---- !u!208 &2455347401986255189
-NavMeshObstacle:
+--- !u!114 &3824364253356015855
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6994962672477025615}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
 --- !u!1 &6994962672637320601
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,14 +475,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6609575542628068897, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
   m_PrefabInstance: {fileID: 6994962671100507677}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6795072700901448551 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4566627910256913786, guid: 33749dffd8cf70645b16fec436a55fa5, type: 3}
-  m_PrefabInstance: {fileID: 6994962671100507677}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

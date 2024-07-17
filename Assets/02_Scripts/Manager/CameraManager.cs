@@ -44,12 +44,17 @@ public class CameraManager : SingletonMono<CameraManager>
             var uiUnitSlot = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
             if (uiUnitSlot != null)
             {
+                //uiUnitSlot.UnitTID
                 //selectedObject = hitObj;
                 
+                var unitInfo = DataManager.Instance.GetUnitinfoData(uiUnitSlot.UnitTID);
+                
+             
                 dragStartInputPos = Input.mousePosition;
                 dragStarted = true;
-
-                selectedObject = Lean.Pool.LeanPool.Spawn(unitIconPrefab, SS.GameManager.Instance.GridMap.ObjectField);
+                GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitInfo.prefabname);
+                selectedObject = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<UnitObj>();
+                selectedObject.TID = uiUnitSlot.UnitTID;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;
             }
@@ -89,7 +94,7 @@ public class CameraManager : SingletonMono<CameraManager>
                 {
                     var tileObj = obj.GetComponent<TileObject>();
                     selectedObject.DragToTarget(tileObj.transform.position, ()=> {
-                        SS.GameManager.Instance.AddHeroObj(selectedObject, tileObj.X, tileObj.Y);
+                        SS.GameManager.Instance.AddHeroObj(selectedObject, selectedObject.TID, tileObj.X, tileObj.Y);
                         selectedObject = null;
                     });
                 }

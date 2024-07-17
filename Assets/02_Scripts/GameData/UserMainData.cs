@@ -20,16 +20,16 @@ namespace SS
         {
             return enemyDataDic.GetValueOrDefault(_uid);
         }
-        public UnitData AddEnemyData(long _tid)
+        public UnitData AddEnemyData(int _tid)
         {
-            var data = SS.UnitData.Create(GameManager.GenerateUID(), 1, 1, 1, true);
+            var data = SS.UnitData.Create(GameManager.GenerateUID(), _tid, 1, 1, true);
             enemyDataDic.Add(data.uid, data);
             return data;
         }
 
-        public UnitData AddHeroData(long _tid)
+        public UnitData AddHeroData(int _tid)
         {
-            var data = UnitData.Create(GameManager.GenerateUID(), -1, 1, 1, false);
+            var data = UnitData.Create(GameManager.GenerateUID(), _tid, 1, 1, false);
             battleHeroDataDic.Add(data.uid, data);
             return data;
         }
