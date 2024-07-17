@@ -222,6 +222,10 @@ public class UnitObj : Boids2D
         }
     }
 
+    private bool HasPath(int _startX, int _startY, int _endX, int _endY)
+    {
+        return true;
+    }
     private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
     {
         pathFinder.Clear();
@@ -342,14 +346,19 @@ public class UnitObj : Boids2D
 
     private UnitObj SearchTarget()
     {
-        return SearchOpponent();
+        UnitObj obj = SearchNearestOpponent();
+        if (!HasPath(1, 1, 1, 1))
+        { 
+        
+        }
+        return obj;
     }
 
-    private UnitObj SearchOpponent()
+    private UnitObj SearchNearestOpponent()
     {
         UnitObj targetObj = default;
         float distTarget = 0;
-      
+
         Dictionary<long, UnitObj> opponentObjDic;
         if (isHero)
         {
@@ -385,7 +394,7 @@ public class UnitObj : Boids2D
             {
                 continue;
             }
-            
+
             float dist = Vector2.Distance(opponentObj.Value.transform.position, transform.position);
             if (targetObj == default)
             {
@@ -404,6 +413,7 @@ public class UnitObj : Boids2D
         }
         return targetObj;
     }
+
     private bool CheckTargetRange()
     {
         if (targetObj == null)
