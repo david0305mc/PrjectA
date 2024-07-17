@@ -321,6 +321,14 @@ public class UnitObj : Boids2D
             fsm = new StateMachine<UnitStates, Driver>(this);
             fsm.ChangeState(UnitStates.Idle);
         }
+        else
+        {
+            var currTile = gridMap.Tiles[currTileX, currTileY];
+            currTile.SetTileType(TileType.Block);
+            // Update Tile
+            //currTileX
+
+        }
     }
 
 
@@ -334,79 +342,68 @@ public class UnitObj : Boids2D
 
     private UnitObj SearchTarget()
     {
+        return SearchOpponent();
+    }
+
+    private UnitObj SearchOpponent()
+    {
+        UnitObj targetObj = default;
+        float distTarget = 0;
+      
+        Dictionary<long, UnitObj> opponentObjDic;
         if (isHero)
-            return SearchEnemy();
-        return SearchHero();
-    }
-    private UnitObj SearchEnemy()
-    {
-        UnitObj targetObj = default;
-        float distTarget = 0;
-        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
-
-        foreach (var enemyObj in SS.GameManager.Instance.EnemyObjDic.Values)
         {
-            if (enemyObj != null)
+            opponentObjDic = SS.GameManager.Instance.EnemyObjDic;
+        }
+        else
+        {
+            opponentObjDic = SS.GameManager.Instance.HeroObjDic;
+        }
+
+        foreach (var opponentObj in opponentObjDic)
+        {
+            //if (opponentObj != null)
+
+            if (isHero)
             {
-                if (SS.UserData.Instance.GetEnemyData(enemyObj.UnitUID) == null)
+                if (SS.UserData.Instance.GetEnemyData(opponentObj.Key) == null)
                 {
-                    Debug.LogError($"battleEnemyDataDic not found {enemyObj.UnitUID}");
+                    Debug.LogError($"battleEnemyDataDic not found {opponentObj.Key}");
                     continue;
                 }
-                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
-                if (targetObj == default)
+            }
+            else
+            {
+                if (SS.UserData.Instance.GetHeroData(opponentObj.Key) == null)
                 {
-                    targetObj = enemyObj;
-                    distTarget = dist;
+                    Debug.LogError($"heroDataDic not found {opponentObj.Key}");
+                    continue;
                 }
-                else
+            }
+
+            if (opponentObj.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+            {
+                continue;
+            }
+            
+            float dist = Vector2.Distance(opponentObj.Value.transform.position, transform.position);
+            if (targetObj == default)
+            {
+                targetObj = opponentObj.Value;
+                distTarget = dist;
+            }
+            else
+            {
+                if (distTarget > dist)
                 {
-                    if (distTarget > dist)
-                    {
-                        // change Target
-                        targetObj = enemyObj;
-                        distTarget = dist;
-                    }
+                    // change Target
+                    targetObj = opponentObj.Value;
+                    distTarget = dist;
                 }
             }
         }
         return targetObj;
     }
-    private UnitObj SearchHero()
-    {
-        UnitObj targetObj = default;
-        float distTarget = 0;
-        //var detectedObjs = Physics2D.OverlapCircleAll(transform.position, 5, Game.GameConfig.UnitLayerMask);
-
-        foreach (var enemyObj in SS.GameManager.Instance.HeroObjDic.Values)
-        {
-            if (enemyObj != null)
-            {
-                if (SS.UserData.Instance.GetHeroData(enemyObj.UnitUID) == null)
-                {
-                    Debug.LogError($"battleHeroDataDic not found {enemyObj.UnitUID}");
-                    continue;
-                }
-                float dist = Vector2.Distance(enemyObj.transform.position, transform.position);
-                if (targetObj == default)
-                {
-                    targetObj = enemyObj;
-                    distTarget = dist;
-                }
-                else
-                {
-                    if (distTarget > dist)
-                    {
-                        // change Target
-                        targetObj = enemyObj;
-                        distTarget = dist;
-                    }
-                }
-            }
-        }
-        return targetObj;
-    }
-
     private bool CheckTargetRange()
     {
         if (targetObj == null)

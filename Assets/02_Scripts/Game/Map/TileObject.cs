@@ -34,9 +34,16 @@ public class TileObject : MonoBehaviour
                 break;
         }
     }
-    private void OnMouseDown()
+    //private void OnMouseDown()
+    //{
+    //    tileType = TileType.Block;
+    //    UpdateTile();
+    //    MessageDispather.Publish(EMessage.UpdateTile, 1);
+    //}
+
+    public void SetTileType(TileType _type)
     {
-        tileType = TileType.Block;
+        tileType = _type;
         UpdateTile();
         MessageDispather.Publish(EMessage.UpdateTile, 1);
     }
