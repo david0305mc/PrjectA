@@ -175,6 +175,7 @@ public enum TileType
     Start,
     End,
     Block,
+    Building,
 }
 
 public enum UnitStates
