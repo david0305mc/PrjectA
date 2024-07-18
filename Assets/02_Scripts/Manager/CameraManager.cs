@@ -15,9 +15,8 @@ public class CameraManager : SingletonMono<CameraManager>
     private Vector3 dragStartInputPos;
     private bool dragStarted;
 
-    [SerializeField] private UnitObj unitIconPrefab;
     [SerializeField] private Transform worldRoot;
-    private UnitObj selectedObject;
+    private BaseObj selectedObject;
     public Vector2Int TestTarget = new Vector2Int(0, 0);
 
     private void Update()
@@ -53,7 +52,7 @@ public class CameraManager : SingletonMono<CameraManager>
                 dragStartInputPos = Input.mousePosition;
                 dragStarted = true;
                 GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitInfo.prefabname);
-                selectedObject = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<UnitObj>();
+                selectedObject = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
                 selectedObject.TID = uiUnitSlot.UnitTID;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;

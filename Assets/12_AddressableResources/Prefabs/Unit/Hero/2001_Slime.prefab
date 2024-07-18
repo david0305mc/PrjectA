@@ -1091,8 +1091,7 @@ GameObject:
   - component: {fileID: 7427517082198914455}
   - component: {fileID: 605218897728623363}
   - component: {fileID: 6461938535204248053}
-  - component: {fileID: 1737207550}
-  - component: {fileID: 1681279976585502498}
+  - component: {fileID: 6392900223646185872}
   m_Layer: 8
   m_Name: 2001_Slime
   m_TagString: Untagged
@@ -1165,7 +1164,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1737207550
+--- !u!114 &6392900223646185872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1174,29 +1173,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8236748966363557941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBoidsAlgorithm: 0
-  WayPointList: []
-  _weightforward: 1
-  _weightCohesion: 1
-  _weightSeparation: 1
-  _weightAlignment: 0.1
-  _viewRadius: 3
-  _turnSpeed: 3
-  _forwardSpeed: 3
-  boidsObjList: []
---- !u!114 &1681279976585502498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8236748966363557941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
+  m_Script: {fileID: 11500000, guid: c33052b9ebb922742b527e643188d3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isBoidsAlgorithm: 0

@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 6994962672477025600}
   - component: {fileID: 6994962672477025614}
   - component: {fileID: 8457698664762049644}
-  - component: {fileID: 3824364253356015855}
+  - component: {fileID: 8410295460039327917}
   m_Layer: 8
   m_Name: 11012_Indian_Wall_2
   m_TagString: Untagged
@@ -266,7 +266,7 @@ CircleCollider2D:
   m_Offset: {x: -0.027932823, y: 0.0940547}
   serializedVersion: 2
   m_Radius: 0.48339492
---- !u!114 &3824364253356015855
+--- !u!114 &8410295460039327917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6994962672477025615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
+  m_Script: {fileID: 11500000, guid: c33052b9ebb922742b527e643188d3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isBoidsAlgorithm: 0

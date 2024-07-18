@@ -7,7 +7,7 @@ using MonsterLove.StateMachine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
-public class UnitObj : Boids2D
+public class BaseObj : Boids2D
 {
     public class Driver
     {
@@ -37,7 +37,7 @@ public class UnitObj : Boids2D
     public int currTileX { get; private set; }
     public int currTileY { get; private set; }
     private CompositeDisposable compositeDisposable;
-    protected UnitObj targetObj;      // null???? endTile
+    protected BaseObj targetObj;      // null???? endTile
     private float attackDelay;
     protected SS.UnitData unitData;
     protected bool isHero;
@@ -357,12 +357,12 @@ public class UnitObj : Boids2D
     //    return obj;
     //}
 
-    private UnitObj SearchNearestOpponent(bool _includeBuilding)
+    private BaseObj SearchNearestOpponent(bool _includeBuilding)
     {
-        UnitObj targetObj = default;
+        BaseObj targetObj = default;
         float distTarget = 0;
 
-        Dictionary<long, UnitObj> opponentObjDic;
+        Dictionary<long, BaseObj> opponentObjDic;
         if (isHero)
         {
             opponentObjDic = SS.GameManager.Instance.EnemyObjDic;

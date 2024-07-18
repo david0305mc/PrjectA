@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 2518278602066500621}
   - component: {fileID: 5586509749149465241}
   - component: {fileID: 7369591361338535793}
-  - component: {fileID: 4834824824357072183}
+  - component: {fileID: 5701078386753849425}
   m_Layer: 8
   m_Name: 2002_Slime_Archer
   m_TagString: Untagged
@@ -321,7 +321,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4834824824357072183
+--- !u!114 &5701078386753849425
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4012603838095874479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1455db376d553784598ff29ea17f859d, type: 3}
+  m_Script: {fileID: 11500000, guid: c33052b9ebb922742b527e643188d3ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isBoidsAlgorithm: 0

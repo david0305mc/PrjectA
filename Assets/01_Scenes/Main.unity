@@ -279,7 +279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  unitIconPrefab: {fileID: -685380939219837733, guid: 51060ab157b5f794ca4f783b9dd80960, type: 3}
   worldRoot: {fileID: 1955878364}
   TestTarget: {x: 0, y: 0}
 --- !u!1001 &273100694
@@ -558,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  testMoveObjPrefab: {fileID: 2657120043920418800, guid: cb1e39f12bc7acd4697b42e873087812, type: 3}
+  testMoveObjPrefab: {fileID: 677751591481795844, guid: cb1e39f12bc7acd4697b42e873087812, type: 3}
   startPos: {x: 5, y: 12}
   endPos: {x: 3, y: 0}
   objRoot: {fileID: 684310350}
@@ -1009,6 +1008,22 @@ PrefabInstance:
     - target: {fileID: 405216244847632687, guid: a49bf9af04408784c94048f0734e8082, type: 3}
       propertyPath: m_Name
       value: UIMain
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557226492046169384, guid: a49bf9af04408784c94048f0734e8082, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557226492046169384, guid: a49bf9af04408784c94048f0734e8082, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557226492046169384, guid: a49bf9af04408784c94048f0734e8082, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557226492046169384, guid: a49bf9af04408784c94048f0734e8082, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a49bf9af04408784c94048f0734e8082, type: 3}
