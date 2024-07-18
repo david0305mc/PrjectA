@@ -225,8 +225,6 @@ public class UnitObj : Boids2D
         pathFinder.Clear();
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
-        //gridMap.Tiles[_startX, _startY].SetTileType(TileType.Start);
-        //gridMap.Tiles[_endX, _endY].SetTileType(TileType.End);
 
         foreach (var item in gridMap.Tiles)
         {
@@ -336,10 +334,7 @@ public class UnitObj : Boids2D
         else
         {
             var currTile = gridMap.Tiles[currTileX, currTileY];
-            currTile.SetTileType(TileType.Block);
-            // Update Tile
-            //currTileX
-
+            currTile.SetTileType(TileType.Building);
         }
     }
 
@@ -532,6 +527,19 @@ public class UnitObj : Boids2D
     public void GetAttacked()
     {
         UpdateUI();
+        UpdateTile();
+    }
+
+    public void UpdateTile()
+    {
+        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+        {
+            if (unitData.state == UnitDataStates.Dead)
+            {
+                var currTile = gridMap.Tiles[currTileX, currTileY];
+                currTile.SetTileType(TileType.Normal);
+            }
+        }
     }
 
     protected void UpdateUI()
