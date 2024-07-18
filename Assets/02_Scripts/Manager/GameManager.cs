@@ -146,11 +146,22 @@ namespace SS
             enemyObj.GetAttacked();
             if (enemyData.state == UnitDataStates.Dead)
             {
+                if (enemyData.refData.unit_type == UNIT_TYPE.BUILDING)
+                {
+                    DestroyBuilding(enemyObj.currTileX, enemyObj.currTileY);
+                }
                 Lean.Pool.LeanPool.Despawn(enemyObj);
                 enemyObjDic.Remove(_enemyUID);
                 UserData.Instance.RemoveEnemyData(_enemyUID);
             }
         }
+
+        private void DestroyBuilding(int _gridX, int _gridY)
+        {
+            var currTile = gridMap.Tiles[_gridX, _gridY];
+            currTile.SetTileType(TileType.Normal);
+        }
+
         public void EnemyAttackHero(long _heroUID)
         {
             var heroData = UserData.Instance.GetHeroData(_heroUID);
@@ -164,6 +175,10 @@ namespace SS
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {
+                if (heroData.refData.unit_type == UNIT_TYPE.BUILDING)
+                {
+                    DestroyBuilding(heroObj.currTileX, heroObj.currTileY);
+                }
                 Lean.Pool.LeanPool.Despawn(heroObj);
                 heroObjDic.Remove(_heroUID);
                 UserData.Instance.RemoveHeroData(_heroUID);

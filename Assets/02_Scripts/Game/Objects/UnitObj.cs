@@ -34,8 +34,8 @@ public class UnitObj : Boids2D
     private TileObject endTile;
     private bool isActive;
     public long UnitUID { get { return unitData.uid; } }
-    private int currTileX;
-    private int currTileY;
+    public int currTileX { get; private set; }
+    public int currTileY { get; private set; }
     private CompositeDisposable compositeDisposable;
     protected UnitObj targetObj;      // null???? endTile
     private float attackDelay;
@@ -527,20 +527,8 @@ public class UnitObj : Boids2D
     public void GetAttacked()
     {
         UpdateUI();
-        UpdateTile();
     }
 
-    public void UpdateTile()
-    {
-        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
-        {
-            if (unitData.state == UnitDataStates.Dead)
-            {
-                var currTile = gridMap.Tiles[currTileX, currTileY];
-                currTile.SetTileType(TileType.Normal);
-            }
-        }
-    }
 
     protected void UpdateUI()
     {
