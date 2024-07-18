@@ -88,40 +88,26 @@ public class UnitObj : Boids2D
     }
     protected void Idle_Update()
     {
-        UnitObj targetEnemy = SearchTarget();
+        //UnitObj targetEnemy = SearchTarget();
 
-        if (targetEnemy != default)
+        targetObj = SearchNearestOpponent(false);
+        
+        if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
         {
-            targetObj = targetEnemy;
+            targetObj = SearchNearestOpponent(true);
+        }
+        else if(targetObj == null)
+        {
+            targetObj = SearchNearestOpponent(true);   
+        }
 
-
+        if (targetObj != default)
+        {
             // GetOuterCells
             // finding nearest outer cell
-
-            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY);
+            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
             fsm.ChangeState(UnitStates.Move);
-
-            //compositeDisposable?.Clear();
-            //compositeDisposable = new CompositeDisposable();
-            //MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
-            //{
-            //    if (!isActive)
-            //        return;
-
-            //    int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-            //    int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-            //    Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-            //    RefreshPath(x, y, endTile.X, endTile.Y);
-
-            //}).AddTo(compositeDisposable);
         }
-        //else
-        //{
-        //    endTile = gridMap.Tiles[CameraManager.Instance.TestTarget.x, CameraManager.Instance.TestTarget.y];
-        //    RefreshPath(currTileX, currTileY, endTile.X, endTile.Y);
-        //    fsm.ChangeState(UnitStates.Move);
-        //}
     }
 
     protected void Move_Enter()
@@ -157,7 +143,19 @@ public class UnitObj : Boids2D
 
                 Debug.Log($"MessageDispather.Receive {currNodeIndex}");
                 //RefreshPath(x, y, endTile.X, endTile.Y);
-                RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY);
+
+                if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+                {
+                    targetObj = SearchNearestOpponent(true);
+                }
+                if (targetObj != null)
+                {
+                    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
+                }
+                else
+                {
+                    fsm.ChangeState(UnitStates.Idle);
+                }
             }
         }).AddTo(compositeDisposable);
     }
@@ -222,55 +220,49 @@ public class UnitObj : Boids2D
         }
     }
 
-    private bool HasPath(int _startX, int _startY, int _endX, int _endY)
+    private void SetAStarPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         pathFinder.Clear();
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
+        //gridMap.Tiles[_startX, _startY].SetTileType(TileType.Start);
+        //gridMap.Tiles[_endX, _endY].SetTileType(TileType.End);
 
         foreach (var item in gridMap.Tiles)
         {
-            if (item.tileType == TileType.Block)
-            {
-                pathFinder.RefreshWalkable(item.X, item.Y, false);
-            }
-            else
+            if (item.X == _endX && item.Y == _endY)
             {
                 pathFinder.RefreshWalkable(item.X, item.Y, true);
             }
+            else
+            {
+                switch (item.tileType)
+                {
+                    case TileType.Block:
+                        pathFinder.RefreshWalkable(item.X, item.Y, false);
+                        break;
+                    case TileType.Building:
+                        pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
+                        break;
+                    default:
+                        pathFinder.RefreshWalkable(item.X, item.Y, true);
+                        break;
+                }
+            }   
         }
+    }
 
+    private bool HasPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    {
+        SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
         return pathFinder.FindPath().Count > 0;
     }
-    private void RefreshPath(int _startX, int _startY, int _endX, int _endY)
+    private void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
-        pathFinder.Clear();
-        pathFinder.SetStartNode(_startX, _startY);
-        pathFinder.SetEndNode(_endX, _endY);
-
+        SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
         startTile = gridMap.Tiles[_startX, _startY];
         startTile.SetCurrNodeMark(true);
-
-        foreach (var item in gridMap.Tiles)
-        {
-            if (item.tileType == TileType.Block)
-            {
-                pathFinder.RefreshWalkable(item.X, item.Y, false);
-            }
-            else
-            {
-                pathFinder.RefreshWalkable(item.X, item.Y, true);
-            }
-        }
-
-        try
-        {
-            pathList = pathFinder.FindPath();
-        }
-        catch
-        { 
-            Debug.LogError("pathFinder.FindPath");
-        }
+        pathList = pathFinder.FindPath();
         
         targetNodeIndex = 0;
         currNodeIndex = -1;
@@ -360,17 +352,17 @@ public class UnitObj : Boids2D
         }
     }
 
-    private UnitObj SearchTarget()
-    {
-        UnitObj obj = SearchNearestOpponent();
-        if (obj != null && !HasPath(currTileX, currTileY, obj.currTileX, obj.currTileY))
-        {
-            obj = SearchNearestOpponent(true);
-        }
-        return obj;
-    }
+    //private UnitObj SearchTarget()
+    //{
+    //    UnitObj obj = SearchNearestOpponent();
+    //    if (obj != null && !HasPath(currTileX, currTileY, obj.currTileX, obj.currTileY))
+    //    {
+    //        obj = SearchNearestOpponent(true);
+    //    }
+    //    return obj;
+    //}
 
-    private UnitObj SearchNearestOpponent(bool _passBuilding = false)
+    private UnitObj SearchNearestOpponent(bool _includeBuilding)
     {
         UnitObj targetObj = default;
         float distTarget = 0;
@@ -406,7 +398,7 @@ public class UnitObj : Boids2D
                 }
             }
 
-            if (!_passBuilding)
+            if (!_includeBuilding)
             {
                 if (opponentObj.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
                 {

@@ -118,7 +118,15 @@ namespace FT
 
         public void SetStartNode(int x, int y)
         {
-            startNode = nodes[x, y];
+            try
+            {
+                startNode = nodes[x, y];
+            }
+            catch
+            {
+                Debug.LogError("SetStartNode");
+            }
+            
         }
 
         public void SetEndNode(int x, int y)

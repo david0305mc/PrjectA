@@ -43,8 +43,11 @@ public class TileObject : MonoBehaviour
 
     public void SetTileType(TileType _type)
     {
-        tileType = _type;
-        UpdateTile();
-        MessageDispather.Publish(EMessage.UpdateTile, 1);
+        if (tileType != _type)
+        {
+            tileType = _type;
+            UpdateTile();
+            MessageDispather.Publish(EMessage.UpdateTile, 1);
+        }
     }
 }
