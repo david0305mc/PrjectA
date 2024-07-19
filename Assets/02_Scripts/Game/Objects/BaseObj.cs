@@ -324,7 +324,15 @@ public class BaseObj : Boids2D
 
         currTileX = _startTile.x;
         currTileY = _startTile.y;
-        transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+        {
+            transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y);
+        }
+        else
+        {
+            transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        }
+        
         UpdateUI();
         if (unitData.refData.unit_type != UNIT_TYPE.BUILDING)
         {
