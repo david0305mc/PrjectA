@@ -177,11 +177,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5519325310232538370}
-  - component: {fileID: 6531049132488201845}
   - component: {fileID: 5519325310232538396}
   - component: {fileID: 5519325310232538397}
   - component: {fileID: 5519325310232538399}
   - component: {fileID: 4083340367841654905}
+  - component: {fileID: 6844310997039503592}
   m_Layer: 8
   m_Name: 2006_Zombie_Hand
   m_TagString: Untagged
@@ -206,27 +206,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6531049132488201845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5519325310232538392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce109dc1e703d024d8661e2546c614ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 7103046072174613842}
-  agent: {fileID: 5519325310232538396}
-  rigidBody2d: {fileID: 5519325310232538397}
-  firePos: {fileID: 0}
-  tid: 2006
-  state: 
-  targetObj_Test: {fileID: 0}
-  targetoffset: {x: 0, y: 0, z: 0}
-  targetWayPoint: {fileID: 0}
 --- !u!195 &5519325310232538396
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -279,7 +258,7 @@ SortingGroup:
   m_GameObject: {fileID: 5519325310232538392}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 1
 --- !u!58 &4083340367841654905
 CircleCollider2D:
@@ -297,6 +276,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6844310997039503592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5519325310232538392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
 --- !u!1 &5519325310328657981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,14 +1229,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6609575542628068897, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
   m_PrefabInstance: {fileID: 6759055486048073768}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7103046072174613842 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4566627910256913786, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
-  m_PrefabInstance: {fileID: 6759055486048073768}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

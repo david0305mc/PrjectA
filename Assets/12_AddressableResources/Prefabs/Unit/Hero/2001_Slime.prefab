@@ -1091,7 +1091,7 @@ GameObject:
   - component: {fileID: 7427517082198914455}
   - component: {fileID: 605218897728623363}
   - component: {fileID: 6461938535204248053}
-  - component: {fileID: 6392900223646185872}
+  - component: {fileID: 9171753877687020390}
   m_Layer: 8
   m_Name: 2001_Slime
   m_TagString: Untagged
@@ -1164,7 +1164,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6392900223646185872
+--- !u!114 &9171753877687020390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1173,7 +1173,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8236748966363557941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33052b9ebb922742b527e643188d3ba, type: 3}
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isBoidsAlgorithm: 0

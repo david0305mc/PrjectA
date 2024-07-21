@@ -24,7 +24,6 @@ public class BaseObj : Boids2D
     protected AnimationLink animationLink;
     private Transform renderRoot;
 
-    protected StateMachine<UnitStates, Driver> fsm;
     private AbsPathFinder pathFinder;
     protected List<PathNode> pathList;
     protected int targetNodeIndex;
@@ -36,7 +35,7 @@ public class BaseObj : Boids2D
     public long UnitUID { get { return unitData.uid; } }
     public int currTileX { get; protected set; }
     public int currTileY { get; protected set; }
-    private CompositeDisposable compositeDisposable;
+
     protected BaseObj targetObj;      // null???? endTile
     private float attackDelay;
     protected SS.UnitData unitData;
@@ -56,18 +55,16 @@ public class BaseObj : Boids2D
         canvas = GetComponentInChildren<Canvas>();
         hpBar = canvas.GetComponentInChildren<Slider>();
     }
-    private void Update()
+
+    protected virtual void InitFSM() { }
+    protected virtual void ChangeIdleState() { }
+
+    protected virtual void Update()
     {
-        if (fsm == null)
-            return;
-        fsm.Driver.Update.Invoke();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        if (fsm == null)
-            return;
-        fsm.Driver.FixedUpdate.Invoke();
     }
 
     protected void PlayAni(string str)
@@ -80,99 +77,7 @@ public class BaseObj : Boids2D
         animator.Play(str);
         animator.Update(0);
     }
-
-    protected void Idle_Enter()
-    {
-        Debug.Log("Idle_Enter");
-        PlayAni("Walk");
-    }
-    protected void Idle_Update()
-    {
-        //UnitObj targetEnemy = SearchTarget();
-
-        targetObj = SearchNearestOpponent(false);
-        
-        if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
-        {
-            targetObj = SearchNearestOpponent(true);
-        }
-        else if(targetObj == null)
-        {
-            targetObj = SearchNearestOpponent(true);   
-        }
-
-        if (targetObj != default)
-        {
-            // GetOuterCells
-            // finding nearest outer cell
-            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-            fsm.ChangeState(UnitStates.Move);
-        }
-    }
-
-    protected void Move_Enter()
-    {
-        Debug.Log("Move_Enter");
-        PlayAni("Walk");
-        compositeDisposable?.Clear();
-        compositeDisposable = new CompositeDisposable();
-        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
-        {
-            if (targetObj == null)
-                return;
-
-            if (isHero)
-            {
-                if (SS.UserData.Instance.GetHeroData(UnitUID) == default)
-                    return;
-                if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
-                    return;
-            }
-            else
-            {
-                if (SS.UserData.Instance.GetEnemyData(UnitUID) == default)
-                    return;
-                if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
-                    return;
-            }
-            if (fsm != null)
-            {
-                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-                //RefreshPath(x, y, endTile.X, endTile.Y);
-
-                if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
-                {
-                    targetObj = SearchNearestOpponent(true);
-                }
-                if (targetObj != null)
-                {
-                    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
-                }
-                else
-                {
-                    fsm.ChangeState(UnitStates.Idle);
-                }
-            }
-        }).AddTo(compositeDisposable);
-    }
-    protected void Move_Update()
-    {
-        if (CheckTargetRange())
-        {
-            fsm.ChangeState(UnitStates.Attack);
-        }
-        else
-        {
-            MoveEvent();
-        }
-    }
-    protected void Move_Exit()
-    {
-        compositeDisposable?.Clear();
-    }
+  
     //protected void Move_FixedUpdate()
     //{
     //    Debug.Log("Move_FixedUpdate");
@@ -206,7 +111,8 @@ public class BaseObj : Boids2D
             SS.GameManager.Instance.HeroAttackEnemy(targetObj.UnitUID);
             if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == null)
             {
-                fsm.ChangeState(UnitStates.Idle);
+                ChangeIdleState();
+                
             }
         }
         else
@@ -214,7 +120,7 @@ public class BaseObj : Boids2D
             SS.GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
             if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == null)
             {
-                fsm.ChangeState(UnitStates.Idle);
+                ChangeIdleState();
             }
         }
     }
@@ -249,12 +155,13 @@ public class BaseObj : Boids2D
         }
     }
 
-    private bool HasPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    protected bool HasPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
         return pathFinder.FindPath().Count > 0;
     }
-    private void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+
+    protected void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
         startTile = gridMap.Tiles[_startX, _startY];
@@ -332,12 +239,9 @@ public class BaseObj : Boids2D
         }
         
         UpdateUI();
-        if (unitData.refData.unit_type != UNIT_TYPE.BUILDING)
-        {
-            fsm = new StateMachine<UnitStates, Driver>(this);
-            fsm.ChangeState(UnitStates.Idle);
-        }
-        else
+        InitFSM();
+        ChangeIdleState();
+        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             var currTile = gridMap.Tiles[currTileX, currTileY];
             currTile.SetTileType(TileType.Building);
@@ -363,7 +267,7 @@ public class BaseObj : Boids2D
     //    return obj;
     //}
 
-    private BaseObj SearchNearestOpponent(bool _includeBuilding)
+    protected BaseObj SearchNearestOpponent(bool _includeBuilding)
     {
         BaseObj targetObj = default;
         float distTarget = 0;
@@ -427,7 +331,7 @@ public class BaseObj : Boids2D
         return targetObj;
     }
 
-    private bool CheckTargetRange()
+    protected bool CheckTargetRange()
     {
         if (targetObj == null)
             return false;
@@ -438,10 +342,6 @@ public class BaseObj : Boids2D
             return true;
         }
         return false;
-    }
-    protected virtual void MoveEvent()
-    {
-        
     }
 
     protected virtual void FlipRenderers(bool right)

@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 3037717833779457703}
   - component: {fileID: 3037717833779457701}
   - component: {fileID: 5085517665518510645}
-  - component: {fileID: 4885202137082807548}
+  - component: {fileID: -1894227360426687298}
   m_Layer: 8
   m_Name: 2003_Skeleton_Sword
   m_TagString: Untagged
@@ -990,7 +990,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4885202137082807548
+--- !u!114 &-1894227360426687298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -999,7 +999,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3037717833779457698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33052b9ebb922742b527e643188d3ba, type: 3}
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isBoidsAlgorithm: 0

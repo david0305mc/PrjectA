@@ -1,12 +1,137 @@
 using System.Collections;
 using System.Collections.Generic;
+using MonsterLove.StateMachine;
+using UniRx;
 using UnityEngine;
 
 public class UnitObj : BaseObj
 {
-    protected override void MoveEvent()
+
+    private CompositeDisposable compositeDisposable;
+    private StateMachine<UnitStates, Driver> fsm;
+
+    protected override void InitFSM()
     {
-        base.MoveEvent();
+        base.InitFSM();
+        fsm = new StateMachine<UnitStates, Driver>(this);
+    }
+
+    protected override void ChangeIdleState()
+    {
+        base.ChangeIdleState();
+        fsm.ChangeState(UnitStates.Idle);
+    }
+
+    protected override void Update()
+    {
+        if (fsm == null)
+            return;
+        fsm.Driver.Update.Invoke();
+    }
+
+    protected override void FixedUpdate()
+    {
+        if (fsm == null)
+            return;
+        fsm.Driver.FixedUpdate.Invoke();
+    }
+
+    protected void Idle_Enter()
+    {
+        Debug.Log("Idle_Enter");
+        PlayAni("Walk");
+    }
+    protected void Idle_Update()
+    {
+        //UnitObj targetEnemy = SearchTarget();
+
+        targetObj = SearchNearestOpponent(false);
+
+        if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+        {
+            targetObj = SearchNearestOpponent(true);
+        }
+        else if (targetObj == null)
+        {
+            targetObj = SearchNearestOpponent(true);
+        }
+
+        if (targetObj != default)
+        {
+            // GetOuterCells
+            // finding nearest outer cell
+            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+            fsm.ChangeState(UnitStates.Move);
+        }
+    }
+
+    protected void Move_Enter()
+    {
+        Debug.Log("Move_Enter");
+        PlayAni("Walk");
+        compositeDisposable?.Clear();
+        compositeDisposable = new CompositeDisposable();
+        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        {
+            if (targetObj == null)
+                return;
+
+            if (isHero)
+            {
+                if (SS.UserData.Instance.GetHeroData(UnitUID) == default)
+                    return;
+                if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
+                    return;
+            }
+            else
+            {
+                if (SS.UserData.Instance.GetEnemyData(UnitUID) == default)
+                    return;
+                if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
+                    return;
+            }
+            if (fsm != null)
+            {
+                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+
+                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
+                //RefreshPath(x, y, endTile.X, endTile.Y);
+
+                if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+                {
+                    targetObj = SearchNearestOpponent(true);
+                }
+                if (targetObj != null)
+                {
+                    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
+                }
+                else
+                {
+                    fsm.ChangeState(UnitStates.Idle);
+                }
+            }
+        }).AddTo(compositeDisposable);
+    }
+
+    protected void Move_Exit()
+    {
+        compositeDisposable?.Clear();
+    }
+
+    protected void Move_Update()
+    {
+        if (CheckTargetRange())
+        {
+            fsm.ChangeState(UnitStates.Attack);
+        }
+        else
+        {
+            MoveEvent();
+        }
+    }
+    private void MoveEvent()
+    {
         if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
             return;
 
@@ -78,4 +203,5 @@ public class UnitObj : BaseObj
 
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
     }
+
 }

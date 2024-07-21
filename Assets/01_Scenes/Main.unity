@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 1
-  testMoveObjPrefab: {fileID: 677751591481795844, guid: cb1e39f12bc7acd4697b42e873087812, type: 3}
+  testMoveObjPrefab: {fileID: 6844310997039503592, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
   startPos: {x: 5, y: 12}
   endPos: {x: 3, y: 0}
   objRoot: {fileID: 684310350}
