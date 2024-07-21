@@ -26,16 +26,16 @@ public class BaseObj : Boids2D
 
     protected StateMachine<UnitStates, Driver> fsm;
     private AbsPathFinder pathFinder;
-    List<PathNode> pathList;
-    private int targetNodeIndex;
-    private int currNodeIndex;
-    private GridMap gridMap;
-    private TileObject startTile;
+    protected List<PathNode> pathList;
+    protected int targetNodeIndex;
+    protected int currNodeIndex;
+    protected GridMap gridMap;
+    protected TileObject startTile;
     private TileObject endTile;
-    private bool isActive;
+    
     public long UnitUID { get { return unitData.uid; } }
-    public int currTileX { get; private set; }
-    public int currTileY { get; private set; }
+    public int currTileX { get; protected set; }
+    public int currTileY { get; protected set; }
     private CompositeDisposable compositeDisposable;
     protected BaseObj targetObj;      // null???? endTile
     private float attackDelay;
@@ -120,8 +120,7 @@ public class BaseObj : Boids2D
         {
             if (targetObj == null)
                 return;
-            if (!isActive)
-                return;
+
             if (isHero)
             {
                 if (SS.UserData.Instance.GetHeroData(UnitUID) == default)
@@ -314,7 +313,6 @@ public class BaseObj : Boids2D
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
         currNodeIndex = -1;
-        isActive = true;
         targetObj = null;
 
         endTile = gridMap.Tiles[_endTile.x, _endTile.y];
@@ -347,7 +345,7 @@ public class BaseObj : Boids2D
     }
 
 
-    private void DrawPathLine()
+    protected void DrawPathLine()
     {
         for (int i = 0; i < pathList.Count - 1; i++)
         {
@@ -441,83 +439,9 @@ public class BaseObj : Boids2D
         }
         return false;
     }
-    private void MoveEvent()
+    protected virtual void MoveEvent()
     {
-        if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
-            return;
-
-        if (!isActive)
-        {
-            Debug.LogError("is InActive");
-            return;
-        }
-        DrawPathLine();
-
-
-        var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
-        if (distToTarget.magnitude < 0.05f)
-        {
-            targetNodeIndex++;
-            MessageDispather.Publish(EMessage.UpdateTile, 1);
-            if (targetNodeIndex >= pathList.Count)
-            {
-                Debug.LogError("Complete");
-                //Lean.Pool.LeanPool.Despawn(gameObject);
-                //isActive = false;
-                fsm.ChangeState(UnitStates.Idle);
-                return;
-            }
-            distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
-        }
-        //currTile = mapCreator.Tiles[_startX, _startY];
-        //currTile.currNodeMark.SetActive(true);
-
-        Vector2 distBetweenNode;
-        if (targetNodeIndex == 0)
-        {
-            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[targetNodeIndex].location;
-        }
-        else
-        {
-            distBetweenNode = (Vector2)pathList[targetNodeIndex].location - (Vector2)pathList[targetNodeIndex - 1].location;
-        }
-
-        if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
-        {
-            if (currNodeIndex < targetNodeIndex)
-            {
-                if (currNodeIndex == -1)
-                {
-                    startTile.SetCurrNodeMark(false);
-                }
-                else
-                {
-                    gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
-                }
-
-                currNodeIndex = targetNodeIndex;
-                currTileX = pathList[currNodeIndex].x;
-                currTileY = pathList[currNodeIndex].y;
-                gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
-            }
-        }
-
-        var targetNode = pathList[targetNodeIndex];
-        Vector2 newPos;
-        if (isBoidsAlgorithm)
-        {
-            var velocity = CalculateBoidsAlgorithm((Vector2)targetNode.location);
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.deltaTime);
-        }
-        else
-        {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
-        }
-        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);
-        _rigidbody2D.MovePosition(newPos);
-        //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
-
-        //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
+        
     }
 
     protected virtual void FlipRenderers(bool right)
