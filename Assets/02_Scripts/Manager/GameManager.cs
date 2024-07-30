@@ -25,12 +25,24 @@ namespace SS
         private GameConfig.GameState gameState;
         private Dictionary<long, BaseObj> enemyObjDic = new Dictionary<long, BaseObj>();
         private Dictionary<long, BaseObj> heroObjDic = new Dictionary<long, BaseObj>();
-        public Dictionary<long, BaseObj> HeroObjDic { get { return heroObjDic; } } 
+        public Dictionary<long, BaseObj> HeroObjDic { get { return heroObjDic; } }
         public Dictionary<long, BaseObj> EnemyObjDic { get { return enemyObjDic; } }
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
         private StageObject currMap;
+
+        private void Start()
+        {
+            InitGame();
+        }
+
+        private void InitGame()
+        {
+            mainUI.InitTabGroup();
+            SetWorldUI();
+        }
+
         public void SetWorldUI()
         {
             mainUI.SetActive(true);

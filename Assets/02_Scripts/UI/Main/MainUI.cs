@@ -156,10 +156,6 @@ public class MainUI : MonoBehaviour
         {
             case BottomTab.Worldmap:
                 {
-                    MCameraManager.Instance.SetZoomAndSize(GameConfig.WorldMapDefaultZoomSize, GameConfig.WorldMapZoomMin, GameConfig.WorldMapZoomMax, 
-                        GameConfig.WorldMapSizeMinX, GameConfig.WorldMapSizeMaxX, GameConfig.WorldMapSizeMinY, GameConfig.WorldMapSizeMaxY);
-
-                    MGameManager.Instance.FollowToCurrStage();
                     subMenuObject.SetActive(true);
                 }
                 break;
