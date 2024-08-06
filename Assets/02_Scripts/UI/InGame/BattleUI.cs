@@ -18,6 +18,17 @@ public class BattleUI : MonoBehaviour
     {
         for (int i = 0; i < unitSlotList.Count; i++)
         {
+            //int unitUID = UserData.Instance.GetBattlePartyUIDByIndex(i);
+            //if (unitUID != -1)
+            //{
+            //    unitSlotList[i].gameObject.SetActive(true);
+            //    unitSlotList[i].SetData(unitUID);
+            //}
+            //else
+            //{
+            //    unitSlotList[i].gameObject.SetActive(false);
+            //}
+            
             if (testUnitTIDList.Count < i)
             {
                 unitSlotList[i].gameObject.SetActive(false);
