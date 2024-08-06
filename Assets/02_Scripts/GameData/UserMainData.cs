@@ -11,6 +11,65 @@ namespace SS
         private Dictionary<long, SS.UnitData> battleHeroDataDic = new Dictionary<long, UnitData>();
 
         public Dictionary<long, SS.UnitData> BattleHeroDataDic { get { return battleHeroDataDic; } }
+        public SaveData SavableData { get; private set; }
+
+        public void InitData()
+        {
+
+        }
+
+        public void LoadLocalData()
+        {
+            int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
+            if (newUser == 1)
+            {
+                try
+                {
+                    var localData = Utill.LoadFromFile(GameDefine.SaveFilePath);
+                    //localData = Utill.EncryptXOR(localData);
+                    SavableData = JsonUtility.FromJson<SaveData>(localData);
+                }
+                catch
+                {
+                    // NewGame
+                    InitNewGameData();
+                    return;
+                }
+
+                SavableData.UpdateRefData();
+                //if (IsOnTutorial())
+                //{
+                //    // Restart 
+                //    InitNewGameData();
+                //}
+            }
+            else
+            {
+                // NewGame
+                InitNewGameData();
+            }
+        }
+
+        public void SaveLocalData()
+        {
+            SavableData.LastLoginTime = GameTime.Get();
+            var saveData = JsonUtility.ToJson(SavableData);
+            //saveData = Utill.EncryptXOR(saveData);
+            Utill.SaveFile(GameDefine.SaveFilePath, saveData);
+            if (PlayerPrefs.GetInt("IsNewUser", 0) == 0)
+            {
+                PlayerPrefs.SetInt("IsNewUser", 1);
+            }
+        }
+
+        private void InitNewGameData()
+        {
+            SavableData = new SaveData();
+            //var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
+
+            //AddBattleParty(heroData.uid);
+        }
+
         public UnitData GetHeroData(long _uid)
         {
             return battleHeroDataDic.GetValueOrDefault(_uid);

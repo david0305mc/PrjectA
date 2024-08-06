@@ -58,6 +58,9 @@ public class UIIntro : MonoBehaviour
         UserData.Instance.InitData();
         UserData.Instance.LoadLocalData();
         UserData.Instance.UpdateData();
+
+        SS.UserData.Instance.InitData();
+        SS.UserData.Instance.LoadLocalData();
         
         var mainSceneAsync = SceneManager.LoadSceneAsync("Main");
         await mainSceneAsync;

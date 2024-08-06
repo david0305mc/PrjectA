@@ -1,9 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace SS
 {
+
+    [System.Serializable]
+    public class SaveData
+    {
+        public int uidSeed;
+        public long LastLoginTime;
+        public ReactiveProperty<int> Level;
+        public ReactiveProperty<long> Gold;
+
+        public SaveData()
+        {
+            uidSeed = 10000;
+            Gold = new ReactiveProperty<long>(ConfigTable.Instance.GoldDefault);
+            Level = new ReactiveProperty<int>(1);
+        }
+
+        public void UpdateRefData()
+        {
+            //foreach (var item in HeroDataDic)
+            //    item.Value.UpdateRefData();
+
+        }
+    }
 
     [System.Serializable]
     public class UnitData

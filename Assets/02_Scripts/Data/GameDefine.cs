@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameDefine 
 {
     public static int layerUnit = 7;
     public static int LayerMaskUnit = 1 << layerUnit;
+    public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "SaveData");
 }
 
 public class GamePath
