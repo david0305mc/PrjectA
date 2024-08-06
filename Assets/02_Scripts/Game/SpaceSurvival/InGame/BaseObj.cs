@@ -6,6 +6,7 @@ using UniRx;
 using MonsterLove.StateMachine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using UnityEngine.Rendering;
 
 public class BaseObj : Boids2D
 {
@@ -17,7 +18,8 @@ public class BaseObj : Boids2D
 
     public int TID { get; set; }
     // Component
-    private Canvas canvas;
+    protected Canvas canvas;
+    protected SortingGroup sortingGroup;
     private Slider hpBar;
 
     protected Animator animator;
@@ -53,10 +55,11 @@ public class BaseObj : Boids2D
             renderRoot = animator.transform;
         }
         canvas = GetComponentInChildren<Canvas>();
+        sortingGroup = GetComponent<SortingGroup>();
+
         hpBar = canvas.GetComponentInChildren<Slider>();
     }
 
-    protected virtual void InitFSM() { }
     protected virtual void ChangeIdleState() { }
 
     protected virtual void Update()
@@ -239,7 +242,6 @@ public class BaseObj : Boids2D
         }
         
         UpdateUI();
-        InitFSM();
         ChangeIdleState();
         if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
@@ -385,6 +387,16 @@ public class BaseObj : Boids2D
             _callback?.Invoke();
         });
         transform.position = _target;
+    }
+
+    protected void ShowCanvas()
+    {
+        canvas?.gameObject.SetActive(true);
+    }
+
+    protected void HideCanvase()
+    {
+        canvas?.gameObject.SetActive(false);
     }
 
 }

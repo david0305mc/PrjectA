@@ -465,11 +465,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5183503147986566699}
-  - component: {fileID: 1485059345585822678}
-  - component: {fileID: 1485059346246617362}
   - component: {fileID: 5958992674125872010}
   - component: {fileID: 4451637037036346654}
   - component: {fileID: 7785639573919373288}
+  - component: {fileID: -3963291654327532549}
   m_Layer: 8
   m_Name: 2027_Golem_Fire
   m_TagString: Untagged
@@ -494,49 +493,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1485059345585822678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5183503147986566696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce109dc1e703d024d8661e2546c614ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 526210713371474434}
-  agent: {fileID: 1485059346246617362}
-  rigidBody2d: {fileID: 5958992674125872010}
-  firePos: {fileID: 891766991422138680}
-  tid: 2027
-  state: 
-  targetObj_Test: {fileID: 0}
-  targetoffset: {x: 0, y: 0, z: 0}
-  targetWayPoint: {fileID: 0}
---- !u!195 &1485059346246617362
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5183503147986566696}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.1
-  m_Speed: 3.5
-  m_Acceleration: 100
-  avoidancePriority: 50
-  m_AngularSpeed: 120.2
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 0.72
-  m_BaseOffset: 0.29
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!50 &5958992674125872010
 Rigidbody2D:
   serializedVersion: 4
@@ -567,7 +523,7 @@ SortingGroup:
   m_GameObject: {fileID: 5183503147986566696}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 1
 --- !u!58 &7785639573919373288
 CircleCollider2D:
@@ -585,6 +541,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-3963291654327532549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5183503147986566696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
 --- !u!1 &5183503148057193431
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,17 +863,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
---- !u!114 &526210713371474434 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4566627910256913786, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
-  m_PrefabInstance: {fileID: 4040452588070344568}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &7181974593874770265 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6609575542628068897, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}

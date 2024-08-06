@@ -581,11 +581,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6987095010046783879}
-  - component: {fileID: 3711908208699364474}
-  - component: {fileID: 3711908208340813502}
   - component: {fileID: 8478656327244641318}
   - component: {fileID: 1936478632879035058}
   - component: {fileID: 3539416191656396634}
+  - component: {fileID: 3169438259781721572}
   m_Layer: 8
   m_Name: 2022_Slime_Archer_Yellow
   m_TagString: Untagged
@@ -610,49 +609,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3711908208699364474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6987095010046783876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce109dc1e703d024d8661e2546c614ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 5034459941631752248}
-  agent: {fileID: 3711908208340813502}
-  rigidBody2d: {fileID: 8478656327244641318}
-  firePos: {fileID: 4627962251079754806}
-  tid: 2022
-  state: 
-  targetObj_Test: {fileID: 0}
-  targetoffset: {x: 0, y: 0, z: 0}
-  targetWayPoint: {fileID: 0}
---- !u!195 &3711908208340813502
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6987095010046783876}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.1
-  m_Speed: 3.5
-  m_Acceleration: 100
-  avoidancePriority: 50
-  m_AngularSpeed: 120.2
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 0.72
-  m_BaseOffset: 0.29
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!50 &8478656327244641318
 Rigidbody2D:
   serializedVersion: 4
@@ -683,7 +639,7 @@ SortingGroup:
   m_GameObject: {fileID: 6987095010046783876}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 1
 --- !u!58 &3539416191656396634
 CircleCollider2D:
@@ -701,6 +657,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3169438259781721572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6987095010046783876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
 --- !u!1 &6987095010192974971
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,14 +953,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6609575542628068897, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
   m_PrefabInstance: {fileID: 8827641614367954242}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5034459941631752248 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4566627910256913786, guid: d341d5c59fdc5af4bb267e840380b3fd, type: 3}
-  m_PrefabInstance: {fileID: 8827641614367954242}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

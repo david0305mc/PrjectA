@@ -13,7 +13,7 @@ public class UIBattlePartySlot : MonoBehaviour
     [SerializeField] private Transform characterViewTr;
     [SerializeField] private Button button;
 
-    public MHeroObj heroObj = default;
+    public UnitObj heroObj = default;
 
     private System.Action<int> touchAction;
     private int slotIndex;
@@ -41,7 +41,7 @@ public class UIBattlePartySlot : MonoBehaviour
                 emptySlot.SetActive(false);
                 var heroData = UserData.Instance.GetHeroData(_unitUID);
                 GameObject unitPrefab = MResourceManager.Instance.GetPrefab(heroData.refData.prefabname);
-                heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, characterViewTr).GetComponent<MHeroObj>();
+                heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, characterViewTr).GetComponent<UnitObj>();
                 heroObj.transform.SetLocalPosition(Vector3.zero);
             }
             heroObj.SetUIMode(Game.GameConfig.CanvasMainUILayerOrder + slotIndex + 2);

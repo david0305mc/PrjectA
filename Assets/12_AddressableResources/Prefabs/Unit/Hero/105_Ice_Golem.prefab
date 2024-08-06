@@ -14384,7 +14384,7 @@ SortingGroup:
   m_GameObject: {fileID: 3009118441579886099}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 2
 --- !u!1 &3009118441796065121
 GameObject:
@@ -14429,7 +14429,7 @@ SortingGroup:
   m_GameObject: {fileID: 3009118441796065121}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 3
 --- !u!1 &3009118441796225611
 GameObject:
@@ -47934,7 +47934,7 @@ SortingGroup:
   m_GameObject: {fileID: 3009118442404539044}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 2
 --- !u!1 &3009118442627425804
 GameObject:
@@ -52776,7 +52776,7 @@ SortingGroup:
   m_GameObject: {fileID: 3009118442627425804}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 2
 --- !u!1 &3009118442662441882
 GameObject:
@@ -67238,7 +67238,7 @@ SortingGroup:
   m_GameObject: {fileID: 3009118443237238066}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 2
 --- !u!1 &3009118443237271640
 GameObject:
@@ -77468,11 +77468,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5324555947154473385}
-  - component: {fileID: 6908232491949669086}
-  - component: {fileID: 5324555947154473399}
   - component: {fileID: 5324555947154473398}
   - component: {fileID: 5324555947154473397}
   - component: {fileID: 5324555947154473396}
+  - component: {fileID: 8808131947037212574}
   m_Layer: 8
   m_Name: 105_Ice_Golem
   m_TagString: Untagged
@@ -77499,49 +77498,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6908232491949669086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324555947154473395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce109dc1e703d024d8661e2546c614ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 5324555947041054085}
-  agent: {fileID: 5324555947154473399}
-  rigidBody2d: {fileID: 5324555947154473398}
-  firePos: {fileID: 0}
-  tid: 0
-  state: 
-  targetObj_Test: {fileID: 0}
-  targetoffset: {x: 0, y: 0, z: 0}
-  targetWayPoint: {fileID: 0}
---- !u!195 &5324555947154473399
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324555947154473395}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.65
-  m_Speed: 5
-  m_Acceleration: 360
-  avoidancePriority: 50
-  m_AngularSpeed: 10
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.04
-  m_BaseOffset: 0.75
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!50 &5324555947154473398
 Rigidbody2D:
   serializedVersion: 4
@@ -77598,8 +77554,30 @@ SortingGroup:
   m_GameObject: {fileID: 5324555947154473395}
   m_Enabled: 1
   m_SortingLayerID: 193813133
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 1
+--- !u!114 &8808131947037212574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324555947154473395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3c4e5101c45224485a6f6a7e2a34c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBoidsAlgorithm: 0
+  WayPointList: []
+  _weightforward: 1
+  _weightCohesion: 1
+  _weightSeparation: 1
+  _weightAlignment: 0.1
+  _viewRadius: 3
+  _turnSpeed: 3
+  _forwardSpeed: 3
+  boidsObjList: []
 --- !u!1 &5324555947257652041
 GameObject:
   m_ObjectHideFlags: 0

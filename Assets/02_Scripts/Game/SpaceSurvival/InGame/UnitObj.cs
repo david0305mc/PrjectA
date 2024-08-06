@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MonsterLove.StateMachine;
@@ -10,12 +11,13 @@ public class UnitObj : BaseObj
     private CompositeDisposable compositeDisposable;
     private StateMachine<UnitStates, Driver> fsm;
 
-    protected override void InitFSM()
+
+    protected override void Awake()
     {
-        base.InitFSM();
+        base.Awake();
         fsm = new StateMachine<UnitStates, Driver>(this);
     }
-
+    
     protected override void ChangeIdleState()
     {
         base.ChangeIdleState();
@@ -63,6 +65,26 @@ public class UnitObj : BaseObj
             RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
             fsm.ChangeState(UnitStates.Move);
         }
+    }
+
+    public void SetUIMode(int _sortingOrder)
+    {
+        sortingGroup.sortingLayerName = Game.GameConfig.UILayerName;
+        sortingGroup.sortingOrder = _sortingOrder;
+        
+        fsm.ChangeState(UnitStates.Idle);
+        HideCanvase();
+        transform.SetScale(200f);
+        PlayAni("Idle");
+    }
+    public void SetBattleMode()
+    {
+        sortingGroup.sortingLayerName = Game.GameConfig.ForegroundLayerName;
+        sortingGroup.sortingOrder = 0;
+        //attackDelay = 0f;
+        HideCanvase();
+        //SetSelected(false);
+        transform.SetScale(1f);
     }
 
     protected void Move_Enter()
