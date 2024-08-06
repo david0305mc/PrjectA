@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e462b23697285444afcbc78fac4aee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DontDestroyOnLoad: 1
+  m_DontDestroyOnLoad: 0
   worldRoot: {fileID: 1955878364}
   TestTarget: {x: 0, y: 0}
 --- !u!1001 &273100694
@@ -1009,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIMain
       objectReference: {fileID: 0}
+    - target: {fileID: 888755916485555944, guid: a49bf9af04408784c94048f0734e8082, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 228335615}
     - target: {fileID: 1557226492046169384, guid: a49bf9af04408784c94048f0734e8082, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
