@@ -13,6 +13,8 @@ namespace SS
         public long LastLoginTime;
         public ReactiveProperty<int> Level;
         public ReactiveProperty<long> Gold;
+        public SerializableDictionary<int, UnitData> HeroDataDic;
+        public SerializableDictionary<int, int> BattlePartyDic;
 
         public SaveData()
         {

@@ -100,16 +100,16 @@ public class UnitObj : BaseObj
 
             if (isHero)
             {
-                if (SS.UserData.Instance.GetHeroData(UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetHeroData(UnitUID) == default)
                     return;
-                if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetEnemyData(targetObj.UnitUID) == default)
                     return;
             }
             else
             {
-                if (SS.UserData.Instance.GetEnemyData(UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetEnemyData(UnitUID) == default)
                     return;
-                if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetHeroData(targetObj.UnitUID) == default)
                     return;
             }
             if (fsm != null)

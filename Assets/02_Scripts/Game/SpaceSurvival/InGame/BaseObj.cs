@@ -112,7 +112,7 @@ public class BaseObj : Boids2D
         if (isHero)
         {
             SS.GameManager.Instance.HeroAttackEnemy(targetObj.UnitUID);
-            if (SS.UserData.Instance.GetEnemyData(targetObj.UnitUID) == null)
+            if (SS.UserDataManager.Instance.GetEnemyData(targetObj.UnitUID) == null)
             {
                 ChangeIdleState();
                 
@@ -121,7 +121,7 @@ public class BaseObj : Boids2D
         else
         {
             SS.GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
-            if (SS.UserData.Instance.GetHeroData(targetObj.UnitUID) == null)
+            if (SS.UserDataManager.Instance.GetHeroData(targetObj.UnitUID) == null)
             {
                 ChangeIdleState();
             }
@@ -212,11 +212,11 @@ public class BaseObj : Boids2D
         isHero = _isHero;
         if (_isHero)
         {
-            unitData = SS.UserData.Instance.GetHeroData(_unitUID);
+            unitData = SS.UserDataManager.Instance.GetHeroData(_unitUID);
         }
         else
         {
-            unitData = SS.UserData.Instance.GetEnemyData(_unitUID);
+            unitData = SS.UserDataManager.Instance.GetEnemyData(_unitUID);
         }
         
         gridMap = _mapCreator;
@@ -290,7 +290,7 @@ public class BaseObj : Boids2D
 
             if (isHero)
             {
-                if (SS.UserData.Instance.GetEnemyData(opponentObj.Key) == null)
+                if (SS.UserDataManager.Instance.GetEnemyData(opponentObj.Key) == null)
                 {
                     Debug.LogError($"battleEnemyDataDic not found {opponentObj.Key}");
                     continue;
@@ -298,7 +298,7 @@ public class BaseObj : Boids2D
             }
             else
             {
-                if (SS.UserData.Instance.GetHeroData(opponentObj.Key) == null)
+                if (SS.UserDataManager.Instance.GetHeroData(opponentObj.Key) == null)
                 {
                     Debug.LogError($"heroDataDic not found {opponentObj.Key}");
                     continue;

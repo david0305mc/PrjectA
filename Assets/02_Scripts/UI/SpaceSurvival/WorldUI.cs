@@ -10,7 +10,7 @@ public class WorldUI : MonoBehaviour
 
     private void Awake()
     {
-        SS.UserData.Instance.SavableData.Gold.Subscribe(_value =>
+        SS.UserDataManager.Instance.SavableData.Gold.Subscribe(_value =>
         {
             goldText.SetText(_value.ToString());
         }).AddTo(gameObject);

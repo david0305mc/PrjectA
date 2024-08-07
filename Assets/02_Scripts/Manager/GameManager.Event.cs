@@ -11,8 +11,8 @@ namespace SS
 
         public void TestAddGold(long _add)
         {
-            SS.UserData.Instance.SavableData.Gold.Value += _add;
-            SS.UserData.Instance.SaveLocalData();
+            SS.UserDataManager.Instance.SavableData.Gold.Value += _add;
+            SS.UserDataManager.Instance.SaveLocalData();
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SS
 {
-    public class UserData : Singleton<UserData>
+    public class UserDataManager : Singleton<UserDataManager>
     {
         public long uidSeed;
         private Dictionary<long, SS.UnitData> enemyDataDic = new Dictionary<long, UnitData>();
