@@ -33,7 +33,7 @@ public class UnitInfoPopup : PopupBase
 
     private System.Action equipAction;
     private System.Action unEquipAction;
-    private UnitData unitData;
+    private SS.UnitData unitData;
 
     protected override void Awake()
     {
@@ -49,14 +49,14 @@ public class UnitInfoPopup : PopupBase
         });
         upgradeBtn.onClick.AddListener(() =>
         {
-            MGameManager.Instance.UpgradeUnit(unitData.uid);
+            //MGameManager.Instance.UpgradeUnit(unitData.uid);
             UpdateUI();
         });
     }
 
-    public void SetData(int _heroUID, System.Action _equipAction)
+    public void SetData(long _heroUID, System.Action _equipAction)
     {
-        unitData = UserData.Instance.GetHeroData(_heroUID);
+        unitData = SS.UserDataManager.Instance.GetHeroData(_heroUID);
         equipAction = _equipAction;
         heroNameText.SetText(LocalizeManager.Instance.GetLocalString(unitData.refData.unitname));
         UpdateUI();
@@ -73,7 +73,7 @@ public class UnitInfoPopup : PopupBase
     private void UpdateUI()
     {
         //UserData.Instance.FindEmptySlot();
-        int slotIndex = UserData.Instance.GetPartySlotIndexByUID(unitData.uid);
+        int slotIndex = SS.UserDataManager.Instance.GetPartySlotIndexByUID(unitData.uid);
         if (slotIndex == -1)
         {
             euipToggleText.SetText("Equip");

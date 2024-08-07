@@ -22,7 +22,7 @@ public class GachaResultPopup : PopupBase
 
     [SerializeField] private UIGridView resultScrollView = default;
 
-    private MHeroObj heroObj = default;
+    private UnitObj heroObj = default;
 
     private List<int> gachaList;
     private int index;
@@ -74,7 +74,7 @@ public class GachaResultPopup : PopupBase
         //var unitGradeInfo = DataManager.Instance.GetUnitGrade(gachaInfo.unitid, grade);
 
         GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitData.refData.prefabname);
-        heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, unitPos).GetComponent<MHeroObj>();
+        heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, unitPos).GetComponent<UnitObj>();
         heroObj.transform.SetLocalPosition(Vector3.zero);
         heroObj.SetUIMode(Game.GameConfig.CanvasPopupManagerLayerOrder + index + 2);
         

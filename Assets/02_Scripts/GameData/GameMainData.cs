@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -13,20 +14,26 @@ namespace SS
         public long LastLoginTime;
         public ReactiveProperty<int> Level;
         public ReactiveProperty<long> Gold;
-        public SerializableDictionary<int, UnitData> HeroDataDic;
-        public SerializableDictionary<int, int> BattlePartyDic;
+        public SerializableDictionary<long, UnitData> HeroDataDic;
+        public SerializableDictionary<int, long> BattlePartyDic;
 
         public SaveData()
         {
             uidSeed = 10000;
             Gold = new ReactiveProperty<long>(ConfigTable.Instance.GoldDefault);
             Level = new ReactiveProperty<int>(1);
+            HeroDataDic = new SerializableDictionary<long, UnitData>();
+            BattlePartyDic = new SerializableDictionary<int, long>();
+            Enumerable.Range(0, Game.GameConfig.MaxBattlePartyCount).ToList().ForEach(i =>
+            {
+                BattlePartyDic[i] = -1;
+            });
         }
 
         public void UpdateRefData()
         {
-            //foreach (var item in HeroDataDic)
-            //    item.Value.UpdateRefData();
+            foreach (var item in HeroDataDic)
+                item.Value.UpdateRefData();
 
         }
     }
@@ -37,13 +44,15 @@ namespace SS
         public long uid;
         public int tid;
         public bool IsEnemy;
-        public int maxHp;
         public int hp;
+        public int maxHp;
         public int grade;
         public int count;
 
         public DataManager.Unitinfo refData;
+        public DataManager.UnitGradeInfo refUnitGradeData;
         public UnitDataStates state;
+        public bool IsMaxGrade => grade >= refData.maxgrade;
 
         public static UnitData Create(long _uid, int _tid, int _grade, int _count, bool _isEnemy)
         {
@@ -57,15 +66,15 @@ namespace SS
                 state = UnitDataStates.Alive,
             };
             data.UpdateRefData();
-            data.maxHp = 3;
-            data.hp = data.maxHp;
+            data.maxHp = data.refUnitGradeData.hp;
+            data.hp = data.refUnitGradeData.hp;
 
             return data;
         }
         public void UpdateRefData()
         {
             refData = DataManager.Instance.GetUnitinfoData(tid);
-            //refUnitGradeData = DataManager.Instance.GetUnitGrade(tid, grade);
+            refUnitGradeData = DataManager.Instance.GetUnitGrade(tid, grade);
         }
     }
 }

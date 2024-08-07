@@ -12,7 +12,7 @@ public class UIPanelUnitSelect : MonoBehaviour
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private List<UIBattlePartySlot> battlePartyList = default;
 
-    private List<UnitData> heroDataList;
+    private List<SS.UnitData> heroDataList;
     private List<UIUnitCell> uiUnitCelLists;
 
     private void Awake()
@@ -45,7 +45,7 @@ public class UIPanelUnitSelect : MonoBehaviour
             ClearUnitListPool();
         }
 
-        heroDataList = (from item in UserData.Instance.LocalData.HeroDataDic
+        heroDataList = (from item in SS.UserDataManager.Instance.SavableData.HeroDataDic
                         orderby item.Key ascending
                         orderby item.Value.grade descending
                         orderby item.Value.refData.unitrarity descending
@@ -61,26 +61,26 @@ public class UIPanelUnitSelect : MonoBehaviour
         });
     }
 
-    public void ShowUnitInfoPopup(int _uid)
+    public void ShowUnitInfoPopup(long _uid)
     {
         var popup = PopupManager.Instance.Show<UnitInfoPopup>();
         popup.SetData(_uid, () =>
         {
-            int partySlotIndex = UserData.Instance.GetPartySlotIndexByUID(_uid);
+            int partySlotIndex = SS.UserDataManager.Instance.GetPartySlotIndexByUID(_uid);
             if (partySlotIndex == -1)
-            {
                 // Equip
-                if (UserData.Instance.FindEmptySlot() == -1)
+            {
+                if (SS.UserDataManager.Instance.FindEmptySlot() == -1)
                 {
                     PopupManager.Instance.ShowSystemOneBtnPopup(LocalizeManager.Instance.GetLocalString("AlertNoEmptySlot"), "OK");
                     return;
                 }
-                int slotIndex = MGameManager.Instance.AddBattleParty(_uid);
+                int slotIndex = SS.GameManager.Instance.AddBattleParty(_uid);
             }
             else
             {
                 // UnEquip
-                MGameManager.Instance.RemoveBattleParty(partySlotIndex);
+                SS.GameManager.Instance.RemoveBattleParty(partySlotIndex);
             }
         });
     }
@@ -88,10 +88,10 @@ public class UIPanelUnitSelect : MonoBehaviour
     {
         Enumerable.Range(0, battlePartyList.Count).ToList().ForEach(i =>
         {
-            int unitUID = UserData.Instance.GetBattlePartyUIDByIndex(i);
+            long unitUID = SS.UserDataManager.Instance.GetBattlePartyUIDByIndex(i);
             battlePartyList[i].SetData(i, unitUID, (_slotIndex) =>
             {
-                MGameManager.Instance.RemoveBattleParty(_slotIndex);
+                SS.GameManager.Instance.RemoveBattleParty(_slotIndex);
             }); 
         });
     }

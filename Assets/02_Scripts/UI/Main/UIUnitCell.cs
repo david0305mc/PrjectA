@@ -16,10 +16,10 @@ public class UIUnitCell : MonoBehaviour
     [SerializeField] private UnitGradeInfo unitGradeInfo;
     [SerializeField] private Button button;
 
-    public void SetData(int _index, int _uid, System.Action<int> _action)
+    public void SetData(int _index, long _uid, System.Action<int> _action)
     {
-        var heroData = UserData.Instance.GetHeroData(_uid);
-        checkerObject.SetActive(UserData.Instance.GetPartySlotIndexByUID(heroData.uid) != -1);
+        var heroData = SS.UserDataManager.Instance.GetHeroData(_uid);
+        checkerObject.SetActive(SS.UserDataManager.Instance.GetPartySlotIndexByUID(heroData.uid) != -1);
         iconImage.sprite = MResourceManager.Instance.GetSpriteFromAtlas(heroData.refData.thumbnailpath);
         iconBGImage.sprite = MResourceManager.Instance.GetBuildAtlas($"RatingBG_{(int)heroData.refData.unitrarity}");
         unitGradeInfo.SetData(heroData.grade, heroData.IsMaxGrade, heroData.count, heroData.refUnitGradeData.upgradepiececnt);

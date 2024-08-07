@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SS
 {
     public class UserDataManager : Singleton<UserDataManager>
     {
-        public long uidSeed;
         private Dictionary<long, SS.UnitData> enemyDataDic = new Dictionary<long, UnitData>();
         private Dictionary<long, SS.UnitData> battleHeroDataDic = new Dictionary<long, UnitData>();
 
@@ -21,7 +21,8 @@ namespace SS
         public void LoadLocalData()
         {
             int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
-            if (newUser == 1)
+            //if (newUser == 1)
+            if (false)
             {
                 try
                 {
@@ -65,16 +66,32 @@ namespace SS
         private void InitNewGameData()
         {
             SavableData = new SaveData();
-            //var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
+            var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
 
-            //AddBattleParty(heroData.uid);
+            AddBattleParty(heroData.uid);
+        }
+        public int GetPartySlotIndexByUID(long _uid)
+        {
+            KeyValuePair<int, long> data = SavableData.BattlePartyDic.FirstOrDefault(i => i.Value == _uid);
+            if (data.Equals(default(KeyValuePair<int, long>)))
+            {
+                return -1;
+            }
+            return data.Key;
+        }
+        public long GetBattlePartyUIDByIndex(int _index)
+        {
+            return SavableData.BattlePartyDic[_index];
         }
 
-        public UnitData GetHeroData(long _uid)
+        public UnitData GetBattleHeroData(long _uid)
         {
             return battleHeroDataDic.GetValueOrDefault(_uid);
         }
-
+        public UnitData GetHeroData(long _uid)
+        {
+            return SavableData.HeroDataDic.GetValueOrDefault(_uid);
+        }
         public UnitData GetEnemyData(long _uid)
         {
             return enemyDataDic.GetValueOrDefault(_uid);
@@ -86,12 +103,74 @@ namespace SS
             return data;
         }
 
-        public UnitData AddHeroData(int _tid)
+        public UnitData AddBattleHeroData(int _tid)
         {
             var data = UnitData.Create(GameManager.GenerateUID(), _tid, 1, 1, false);
             battleHeroDataDic.Add(data.uid, data);
             return data;
         }
+
+        public UnitData AddHeroData(int _tid, int _count)
+        {
+            var heroData = SavableData.HeroDataDic.FirstOrDefault(item => item.Value.tid == _tid);
+            if (heroData.Equals(default(KeyValuePair<long, UnitData>)))
+            {
+                var data = UnitData.Create(SS.GameManager.GenerateUID(), _tid, 1, _count, false);
+                SavableData.HeroDataDic.Add(data.uid, data);
+                return data;
+            }
+            else
+            {
+                heroData.Value.count += _count;
+                return heroData.Value;
+            }
+        }
+        public int GetUnitSlotCount()
+        {
+            return DataManager.Instance.GetLevelData(3).unlockslot;
+        }
+        public int FindEmptySlot()
+        {
+            for (int i = 0; i < GetUnitSlotCount(); i++)
+            {
+                if (SavableData.BattlePartyDic[i] == -1)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public int AddBattleParty(long _heroUID)
+        {
+            int emptySlotIndex = FindEmptySlot();
+            SavableData.BattlePartyDic[emptySlotIndex] = _heroUID;
+            CalcBattlePower();
+            return emptySlotIndex;
+        }
+
+        public void RemoveBattleParty(int _slotIndex)
+        {
+            SavableData.BattlePartyDic[_slotIndex] = -1;
+            CalcBattlePower();
+        }
+        private void CalcBattlePower()
+        {
+            //BattlePower = 0;
+            //foreach (var item in LocalData.BattlePartyDic)
+            //{
+            //    if (item.Value != -1)
+            //    {
+            //        var heroData = GetHeroData(item.Value);
+            //        BattlePower += heroData.refUnitGradeData.combatpower;
+            //    }
+            //}
+        }
+
+        public void RemoveHero(int _heroUID)
+        {
+            SavableData.HeroDataDic.Remove(_heroUID);
+        }
+
         public void RemoveHeroData(long _uid)
         {
             battleHeroDataDic.Remove(_uid);
@@ -120,6 +199,8 @@ namespace SS
                 heroData.state = UnitDataStates.Dead;
             }
         }
+
+
 
     }
 

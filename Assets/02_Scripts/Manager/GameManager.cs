@@ -70,7 +70,7 @@ namespace SS
 
         public static long GenerateUID()
         {
-            return UserDataManager.Instance.uidSeed++;
+            return UserDataManager.Instance.SavableData.uidSeed++;
         }
 
         private void SpawnWaveEnemy()
@@ -176,7 +176,7 @@ namespace SS
 
         public void EnemyAttackHero(long _heroUID)
         {
-            var heroData = UserDataManager.Instance.GetHeroData(_heroUID);
+            var heroData = UserDataManager.Instance.GetBattleHeroData(_heroUID);
             if (heroData == null)
             {
                 Debug.LogError($"heroObjDic.ContainsKey {_heroUID}");
@@ -199,7 +199,7 @@ namespace SS
 
         public void AddHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
         {
-            var heroData = SS.UserDataManager.Instance.AddHeroData(_tid);
+            var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
             _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);

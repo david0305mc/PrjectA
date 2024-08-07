@@ -17,7 +17,7 @@ public class UIBattlePartySlot : MonoBehaviour
 
     private System.Action<int> touchAction;
     private int slotIndex;
-    private int unitUID;
+    private long unitUID;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class UIBattlePartySlot : MonoBehaviour
         });
     }
 
-    public void SetData(int _slotIndex, int _unitUID, System.Action<int> _touchAction)
+    public void SetData(int _slotIndex, long _unitUID, System.Action<int> _touchAction)
     {
         slotIndex = _slotIndex;
         touchAction = _touchAction;
@@ -39,7 +39,7 @@ public class UIBattlePartySlot : MonoBehaviour
             if (_unitUID != unitUID)
             {
                 emptySlot.SetActive(false);
-                var heroData = UserData.Instance.GetHeroData(_unitUID);
+                var heroData = SS.UserDataManager.Instance.GetHeroData(_unitUID);
                 GameObject unitPrefab = MResourceManager.Instance.GetPrefab(heroData.refData.prefabname);
                 heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, characterViewTr).GetComponent<UnitObj>();
                 heroObj.transform.SetLocalPosition(Vector3.zero);

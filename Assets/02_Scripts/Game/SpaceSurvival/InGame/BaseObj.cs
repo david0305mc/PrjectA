@@ -121,7 +121,7 @@ public class BaseObj : Boids2D
         else
         {
             SS.GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
-            if (SS.UserDataManager.Instance.GetHeroData(targetObj.UnitUID) == null)
+            if (SS.UserDataManager.Instance.GetBattleHeroData(targetObj.UnitUID) == null)
             {
                 ChangeIdleState();
             }
@@ -212,7 +212,7 @@ public class BaseObj : Boids2D
         isHero = _isHero;
         if (_isHero)
         {
-            unitData = SS.UserDataManager.Instance.GetHeroData(_unitUID);
+            unitData = SS.UserDataManager.Instance.GetBattleHeroData(_unitUID);
         }
         else
         {
@@ -298,7 +298,7 @@ public class BaseObj : Boids2D
             }
             else
             {
-                if (SS.UserDataManager.Instance.GetHeroData(opponentObj.Key) == null)
+                if (SS.UserDataManager.Instance.GetBattleHeroData(opponentObj.Key) == null)
                 {
                     Debug.LogError($"heroDataDic not found {opponentObj.Key}");
                     continue;
