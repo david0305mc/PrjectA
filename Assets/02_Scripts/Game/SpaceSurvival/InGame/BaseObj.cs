@@ -33,6 +33,7 @@ public class BaseObj : Boids2D
     protected GridMap gridMap;
     protected TileObject startTile;
     private TileObject endTile;
+    protected Vector2 randPosOffset;        // 분산 시키기 위한 랜덤 오프셋
     
     public long UnitUID { get { return unitData.uid; } }
     public int currTileX { get; protected set; }
@@ -58,6 +59,7 @@ public class BaseObj : Boids2D
         sortingGroup = GetComponent<SortingGroup>();
 
         hpBar = canvas.GetComponentInChildren<Slider>();
+        randPosOffset = Vector2.zero;
     }
 
     protected virtual void ChangeIdleState() { }
@@ -111,7 +113,7 @@ public class BaseObj : Boids2D
         }
         if (isHero)
         {
-            SS.GameManager.Instance.HeroAttackEnemy(targetObj.UnitUID);
+            SS.GameManager.Instance.HeroAttackEnemy(UnitUID, targetObj.UnitUID);
             if (SS.UserDataManager.Instance.GetEnemyData(targetObj.UnitUID) == null)
             {
                 ChangeIdleState();
@@ -120,7 +122,7 @@ public class BaseObj : Boids2D
         }
         else
         {
-            SS.GameManager.Instance.EnemyAttackHero(targetObj.UnitUID);
+            SS.GameManager.Instance.EnemyAttackHero(UnitUID, targetObj.UnitUID);
             if (SS.UserDataManager.Instance.GetBattleHeroData(targetObj.UnitUID) == null)
             {
                 ChangeIdleState();
@@ -158,10 +160,15 @@ public class BaseObj : Boids2D
         }
     }
 
-    protected bool HasPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    protected int GetPathCount(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
-        return pathFinder.FindPath().Count > 0;
+        return pathFinder.FindPath().Count;
+    }
+
+    protected bool HasPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    {
+        return GetPathCount(_startX, _startY, _endX, _endY, _passBuilding) > 0;
     }
 
     protected void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
@@ -235,10 +242,12 @@ public class BaseObj : Boids2D
         if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y);
+            randPosOffset = Vector2.zero;
         }
         else
         {
-            transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+            randPosOffset = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+            transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
         
         UpdateUI();
@@ -339,7 +348,7 @@ public class BaseObj : Boids2D
             return false;
 
         float dist = Vector2.Distance(targetObj.transform.position, transform.position);
-        if (dist < 2f)
+        if (dist < 0.05f)
         {
             return true;
         }

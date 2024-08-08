@@ -269,7 +269,7 @@ MonoBehaviour:
   WayPointList: []
   _weightforward: 1
   _weightCohesion: 1
-  _weightSeparation: 1
+  _weightSeparation: 1.2
   _weightAlignment: 0.1
   _viewRadius: 3
   _turnSpeed: 3

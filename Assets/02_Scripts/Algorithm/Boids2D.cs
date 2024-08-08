@@ -53,7 +53,7 @@ public class Boids2D : MonoBehaviour
     {
         List<Boids2D> neighboringFish_list = new List<Boids2D>();
 
-        var colliders = Physics2D.OverlapCircleAll(transform.position, 0.3f, GameDefine.LayerMaskUnit);
+        var colliders = Physics2D.OverlapCircleAll(transform.position, 3f, GameDefine.LayerMaskUnit);
         foreach (var collider in colliders)
         {
             if (collider == this.gameObject)

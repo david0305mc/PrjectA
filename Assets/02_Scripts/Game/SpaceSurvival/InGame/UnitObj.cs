@@ -9,6 +9,7 @@ public class UnitObj : BaseObj
 {
 
     private CompositeDisposable compositeDisposable;
+    private Vector2Int targetTile;
     private StateMachine<UnitStates, Driver> fsm;
 
 
@@ -46,25 +47,45 @@ public class UnitObj : BaseObj
     protected void Idle_Update()
     {
         //UnitObj targetEnemy = SearchTarget();
-
+        
         targetObj = SearchNearestOpponent(false);
 
         if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
         {
+            // 타겟이 있는데 경로는 없는 경우, 건물까지 검색
             targetObj = SearchNearestOpponent(true);
         }
         else if (targetObj == null)
         {
+            // 타겟이 없는 경우, 견물까지 검색
             targetObj = SearchNearestOpponent(true);
         }
 
         if (targetObj != default)
         {
+
             // GetOuterCells
             // finding nearest outer cell
-            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+            targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+            RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
             fsm.ChangeState(UnitStates.Move);
         }
+    }
+
+    private Vector2Int GetNearestOutTile(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    {
+        int shortPathCount = int.MaxValue;
+        Vector2Int targetTile = new Vector2Int(GameDefine.OuterTile[0, 0], GameDefine.OuterTile[0, 1]);
+        for (int i = 0; i < GameDefine.OuterTile.GetLength(0); i++)
+        {
+            var pathCount = GetPathCount(_startX, _startY, _endX + GameDefine.OuterTile[i, 0], _endY + GameDefine.OuterTile[i, 1], _passBuilding);
+            if (shortPathCount > pathCount)
+            {
+                shortPathCount = pathCount;
+                targetTile = new Vector2Int(_endX + GameDefine.OuterTile[i, 0], _endY + GameDefine.OuterTile[i, 1]);
+            }
+        }
+        return targetTile;
     }
 
     public void SetUIMode(int _sortingOrder)
@@ -126,6 +147,7 @@ public class UnitObj : BaseObj
                 }
                 if (targetObj != null)
                 {
+                    targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
                     RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
                 }
                 else
@@ -143,14 +165,15 @@ public class UnitObj : BaseObj
 
     protected void Move_Update()
     {
-        if (CheckTargetRange())
-        {
-            fsm.ChangeState(UnitStates.Attack);
-        }
-        else
-        {
-            MoveEvent();
-        }
+        MoveEvent();
+        //if (CheckTargetRange())
+        //{
+        //    fsm.ChangeState(UnitStates.Attack);
+        //}
+        //else
+        //{
+        //    MoveEvent();
+        //}
     }
     private void MoveEvent()
     {
@@ -170,7 +193,8 @@ public class UnitObj : BaseObj
                 Debug.LogError("Complete");
                 //Lean.Pool.LeanPool.Despawn(gameObject);
                 //isActive = false;
-                fsm.ChangeState(UnitStates.Idle);
+                //fsm.ChangeState(UnitStates.Idle);
+                fsm.ChangeState(UnitStates.Attack);
                 return;
             }
             distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
@@ -217,10 +241,10 @@ public class UnitObj : BaseObj
         }
         else
         {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location + randPosOffset, _forwardSpeed * Time.deltaTime);
         }
-        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);
         _rigidbody2D.MovePosition(newPos);
+        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
 
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);

@@ -145,8 +145,9 @@ namespace SS
             //RemoveAllProjectile();
         }
 
-        public void HeroAttackEnemy(long _enemyUID)
+        public void HeroAttackEnemy(long _heroUID, long _enemyUID)
         {
+            var heroData = UserDataManager.Instance.GetBattleHeroData(_heroUID);
             var enemyData = UserDataManager.Instance.GetEnemyData(_enemyUID);
             if (enemyData == null)
             {
@@ -154,7 +155,7 @@ namespace SS
                 return;
             }
             var enemyObj = enemyObjDic[_enemyUID];
-            UserDataManager.Instance.AttackToEnemy(_enemyUID, 1);
+            UserDataManager.Instance.AttackToEnemy(_enemyUID, 10);
             enemyObj.GetAttacked();
             if (enemyData.state == UnitDataStates.Dead)
             {
@@ -174,7 +175,7 @@ namespace SS
             currTile.SetTileType(TileType.Normal);
         }
 
-        public void EnemyAttackHero(long _heroUID)
+        public void EnemyAttackHero(long _enemyUID, long _heroUID)
         {
             var heroData = UserDataManager.Instance.GetBattleHeroData(_heroUID);
             if (heroData == null)
@@ -183,7 +184,7 @@ namespace SS
                 return;
             }
             var heroObj = heroObjDic[_heroUID];
-            UserDataManager.Instance.AttackToHero(_heroUID, 1);
+            UserDataManager.Instance.AttackToHero(_heroUID, 10);
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {

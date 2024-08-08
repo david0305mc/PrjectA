@@ -5,9 +5,20 @@ using UnityEngine;
 
 public class GameDefine 
 {
-    public static int layerUnit = 7;
+    public static int layerUnit = 8;
     public static int LayerMaskUnit = 1 << layerUnit;
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "SaveData");
+
+    public static readonly int[,] OuterTile = {
+        { 0, -1 },          //    U
+        { 1, -1 },          // R, U
+        { 1,  0 },          // R
+        { 1, -1 },          // R, D
+        { 0,  1 },          //    D
+        {-1, -1 },          // L, D
+        {-1,  0 },          // L
+        {-1,  1 },          // L, U
+    };
 }
 
 public class GamePath
