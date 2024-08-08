@@ -21,8 +21,7 @@ namespace SS
         public void LoadLocalData()
         {
             int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
-            //if (newUser == 1)
-            if (false)
+            if (newUser == 1)
             {
                 try
                 {
@@ -83,7 +82,10 @@ namespace SS
         {
             return SavableData.BattlePartyDic[_index];
         }
-
+        public UnitData GetHeroDataByTID(int _tid)
+        {
+            return SavableData.HeroDataDic.Values.FirstOrDefault(item => item.tid == _tid);
+        }
         public UnitData GetBattleHeroData(long _uid)
         {
             return battleHeroDataDic.GetValueOrDefault(_uid);

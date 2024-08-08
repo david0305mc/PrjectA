@@ -67,11 +67,9 @@ public class GachaResultPopup : PopupBase
     {
         ClearPool();
         animator.SetTrigger("ShowUpEffect");
-        int grade = 1;
+        
         var gachaInfo = DataManager.Instance.GetGachaListData(gachaList[index]);
-        var unitData = UserData.Instance.GetHeroDataByTID(gachaInfo.unitid);
-        //var unitInfo = DataManager.Instance.GetUnitinfoData(gachaInfo.unitid);
-        //var unitGradeInfo = DataManager.Instance.GetUnitGrade(gachaInfo.unitid, grade);
+        var unitData = SS.UserDataManager.Instance.GetHeroDataByTID(gachaInfo.unitid);
 
         GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitData.refData.prefabname);
         heroObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Vector3.zero, Quaternion.identity, unitPos).GetComponent<UnitObj>();

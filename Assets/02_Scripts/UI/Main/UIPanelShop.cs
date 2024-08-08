@@ -120,12 +120,12 @@ public class UIPanelShop : MonoBehaviour
     }
     private void SummonHero(int _count, int _goldCost)
     {
-        if (UserData.Instance.LocalData.Gold.Value < _goldCost)
+        if (SS.UserDataManager.Instance.SavableData.Gold.Value < _goldCost)
         {
             PopupManager.Instance.ShowSystemOneBtnPopup(LocalizeManager.Instance.GetLocalString("notEnoughGold"), "OK");
             return;
         }
-        MGameManager.Instance.SummonHero(_count, _goldCost);
+        SS.GameManager.Instance.SummonHero(_count, _goldCost);
     }
 
     private void BuyStamina(int _count, int _goldCost)
