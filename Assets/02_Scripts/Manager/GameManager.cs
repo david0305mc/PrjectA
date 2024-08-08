@@ -197,7 +197,7 @@ namespace SS
             }
         }
 
-        public void AddHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
+        public void AddBattleHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
         {
             var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
@@ -205,7 +205,7 @@ namespace SS
             heroObjDic.Add(_obj.UnitUID, _obj);
         }
 
-        public void AddEnemyObj(int _tid)
+        public void AddBattleEnemyObj(int _tid)
         {
             var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
             BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
