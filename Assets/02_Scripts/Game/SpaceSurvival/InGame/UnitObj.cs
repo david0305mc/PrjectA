@@ -41,7 +41,7 @@ public class UnitObj : BaseObj
 
     protected void Idle_Enter()
     {
-        Debug.Log("Idle_Enter");
+        //Debug.Log("Idle_Enter");
         PlayAni("Walk");
     }
     protected void Idle_Update()
@@ -110,15 +110,22 @@ public class UnitObj : BaseObj
 
     protected void Move_Enter()
     {
-        Debug.Log("Move_Enter");
+        //Debug.Log("Move_Enter");
         PlayAni("Walk");
         compositeDisposable?.Clear();
         compositeDisposable = new CompositeDisposable();
-        MessageDispather.Receive<int>(EMessage.UpdateTile).Subscribe(_ =>
+        MessageDispather.Receive<Vector2Int>(EMessage.UpdateTile).Subscribe(tile =>
         {
             if (targetObj == null)
                 return;
 
+            if (!HasTileInPath(tile))
+            {
+                Debug.Log("!HasTileInPath");
+                return;
+            }
+            
+           
             if (isHero)
             {
                 if (SS.UserDataManager.Instance.GetBattleHeroData(UnitUID) == default)
@@ -137,8 +144,6 @@ public class UnitObj : BaseObj
             {
                 int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
                 int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-                Debug.Log($"MessageDispather.Receive {currNodeIndex}");
 
                 if (currNodeIndex < pathList.Count - 1)
                 {
@@ -195,15 +200,19 @@ public class UnitObj : BaseObj
         if (distToTarget.magnitude < 0.05f)
         {
             targetNodeIndex++;
-            MessageDispather.Publish(EMessage.UpdateTile, 1);
             if (targetNodeIndex >= pathList.Count)
             {
-                Debug.LogError("Complete");
+                //Debug.LogError("Complete");
                 //Lean.Pool.LeanPool.Despawn(gameObject);
                 //isActive = false;
                 //fsm.ChangeState(UnitStates.Idle);
+                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(pathList[pathList.Count - 1].x, pathList[pathList.Count - 1].y));
                 fsm.ChangeState(UnitStates.Attack);
                 return;
+            }
+            else
+            {
+                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(pathList[targetNodeIndex].x, pathList[targetNodeIndex].y));
             }
             distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
         }
@@ -258,4 +267,15 @@ public class UnitObj : BaseObj
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
     }
 
+    private bool HasTileInPath(Vector2Int _tile)
+    {
+        for (int i = targetNodeIndex; i < pathList.Count; i++)
+        {
+            if (_tile.x == pathList[i].x && _tile.y == pathList[i].y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

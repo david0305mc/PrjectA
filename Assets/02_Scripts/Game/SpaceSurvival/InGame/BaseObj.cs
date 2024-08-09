@@ -7,6 +7,7 @@ using MonsterLove.StateMachine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Rendering;
+using System.Linq;
 
 public class BaseObj : Boids2D
 {
@@ -89,7 +90,7 @@ public class BaseObj : Boids2D
     //}
     protected void Attack_Enter()
     {
-        Debug.Log("Attack_Enter");
+        //Debug.Log("Attack_Enter");
         attackDelay = 0f;
         PlayAni("Attack");
         FlipRenderers(transform.position.x <= targetObj.transform.position.x);
@@ -253,7 +254,7 @@ public class BaseObj : Boids2D
         }
         else
         {
-            randPosOffset = new Vector2(Random.Range(-0.03f, 0.03f), Random.Range(-0.03f, 0.03f));
+            randPosOffset = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
         
@@ -405,6 +406,7 @@ public class BaseObj : Boids2D
         });
         transform.position = _target;
     }
+
 
     protected void ShowCanvas()
     {

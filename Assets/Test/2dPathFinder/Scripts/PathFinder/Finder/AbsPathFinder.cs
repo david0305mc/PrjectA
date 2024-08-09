@@ -153,7 +153,10 @@ namespace FT
             }
             var time2 = Time.realtimeSinceStartup;
 
+#if MOONTEST
             Debug.Log("use time:  " + (time2 - time).ToString());
+#endif
+
             Profiler.EndSample();
 #if UNITY_EDITOR
             recorder.Play();
