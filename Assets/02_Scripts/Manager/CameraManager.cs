@@ -103,13 +103,13 @@ public class CameraManager : SingletonMono<CameraManager>
             }
             else
             {
-                var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
-                if (obj != null)
-                {
-                    var tileObj = obj.GetComponent<TileObject>();
-                    TestTarget = new Vector2Int(tileObj.X, tileObj.Y);
-                    MessageDispather.Publish(EMessage.UpdateTile, 1);
-                }
+                //var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
+                //if (obj != null)
+                //{
+                //    var tileObj = obj.GetComponent<TileObject>();
+                //    TestTarget = new Vector2Int(tileObj.X, tileObj.Y);
+                //    MessageDispather.Publish(EMessage.UpdateTile, 1);
+                //}
             }
             //groundDragStarted = false;
             //dragStartPos = PositiveInfinityVector;

@@ -79,7 +79,7 @@ public class UnitObj : BaseObj
         for (int i = 0; i < GameDefine.OuterTile.GetLength(0); i++)
         {
             var pathCount = GetPathCount(_startX, _startY, _endX + GameDefine.OuterTile[i, 0], _endY + GameDefine.OuterTile[i, 1], _passBuilding);
-            if (shortPathCount > pathCount)
+            if (pathCount > 0 && shortPathCount > pathCount)
             {
                 shortPathCount = pathCount;
                 targetTile = new Vector2Int(_endX + GameDefine.OuterTile[i, 0], _endY + GameDefine.OuterTile[i, 1]);
@@ -139,21 +139,29 @@ public class UnitObj : BaseObj
                 int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
                 Debug.Log($"MessageDispather.Receive {currNodeIndex}");
-                //RefreshPath(x, y, endTile.X, endTile.Y);
 
-                if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
-                {
-                    targetObj = SearchNearestOpponent(true);
-                }
-                if (targetObj != null)
-                {
-                    targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-                    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
-                }
-                else
+                if (currNodeIndex < pathList.Count - 1)
                 {
                     fsm.ChangeState(UnitStates.Idle);
                 }
+                else
+                {
+                    Debug.Log("Almost Finish");
+                }
+                //if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+                //{
+                //    targetObj = SearchNearestOpponent(true);
+                //}
+                //if (targetObj != null)
+                //{
+                //    targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+                //    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
+                //}
+                //else
+                //{
+                //    fsm.ChangeState(UnitStates.Idle);
+                //}
+                //fsm.ChangeState(UnitStates.Idle);
             }
         }).AddTo(compositeDisposable);
     }
@@ -241,7 +249,7 @@ public class UnitObj : BaseObj
         }
         else
         {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location + randPosOffset, _forwardSpeed * Time.deltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
         }
         _rigidbody2D.MovePosition(newPos);
         FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);

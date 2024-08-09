@@ -162,6 +162,9 @@ public class BaseObj : Boids2D
 
     protected int GetPathCount(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
+        if (_startX < 0 || _startY < 0 || _endX < 0 || _endY < 0)
+            return 0;
+
         SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
         return pathFinder.FindPath().Count;
     }
@@ -177,7 +180,11 @@ public class BaseObj : Boids2D
         startTile = gridMap.Tiles[_startX, _startY];
         startTile.SetCurrNodeMark(true);
         pathList = pathFinder.FindPath();
-        
+        foreach (var item in pathList)
+        {
+            item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
+        }
+
         targetNodeIndex = 0;
         currNodeIndex = -1;
 
@@ -246,12 +253,13 @@ public class BaseObj : Boids2D
         }
         else
         {
-            randPosOffset = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+            randPosOffset = new Vector2(Random.Range(-0.03f, 0.03f), Random.Range(-0.03f, 0.03f));
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
         
         UpdateUI();
         ChangeIdleState();
+
         if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             var currTile = gridMap.Tiles[currTileX, currTileY];
