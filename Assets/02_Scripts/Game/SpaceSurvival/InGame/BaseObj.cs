@@ -222,7 +222,7 @@ public class BaseObj : Boids2D
             }
         }
     }
-    public void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    public virtual void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
         isHero = _isHero;
         if (_isHero)

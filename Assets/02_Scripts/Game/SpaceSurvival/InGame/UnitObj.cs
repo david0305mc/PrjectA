@@ -18,7 +18,12 @@ public class UnitObj : BaseObj
         base.Awake();
         fsm = new StateMachine<UnitStates, Driver>(this);
     }
-    
+
+    public override void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    {
+        base.InitData(_isHero, _unitUID, _mapCreator, _startTile, _endTile);
+        SetBattleMode();
+    }
     protected override void ChangeIdleState()
     {
         base.ChangeIdleState();
