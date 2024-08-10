@@ -21,8 +21,7 @@ namespace SS
         public void LoadLocalData()
         {
             int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
-            //if (newUser == 1)
-            if(false)
+            if (newUser == 1)
             {
                 try
                 {
