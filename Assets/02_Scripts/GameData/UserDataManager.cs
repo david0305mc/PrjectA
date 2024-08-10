@@ -21,7 +21,8 @@ namespace SS
         public void LoadLocalData()
         {
             int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
-            if (newUser == 1)
+            //if (newUser == 1)
+            if(false)
             {
                 try
                 {
@@ -65,7 +66,8 @@ namespace SS
         private void InitNewGameData()
         {
             SavableData = new SaveData();
-            var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
+            //var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
+            var heroData = AddHeroData(11012, 1);
 
             AddBattleParty(heroData.uid);
         }

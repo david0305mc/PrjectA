@@ -34,7 +34,7 @@ public class BaseObj : Boids2D
     protected GridMap gridMap;
     protected TileObject startTile;
     private TileObject endTile;
-    protected Vector2 randPosOffset;        // 분산 시키기 위한 랜덤 오프셋
+    protected Vector2 randPosOffset;        // ???? ?????? ???? ???? ??????
     
     public long UnitUID { get { return unitData.uid; } }
     public int currTileX { get; protected set; }
@@ -260,7 +260,7 @@ public class BaseObj : Boids2D
         
         UpdateUI();
         ChangeIdleState();
-
+        SetBattleMode();
         if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             var currTile = gridMap.Tiles[currTileX, currTileY];
@@ -418,4 +418,22 @@ public class BaseObj : Boids2D
         canvas?.gameObject.SetActive(false);
     }
 
+    public virtual void SetUIMode(int _sortingOrder)
+    {
+        sortingGroup.sortingLayerName = Game.GameConfig.UILayerName;
+        sortingGroup.sortingOrder = _sortingOrder;
+
+        HideCanvase();
+        transform.SetScale(200f);
+        PlayAni("Idle");
+    }
+    public virtual void SetBattleMode()
+    {
+        sortingGroup.sortingLayerName = Game.GameConfig.ForegroundLayerName;
+        sortingGroup.sortingOrder = 0;
+        //attackDelay = 0f;
+        HideCanvase();
+        //SetSelected(false);
+        transform.SetScale(1f);
+    }
 }

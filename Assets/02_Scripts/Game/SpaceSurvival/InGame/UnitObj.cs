@@ -57,12 +57,12 @@ public class UnitObj : BaseObj
 
         if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
         {
-            // 타겟이 있는데 경로는 없는 경우, 건물까지 검색
+            // ?????? ?????? ?????? ???? ????, ???????? ????
             targetObj = SearchNearestOpponent(true);
         }
         else if (targetObj == null)
         {
-            // 타겟이 없는 경우, 견물까지 검색
+            // ?????? ???? ????, ???????? ????
             targetObj = SearchNearestOpponent(true);
         }
 
@@ -93,24 +93,14 @@ public class UnitObj : BaseObj
         return targetTile;
     }
 
-    public void SetUIMode(int _sortingOrder)
+    public override void SetUIMode(int _sortingOrder)
     {
-        sortingGroup.sortingLayerName = Game.GameConfig.UILayerName;
-        sortingGroup.sortingOrder = _sortingOrder;
-        
+        base.SetUIMode(_sortingOrder);
         fsm.ChangeState(UnitStates.Idle);
-        HideCanvase();
-        transform.SetScale(200f);
-        PlayAni("Idle");
     }
-    public void SetBattleMode()
+    public override void SetBattleMode()
     {
-        sortingGroup.sortingLayerName = Game.GameConfig.ForegroundLayerName;
-        sortingGroup.sortingOrder = 0;
-        //attackDelay = 0f;
-        HideCanvase();
-        //SetSelected(false);
-        transform.SetScale(1f);
+        base.SetBattleMode();
     }
 
     protected void Move_Enter()
