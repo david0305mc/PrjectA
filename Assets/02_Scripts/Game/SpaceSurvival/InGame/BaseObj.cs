@@ -44,7 +44,7 @@ public class BaseObj : Boids2D
     private float attackDelay;
     protected SS.UnitData unitData;
     protected bool isHero;
-
+    public bool IsHero => isHero;
     
 
     protected override void Awake()

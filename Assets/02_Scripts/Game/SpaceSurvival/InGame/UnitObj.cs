@@ -54,32 +54,49 @@ public class UnitObj : BaseObj
         
         targetObj = SearchNearestOpponent(false);
 
-        if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+        if (isHero)
         {
-            // ?????? ?????? ?????? ???? ????, ???????? ????
-            targetObj = SearchNearestOpponent(true);
+            if (targetObj != default)
+            {
+                // GetOuterCells
+                // finding nearest outer cell
+                targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+                if (!targetTile.Equals(new Vector2Int(-1, -1)))
+                {
+                    RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
+                    fsm.ChangeState(UnitStates.Move);
+                }
+            }
         }
-        else if (targetObj == null)
+        else
         {
-            // ?????? ???? ????, ???????? ????
-            targetObj = SearchNearestOpponent(true);
-        }
+            if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
+            {
+                // ?????? ?????? ?????? ???? ????, ???????? ????
+                targetObj = SearchNearestOpponent(true);
+            }
+            else if (targetObj == null)
+            {
+                // ?????? ???? ????, ???????? ????
+                targetObj = SearchNearestOpponent(true);
+            }
 
-        if (targetObj != default)
-        {
+            if (targetObj != default)
+            {
 
-            // GetOuterCells
-            // finding nearest outer cell
-            targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-            RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
-            fsm.ChangeState(UnitStates.Move);
+                // GetOuterCells
+                // finding nearest outer cell
+                targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+                RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
+                fsm.ChangeState(UnitStates.Move);
+            }
         }
     }
 
     private Vector2Int GetNearestOutTile(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         int shortPathCount = int.MaxValue;
-        Vector2Int targetTile = new Vector2Int(GameDefine.OuterTile[0, 0], GameDefine.OuterTile[0, 1]);
+        Vector2Int targetTile = new Vector2Int(-1, -1);
         for (int i = 0; i < GameDefine.OuterTile.GetLength(0); i++)
         {
             var pathCount = GetPathCount(_startX, _startY, _endX + GameDefine.OuterTile[i, 0], _endY + GameDefine.OuterTile[i, 1], _passBuilding);
