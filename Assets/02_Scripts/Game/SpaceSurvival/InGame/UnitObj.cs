@@ -83,7 +83,6 @@ public class UnitObj : BaseObj
 
             if (targetObj != default)
             {
-
                 // GetOuterCells
                 // finding nearest outer cell
                 targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);

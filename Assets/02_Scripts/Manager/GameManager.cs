@@ -155,7 +155,7 @@ namespace SS
                 return;
             }
             var enemyObj = enemyObjDic[_enemyUID];
-            UserDataManager.Instance.AttackToEnemy(_enemyUID, 10);
+            UserDataManager.Instance.AttackToEnemy(_enemyUID, 30);
             enemyObj.GetAttacked();
             if (enemyData.state == UnitDataStates.Dead)
             {
@@ -177,6 +177,7 @@ namespace SS
 
         public void EnemyAttackHero(long _enemyUID, long _heroUID)
         {
+            var enemyData = UserDataManager.Instance.GetEnemyData(_enemyUID);
             var heroData = UserDataManager.Instance.GetBattleHeroData(_heroUID);
             if (heroData == null)
             {
@@ -184,7 +185,7 @@ namespace SS
                 return;
             }
             var heroObj = heroObjDic[_heroUID];
-            UserDataManager.Instance.AttackToHero(_heroUID, 10);
+            UserDataManager.Instance.AttackToHero(_heroUID, 30);
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {

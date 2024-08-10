@@ -139,25 +139,18 @@ public class BaseObj : Boids2D
 
         foreach (var item in gridMap.Tiles)
         {
-            if (item.X == _endX && item.Y == _endY)
+            switch (item.tileType)
             {
-                pathFinder.RefreshWalkable(item.X, item.Y, true);
+                case TileType.Block:
+                    pathFinder.RefreshWalkable(item.X, item.Y, false);
+                    break;
+                case TileType.Building:
+                    pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
+                    break;
+                default:
+                    pathFinder.RefreshWalkable(item.X, item.Y, true);
+                    break;
             }
-            else
-            {
-                switch (item.tileType)
-                {
-                    case TileType.Block:
-                        pathFinder.RefreshWalkable(item.X, item.Y, false);
-                        break;
-                    case TileType.Building:
-                        pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
-                        break;
-                    default:
-                        pathFinder.RefreshWalkable(item.X, item.Y, true);
-                        break;
-                }
-            }   
         }
     }
 
