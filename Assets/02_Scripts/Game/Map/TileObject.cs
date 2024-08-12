@@ -11,6 +11,11 @@ public class TileObject : MonoBehaviour
     public int X;
     public int Y;
 
+    public bool IsBlock()
+    {
+        return tileType == TileType.Block || tileType == TileType.Building;
+    }
+
     private void Awake()
     {
         UpdateTile();

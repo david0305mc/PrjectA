@@ -159,7 +159,20 @@ public class BaseObj : Boids2D
         if (_startX < 0 || _startY < 0 || _endX < 0 || _endY < 0)
             return 0;
 
-        SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
+        if (_startX >= gridMap.gridCol || _endX >= gridMap.gridCol)
+            return 0;
+        if (_startY >= gridMap.gridRow || _endY >= gridMap.gridRow)
+            return 0;
+
+        try
+        {
+            SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
+        }
+        catch
+        {
+            Debug.LogError($"_startX {_startX}, _startY {_startY}, _endX {_endX}, _endY {_endY}, _passBuilding");
+        }
+        
         return pathFinder.FindPath().Count;
     }
 

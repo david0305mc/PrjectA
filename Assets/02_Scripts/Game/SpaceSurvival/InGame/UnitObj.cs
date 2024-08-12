@@ -11,7 +11,7 @@ public class UnitObj : BaseObj
     private CompositeDisposable compositeDisposable;
     private Vector2Int targetTile;
     private StateMachine<UnitStates, Driver> fsm;
-
+    private bool isToChangeTarget;
 
     protected override void Awake()
     {
@@ -46,6 +46,7 @@ public class UnitObj : BaseObj
     protected void Idle_Enter()
     {
         //Debug.Log("Idle_Enter");
+        isToChangeTarget = false;
         PlayAni("Walk");
     }
     protected void Idle_Update()
@@ -128,7 +129,7 @@ public class UnitObj : BaseObj
         {
             if (targetObj == null)
                 return;
-
+            
             if (!HasTileInPath(tile))
             {
                 Debug.Log("!HasTileInPath");
@@ -157,7 +158,8 @@ public class UnitObj : BaseObj
 
                 if (currNodeIndex < pathList.Count - 1)
                 {
-                    fsm.ChangeState(UnitStates.Idle);
+                    //fsm.ChangeState(UnitStates.Idle);
+                    isToChangeTarget = true;
                 }
                 else
                 {
@@ -198,6 +200,22 @@ public class UnitObj : BaseObj
         //    MoveEvent();
         //}
     }
+
+    private Vector2Int GetNextTile()
+    {
+        if (pathList == null || pathList.Count == 0)
+        {
+            return new Vector2Int(-1, -1);
+        }
+        
+        int nextNodeIndex = targetNodeIndex + 1;
+        if (nextNodeIndex >= pathList.Count)
+        {
+            return new Vector2Int(-1, -1);
+        }
+        return new Vector2Int(pathList[nextNodeIndex].x, pathList[nextNodeIndex].y);
+    }
+
     private void MoveEvent()
     {
         if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
@@ -219,6 +237,17 @@ public class UnitObj : BaseObj
                 MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(pathList[pathList.Count - 1].x, pathList[pathList.Count - 1].y));
                 fsm.ChangeState(UnitStates.Attack);
                 return;
+            }
+            else if (gridMap.Tiles[pathList[targetNodeIndex].x, pathList[targetNodeIndex].y].IsBlock())
+            {
+                Debug.Log("Next Tile Is Block");
+                fsm.ChangeState(UnitStates.Idle);
+                return;
+            }
+            else if (isToChangeTarget)
+            {
+                Debug.Log("isToChangeTarget");
+                fsm.ChangeState(UnitStates.Idle);
             }
             else
             {
