@@ -247,7 +247,7 @@ public class BaseObj : Boids2D
         }
         else
         {
-            randPosOffset = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+            randPosOffset = new Vector2(Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax), Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax));
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
         

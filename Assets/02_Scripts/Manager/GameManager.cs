@@ -151,11 +151,11 @@ namespace SS
             var enemyData = UserDataManager.Instance.GetEnemyData(_enemyUID);
             if (enemyData == null)
             {
-                Debug.LogError($"heroObjDic.ContainsKey {_enemyUID}");
+                Debug.Log($"heroObjDic.ContainsKey {_enemyUID}");
                 return;
             }
             var enemyObj = enemyObjDic[_enemyUID];
-            UserDataManager.Instance.AttackToEnemy(_enemyUID, 30);
+            UserDataManager.Instance.AttackToEnemy(_enemyUID, GameDefine.TestAttackDamage);
             enemyObj.GetAttacked();
             if (enemyData.state == UnitDataStates.Dead)
             {
@@ -181,11 +181,11 @@ namespace SS
             var heroData = UserDataManager.Instance.GetBattleHeroData(_heroUID);
             if (heroData == null)
             {
-                Debug.LogError($"heroObjDic.ContainsKey {_heroUID}");
+                Debug.Log($"heroObjDic.ContainsKey {_heroUID}");
                 return;
             }
             var heroObj = heroObjDic[_heroUID];
-            UserDataManager.Instance.AttackToHero(_heroUID, 30);
+            UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestAttackDamage);
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {
