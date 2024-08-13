@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Game;
+using System.Linq;
 
 namespace SS
 {
@@ -128,8 +129,8 @@ namespace SS
         {
             gameState = GameConfig.GameState.MainUI;
             SetWorldUI();
-            worldMap.gameObject.SetActive(true);
-            worldMap.UpdateWorld();
+            //worldMap.gameObject.SetActive(true);
+            //worldMap.UpdateWorld();
         }
 
         public void RemoveStage()
@@ -139,9 +140,8 @@ namespace SS
                 Destroy(currMapOpHandler.Result.gameObject);
             }
 
-
-            //RemoveAllBattleHero();
-            //RemoveAllEnemy();
+            RemoveAllHeroObj();
+            RemoveAllEnemyObj();
             //RemoveAllProjectile();
         }
 
@@ -163,9 +163,7 @@ namespace SS
                 {
                     DestroyBuilding(enemyObj.currTileX, enemyObj.currTileY);
                 }
-                Lean.Pool.LeanPool.Despawn(enemyObj);
-                enemyObjDic.Remove(_enemyUID);
-                UserDataManager.Instance.RemoveEnemyData(_enemyUID);
+                RemoveEnemyObj(_enemyUID);
             }
         }
 
@@ -193,9 +191,7 @@ namespace SS
                 {
                     DestroyBuilding(heroObj.currTileX, heroObj.currTileY);
                 }
-                Lean.Pool.LeanPool.Despawn(heroObj);
-                heroObjDic.Remove(_heroUID);
-                UserDataManager.Instance.RemoveHeroData(_heroUID);
+                RemoveHeroObj(_heroUID);
             }
         }
 
@@ -205,6 +201,52 @@ namespace SS
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
             _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
+        }
+
+        private void RemoveAllHeroObj()
+        {
+            for (int i = UserDataManager.Instance.BattleHeroDataDic.Count - 1; i >= 0; i--)
+            {
+                RemoveHeroObj(UserDataManager.Instance.BattleHeroDataDic.ElementAt(i).Key);
+            }
+        }
+
+        private void RemoveHeroObj(long _heroUID)
+        {
+            UserDataManager.Instance.RemoveHeroData(_heroUID);
+            if (heroObjDic.ContainsKey(_heroUID))
+            {
+                var heroObj = heroObjDic[_heroUID];
+                Lean.Pool.LeanPool.Despawn(heroObj);
+                heroObjDic.Remove(_heroUID);
+            }
+            else
+            {
+                Debug.LogError($"RemoveHeroObj {_heroUID}");
+            }
+        }
+
+        private void RemoveEnemyObj(long _enemyUID)
+        {
+            UserDataManager.Instance.RemoveEnemyData(_enemyUID);
+            if (enemyObjDic.ContainsKey(_enemyUID))
+            {
+                var enemyObj = enemyObjDic[_enemyUID];
+                Lean.Pool.LeanPool.Despawn(enemyObj);
+                enemyObjDic.Remove(_enemyUID);
+            }
+            else 
+            {
+                Debug.LogError($"RemoveEnemyObj {_enemyUID}");
+            }
+        }
+
+        private void RemoveAllEnemyObj()
+        {
+            for (int i = UserDataManager.Instance.EnemyDataDic.Count - 1; i >= 0; i--)
+            {
+                RemoveEnemyObj(UserDataManager.Instance.EnemyDataDic.ElementAt(i).Key);
+            }
         }
 
         public void AddBattleEnemyObj(int _tid)

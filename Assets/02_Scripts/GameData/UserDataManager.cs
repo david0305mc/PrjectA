@@ -10,7 +10,8 @@ namespace SS
         private Dictionary<long, SS.UnitData> enemyDataDic = new Dictionary<long, UnitData>();
         private Dictionary<long, SS.UnitData> battleHeroDataDic = new Dictionary<long, UnitData>();
 
-        public Dictionary<long, SS.UnitData> BattleHeroDataDic { get { return battleHeroDataDic; } }
+        public Dictionary<long, UnitData> EnemyDataDic => enemyDataDic;
+        public Dictionary<long, SS.UnitData> BattleHeroDataDic => battleHeroDataDic;
         public SaveData SavableData { get; private set; }
 
         public void InitData()

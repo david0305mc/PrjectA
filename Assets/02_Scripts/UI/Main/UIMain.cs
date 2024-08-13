@@ -15,8 +15,8 @@ public class UIMain : SingletonMono<UIMain>
     
     [SerializeField] private GameObject ingameUI;
     [SerializeField] private GameObject worldUI;
-    [SerializeField] private Button testSpawnBtn;
     [SerializeField] private Button testAddGoldBtn;
+
 
     private void Awake()
     {
@@ -24,12 +24,7 @@ public class UIMain : SingletonMono<UIMain>
         startSpaceAreaBtn.onClick.AddListener(() =>
         {
             SS.GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
-            ingameUI.SetActive(true);
-        });
-
-        testSpawnBtn.onClick.AddListener(() =>
-        {
-            SS.GameManager.Instance.AddBattleEnemyObj(2006);
+            //ingameUI.SetActive(true);
         });
 
         testAddGoldBtn.onClick.AddListener(() =>

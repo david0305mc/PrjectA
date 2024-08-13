@@ -8,7 +8,22 @@ public class BattleUI : MonoBehaviour
 {
     [SerializeField] private List<int> testUnitTIDList;
     [SerializeField] private List<UIUnitSlot> unitSlotList;
+    [SerializeField] private Button spawnEnemyBtn;
+    [SerializeField] private Button exitBtn;
 
+    private void Awake()
+    {
+
+        spawnEnemyBtn.onClick.AddListener(() =>
+        {
+            SS.GameManager.Instance.AddBattleEnemyObj(2006);
+        });
+
+        exitBtn.onClick.AddListener(() =>
+        {
+            SS.GameManager.Instance.ExitStage();
+        });
+    }
     private void Start()
     {
         CreateUnitSlot();
@@ -41,5 +56,6 @@ public class BattleUI : MonoBehaviour
         }
             
     }
+
 
 }
