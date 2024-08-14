@@ -101,9 +101,10 @@ public partial class UserData : Singleton<UserData>
     private void InitNewGameData()
     {
         LocalData = new LocalSaveData();
+        AddHeroData(GameDefine.MyBossUnitTID, 1);
         var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
-
         AddBattleParty(heroData.uid);
+
         var levelInfo = DataManager.Instance.GetLevelData(LocalData.Level.Value);
         LocalData.UnitSlotCount = new ReactiveProperty<int>(levelInfo.unlockslot);
         LocalData.ShipRewardableTime = GameTime.Get();
@@ -338,8 +339,9 @@ public partial class UserData : Singleton<UserData>
     }
     public void LoadLocalData()
     {
-        int newUser = PlayerPrefs.GetInt("NewUser", 0);
-        if (newUser == 1)
+        int newUser = PlayerPrefs.GetInt("NewUser_01", 0);
+        //if (newUser == 1)
+        if(false)
         {
             try
             {

@@ -9,7 +9,6 @@ public class UnitObj : BaseObj
 {
 
     private CompositeDisposable compositeDisposable;
-    private Vector2Int targetTile;
     private StateMachine<UnitStates, Driver> fsm;
     private bool isToChangeTarget;
 
@@ -61,7 +60,7 @@ public class UnitObj : BaseObj
             {
                 // GetOuterCells
                 // finding nearest outer cell
-                targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+                Vector2Int targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
                 if (!targetTile.Equals(new Vector2Int(-1, -1)))
                 {
                     RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
@@ -86,7 +85,7 @@ public class UnitObj : BaseObj
             {
                 // GetOuterCells
                 // finding nearest outer cell
-                targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+                Vector2Int targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
                 RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
                 fsm.ChangeState(UnitStates.Move);
             }
@@ -109,6 +108,33 @@ public class UnitObj : BaseObj
         return targetTile;
     }
 
+    //public Vector3[] GetOuterCells()
+    //{
+    //    int sizeX = (int)this.GetSize().x;
+
+    //    if (sizeX <= 1)
+    //    {
+    //        return new Vector3[0];
+    //    }
+
+    //    List<Vector3> cells = new List<Vector3>();
+    //    for (int x = 0; x <= sizeX; x++)
+    //    {
+    //        for (int z = 0; z <= sizeX; z++)
+    //        {
+    //            if (x == sizeX || z == sizeX || x == 0 || z == 0)
+    //            {
+    //                Vector3 cellPos = this.GetPosition() + new Vector3(x, 0, z);
+    //                if (!cells.Contains(cellPos))
+    //                {
+    //                    cells.Add(cellPos);
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    return cells.ToArray();
+    //}
     public override void SetUIMode(int _sortingOrder)
     {
         base.SetUIMode(_sortingOrder);

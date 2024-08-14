@@ -28,6 +28,7 @@ public class BaseObj : Boids2D
     private Transform renderRoot;
 
     private AbsPathFinder pathFinder;
+    private AbsPathFinder pathFinderPassBuilding;
     protected List<PathNode> pathList;
     protected int targetNodeIndex;
     protected int currNodeIndex;
@@ -131,11 +132,55 @@ public class BaseObj : Boids2D
         }
     }
 
+    //protected List<PathNode> GeneratePath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    //{
+    //    pathFinder.SetStartNode(_startX, _startY);
+    //    pathFinder.SetEndNode(_endX, _endY);
+
+    //    foreach (var item in gridMap.Tiles)
+    //    {
+    //        switch (item.tileType)
+    //        {
+    //            case TileType.Block:
+    //                pathFinder.RefreshWalkable(item.X, item.Y, false);
+    //                break;
+    //            case TileType.Building:
+    //                pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
+    //                break;
+    //            default:
+    //                pathFinder.RefreshWalkable(item.X, item.Y, true);
+    //                break;
+    //        }
+    //    }
+    //    return pathFinder.FindPath();
+    //}
     private void SetAStarPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         pathFinder.Clear();
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
+
+        foreach (var item in gridMap.Tiles)
+        {
+            switch (item.tileType)
+            {
+                case TileType.Block:
+                    pathFinder.RefreshWalkable(item.X, item.Y, false);
+                    break;
+                case TileType.Building:
+                    pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
+                    break;
+                default:
+                    pathFinder.RefreshWalkable(item.X, item.Y, true);
+                    break;
+            }
+        }
+    }
+    private void SetAStarPathWithBuilding(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    {
+        pathFinderPassBuilding.Clear();
+        pathFinderPassBuilding.SetStartNode(_startX, _startY);
+        pathFinderPassBuilding.SetEndNode(_endX, _endY);
 
         foreach (var item in gridMap.Tiles)
         {
@@ -184,9 +229,20 @@ public class BaseObj : Boids2D
     protected void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
-        startTile = gridMap.Tiles[_startX, _startY];
-        startTile.SetCurrNodeMark(true);
+        SetAStarPathWithBuilding(_startX, _startY, _endX, _endY, true);
+
         pathList = pathFinder.FindPath();
+        var pathListPassBuilding = pathFinderPassBuilding.FindPath();
+
+        if (pathListPassBuilding.Count + 4 < pathList.Count)
+        {
+            // 건물 뚫고 가는것이 유리하면 타겟을 건물로 바꾼다.
+            pathList = pathListPassBuilding;
+        }
+
+        startTile = gridMap.Tiles[_startX, _startY];
+
+
         foreach (var item in pathList)
         {
             item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
@@ -242,12 +298,16 @@ public class BaseObj : Boids2D
         
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
-        pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
+        pathFinder.SetNode2Pos(gridMap.Node2Pos);
+        pathFinder.InitMap(gridMap.gridCol, gridMap.gridRow);
+
+        pathFinderPassBuilding  = new AStarPathFinder(this);
+        pathFinderPassBuilding.SetNode2Pos(gridMap.Node2Pos);
+        pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
+
         currNodeIndex = -1;
         targetObj = null;
-
         endTile = gridMap.Tiles[_endTile.x, _endTile.y];
-        pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
 

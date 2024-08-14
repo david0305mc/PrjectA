@@ -66,6 +66,7 @@ namespace SS
                 currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
                 await currMapOpHandler;
                 gridMap = currMapOpHandler.Result.GetComponent<GridMap>();
+                AddMyBossObj();
             });
         }
 
@@ -201,6 +202,19 @@ namespace SS
             //_obj.InitData(heroData.uid, gridMap, new Vector2Int(_obj.TileX, _obj.TileY), new Vector2Int(0, 0));
             _obj.InitData(true, heroData.uid, gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
+        }
+
+        private void AddMyBossObj()
+        {
+            var myBossData = UserData.Instance.GetHeroDataByTID(GameDefine.MyBossUnitTID);
+            GameObject unitPrefab = MResourceManager.Instance.GetPrefab(myBossData.refData.prefabname);
+            var baseObj = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
+            AddBattleHeroObj(baseObj, GameDefine.MyBossUnitTID, 5, 3);
+
+            ////var myBossData = SS.UserDataManager.Instance.AddBattleHeroData(1);
+            ////BaseObj baseObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            //baseObj.InitData(true, myBossData.uid, gridMap, new Vector2Int(3, 3), new Vector2Int(7, 7));
+            //heroObjDic.Add(baseObj.UnitUID, baseObj);
         }
 
         private void RemoveAllHeroObj()
