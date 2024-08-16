@@ -23,7 +23,7 @@ namespace SS
 
         public void LoadLocalData()
         {
-            int newUser = PlayerPrefs.GetInt("IsNewUser_01", 0);
+            int newUser = PlayerPrefs.GetInt("IsNewUser_02", 0);
             if (newUser == 1)
             {
                 try

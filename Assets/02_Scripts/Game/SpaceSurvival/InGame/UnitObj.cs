@@ -50,52 +50,37 @@ public class UnitObj : BaseObj
     }
     protected void Idle_Update()
     {
-        //UnitObj targetEnemy = SearchTarget();
-
-        targetObj = SearchNearestOpponent(false);
-
-        if (isHero)
+        targetObj = FindTarget();
+        if (targetObj != null)
         {
-            if (targetObj != default)
+            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+            fsm.ChangeState(UnitStates.Move);
+        }
+    }
+
+    private BaseObj FindTarget()
+    {
+        BaseObj target = SearchNearestOpponent(false);
+
+        if (target != null && !HasPath(currTileX, currTileY, target.currTileX, target.currTileY, false))
+        {
+            // ?????? ?????? ?????? ???? ????, ???????? ????
+            target = SearchNearestOpponent(true);
+        }
+        else if (target == null)
+        {
+            // ?????? ???? ????, ???????? ????
+            target = SearchNearestOpponent(true);
+        }
+
+        if (!isHero)
+        {
+            if (target == default && SS.UserDataManager.Instance.HasMyBoss)
             {
-                // GetOuterCells
-                // finding nearest outer cell
-                Vector2Int targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-                if (!targetTile.Equals(new Vector2Int(-1, -1)))
-                {
-                    RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
-                    fsm.ChangeState(UnitStates.Move);
-                }
+                target = SS.GameManager.Instance.MyBossObj;
             }
         }
-        else
-        {
-            if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
-            {
-                // ?????? ?????? ?????? ???? ????, ???????? ????
-                targetObj = SearchNearestOpponent(true);
-            }
-            else if (targetObj == null)
-            {
-                // ?????? ???? ????, ???????? ????
-                targetObj = SearchNearestOpponent(true);
-            }
-
-
-            if (targetObj == default && SS.UserDataManager.Instance.HasMyBoss)
-            {
-                targetObj = SS.GameManager.Instance.MyBossObj;
-            }
-
-            if (targetObj != default)
-            {
-                // GetOuterCells
-                // finding nearest outer cell
-                Vector2Int targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-                RefreshPath(currTileX, currTileY, targetTile.x, targetTile.y, false);
-                fsm.ChangeState(UnitStates.Move);
-            }
-        }
+        return target;
     }
 
     private Vector2Int GetNearestOutTile(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
@@ -114,33 +99,6 @@ public class UnitObj : BaseObj
         return targetTile;
     }
 
-    //public Vector3[] GetOuterCells()
-    //{
-    //    int sizeX = (int)this.GetSize().x;
-
-    //    if (sizeX <= 1)
-    //    {
-    //        return new Vector3[0];
-    //    }
-
-    //    List<Vector3> cells = new List<Vector3>();
-    //    for (int x = 0; x <= sizeX; x++)
-    //    {
-    //        for (int z = 0; z <= sizeX; z++)
-    //        {
-    //            if (x == sizeX || z == sizeX || x == 0 || z == 0)
-    //            {
-    //                Vector3 cellPos = this.GetPosition() + new Vector3(x, 0, z);
-    //                if (!cells.Contains(cellPos))
-    //                {
-    //                    cells.Add(cellPos);
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    return cells.ToArray();
-    //}
     public override void SetUIMode(int _sortingOrder)
     {
         base.SetUIMode(_sortingOrder);
@@ -222,15 +180,29 @@ public class UnitObj : BaseObj
 
     protected void Move_Update()
     {
-        MoveEvent();
-        //if (CheckTargetRange())
-        //{
-        //    fsm.ChangeState(UnitStates.Attack);
-        //}
-        //else
-        //{
-        //    MoveEvent();
-        //}
+        if (CheckTargetRange())
+        {
+            fsm.ChangeState(UnitStates.Attack);
+        }
+        else
+        {
+            MoveEvent();
+        }
+    }
+
+    protected override void Attack_Enter()
+    {
+        base.Attack_Enter();
+    }
+
+    protected override void DoAttack()
+    {
+        base.DoAttack();
+    }
+
+    private bool IsCloseDistanceTarget()
+    {
+        return false;
     }
 
     private Vector2Int GetNextTile()
@@ -280,6 +252,7 @@ public class UnitObj : BaseObj
             {
                 Debug.Log("isToChangeTarget");
                 fsm.ChangeState(UnitStates.Idle);
+                return;
             }
             else
             {
@@ -349,4 +322,33 @@ public class UnitObj : BaseObj
         }
         return false;
     }
+
+
+    //public Vector3[] GetOuterCells()
+    //{
+    //    int sizeX = (int)this.GetSize().x;
+
+    //    if (sizeX <= 1)
+    //    {
+    //        return new Vector3[0];
+    //    }
+
+    //    List<Vector3> cells = new List<Vector3>();
+    //    for (int x = 0; x <= sizeX; x++)
+    //    {
+    //        for (int z = 0; z <= sizeX; z++)
+    //        {
+    //            if (x == sizeX || z == sizeX || x == 0 || z == 0)
+    //            {
+    //                Vector3 cellPos = this.GetPosition() + new Vector3(x, 0, z);
+    //                if (!cells.Contains(cellPos))
+    //                {
+    //                    cells.Add(cellPos);
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    return cells.ToArray();
+    //}
 }

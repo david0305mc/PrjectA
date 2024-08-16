@@ -89,7 +89,7 @@ public class BaseObj : Boids2D
     //{
     //    Debug.Log("Move_FixedUpdate");
     //}
-    protected void Attack_Enter()
+    protected virtual void Attack_Enter()
     {
         //Debug.Log("Attack_Enter");
         attackDelay = 0f;
@@ -107,7 +107,7 @@ public class BaseObj : Boids2D
         }
     }
 
-    protected void DoAttack()
+    protected virtual void DoAttack()
     {
         if (targetObj == null)
         {
@@ -355,7 +355,6 @@ public class BaseObj : Boids2D
 
     protected BaseObj SearchNearestOpponent(bool _includeBuilding)
     {
-        
         BaseObj targetObj = default;
         float distTarget = 0;
         var colliders = Physics2D.OverlapCircleAll(transform.position, 3f, GameDefine.LayerMaskUnit);
@@ -423,10 +422,13 @@ public class BaseObj : Boids2D
     protected bool CheckTargetRange()
     {
         if (targetObj == null)
+        {
+            Debug.LogError("targetObj == null");
             return false;
-
+        }
+        
         float dist = Vector2.Distance(targetObj.transform.position, transform.position);
-        if (dist < 0.05f)
+        if (dist < 2f)
         {
             return true;
         }
