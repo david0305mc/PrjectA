@@ -58,16 +58,16 @@ public partial class MGameManager : SingletonMono<MGameManager>
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
-        dataFromTileMap = new Dictionary<TileBase, TileData>();
-        foreach (var tileData in tileDatas)
-        {
-            foreach (var tile in tileData.tiles)
-            {
-                dataFromTileMap.Add(tile, tileData);
-            }
-        }
-        CheckStaminaSpawn().Forget();
-        HideTutorialTouchWait();
+        //dataFromTileMap = new Dictionary<TileBase, TileData>();
+        //foreach (var tileData in tileDatas)
+        //{
+        //    foreach (var tile in tileData.tiles)
+        //    {
+        //        dataFromTileMap.Add(tile, tileData);
+        //    }
+        //}
+        //CheckStaminaSpawn().Forget();
+        //HideTutorialTouchWait();
     }
 
     public static int GenerateUID()
@@ -1079,37 +1079,37 @@ public partial class MGameManager : SingletonMono<MGameManager>
         }
     }
 
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            int count = 0;
-            foreach (var item in DataManager.Instance.PushrewardArray)
-            {
-                System.DateTime rewardTime = System.DateTime.Parse(item.time);
-                var timeStamp = Utill.ConvertToUnitxTimeStamp(rewardTime);
-                if (GameTime.Get() < timeStamp && count < 10)
-                {
-                    count++;
-                    //NotificationManager.Instance.SendNotification(LocalizeManager.Instance.GetLocalString(item.title), LocalizeManager.Instance.GetLocalString(item.message), rewardTime);
-                }
-            }
-            UserData.Instance.SaveLocalData();
-        }
-        else
-        {
-            //NotificationManager.Instance.FlushNotifications();
-            UserData.Instance.OfflineTimeSeconds = GameTime.Get() - UserData.Instance.LocalData.LastLoginTime;
-            UniTask.Create(async () =>
-            {
-                if (!UserData.Instance.IsOnTutorial() && gameState == GameConfig.GameState.MainUI)
-                {
-                    await ReceiveOfflineReward();
-                    ReceivePushReward().Forget();
-                }
-            });
-        }
-    }
+    //private void OnApplicationPause(bool pause)
+    //{
+    //    if (pause)
+    //    {
+    //        int count = 0;
+    //        foreach (var item in DataManager.Instance.PushrewardArray)
+    //        {
+    //            System.DateTime rewardTime = System.DateTime.Parse(item.time);
+    //            var timeStamp = Utill.ConvertToUnitxTimeStamp(rewardTime);
+    //            if (GameTime.Get() < timeStamp && count < 10)
+    //            {
+    //                count++;
+    //                //NotificationManager.Instance.SendNotification(LocalizeManager.Instance.GetLocalString(item.title), LocalizeManager.Instance.GetLocalString(item.message), rewardTime);
+    //            }
+    //        }
+    //        UserData.Instance.SaveLocalData();
+    //    }
+    //    else
+    //    {
+    //        //NotificationManager.Instance.FlushNotifications();
+    //        UserData.Instance.OfflineTimeSeconds = GameTime.Get() - UserData.Instance.LocalData.LastLoginTime;
+    //        UniTask.Create(async () =>
+    //        {
+    //            if (!UserData.Instance.IsOnTutorial() && gameState == GameConfig.GameState.MainUI)
+    //            {
+    //                await ReceiveOfflineReward();
+    //                ReceivePushReward().Forget();
+    //            }
+    //        });
+    //    }
+    //}
 
     private void OnDestroy()
     {

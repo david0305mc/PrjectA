@@ -355,53 +355,56 @@ public class BaseObj : Boids2D
 
     protected BaseObj SearchNearestOpponent(bool _includeBuilding)
     {
+        
         BaseObj targetObj = default;
         float distTarget = 0;
-
-        Dictionary<long, BaseObj> opponentObjDic;
-        if (isHero)
+        var colliders = Physics2D.OverlapCircleAll(transform.position, 3f, GameDefine.LayerMaskUnit);
+        
+        foreach (var colliderObj in colliders)
         {
-            opponentObjDic = SS.GameManager.Instance.EnemyObjDic;
-        }
-        else
-        {
-            opponentObjDic = SS.GameManager.Instance.HeroObjDic;
-        }
-
-        foreach (var opponentObj in opponentObjDic)
-        {
-            //if (opponentObj != null)
-
+            var opponentObj = colliderObj.GetComponent<BaseObj>();
+            if (opponentObj == default)
+            {
+                continue;
+            }
+            
+    
             if (isHero)
             {
-                if (SS.UserDataManager.Instance.GetEnemyData(opponentObj.Key) == null)
+                if (opponentObj.IsHero)
+                    continue;
+                
+                if (SS.UserDataManager.Instance.GetEnemyData(opponentObj.UnitUID) == null)
                 {
-                    Debug.LogError($"battleEnemyDataDic not found {opponentObj.Key}");
+                    Debug.LogError($"battleEnemyDataDic not found {opponentObj.UnitUID}");
                     continue;
                 }
             }
             else
             {
-                if (SS.UserDataManager.Instance.GetBattleHeroData(opponentObj.Key) == null)
+                if (!opponentObj.IsHero)
+                    continue;
+
+                if (SS.UserDataManager.Instance.GetBattleHeroData(opponentObj.UnitUID) == null)
                 {
-                    Debug.LogError($"heroDataDic not found {opponentObj.Key}");
+                    Debug.LogError($"heroDataDic not found {opponentObj.UnitUID}");
                     continue;
                 }
             }
 
             if (!_includeBuilding)
             {
-                if (opponentObj.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+                if (opponentObj.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
                 {
                     continue;
                 }
             }
             
 
-            float dist = Vector2.Distance(opponentObj.Value.transform.position, transform.position);
+            float dist = Vector2.Distance(opponentObj.transform.position, transform.position);
             if (targetObj == default)
             {
-                targetObj = opponentObj.Value;
+                targetObj = opponentObj;
                 distTarget = dist;
             }
             else
@@ -409,7 +412,7 @@ public class BaseObj : Boids2D
                 if (distTarget > dist)
                 {
                     // change Target
-                    targetObj = opponentObj.Value;
+                    targetObj = opponentObj;
                     distTarget = dist;
                 }
             }

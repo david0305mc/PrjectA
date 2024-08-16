@@ -51,7 +51,7 @@ public class UnitObj : BaseObj
     protected void Idle_Update()
     {
         //UnitObj targetEnemy = SearchTarget();
-        
+
         targetObj = SearchNearestOpponent(false);
 
         if (isHero)
@@ -79,6 +79,12 @@ public class UnitObj : BaseObj
             {
                 // ?????? ???? ????, ???????? ????
                 targetObj = SearchNearestOpponent(true);
+            }
+
+
+            if (targetObj == default && SS.UserDataManager.Instance.HasMyBoss)
+            {
+                targetObj = SS.GameManager.Instance.MyBossObj;
             }
 
             if (targetObj != default)

@@ -28,6 +28,17 @@ namespace SS
         private Dictionary<long, BaseObj> heroObjDic = new Dictionary<long, BaseObj>();
         public Dictionary<long, BaseObj> HeroObjDic { get { return heroObjDic; } }
         public Dictionary<long, BaseObj> EnemyObjDic { get { return enemyObjDic; } }
+        
+        public BaseObj MyBossObj { 
+            get
+            {
+                if (heroObjDic.TryGetValue(UserDataManager.Instance.MyBossUID, out BaseObj myboss))
+                {
+                    return myboss;        
+                }
+                return default;
+            }
+        }
 
         // Spacae Survival
         private AsyncOperationHandle<GameObject> currMapOpHandler;
@@ -206,15 +217,12 @@ namespace SS
 
         private void AddMyBossObj()
         {
-            var myBossData = UserData.Instance.GetHeroDataByTID(GameDefine.MyBossUnitTID);
+            var myBossData = UserDataManager.Instance.GetHeroDataByTID(GameDefine.MyBossUnitTID);
             GameObject unitPrefab = MResourceManager.Instance.GetPrefab(myBossData.refData.prefabname);
             var baseObj = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
             AddBattleHeroObj(baseObj, GameDefine.MyBossUnitTID, 5, 3);
 
-            ////var myBossData = SS.UserDataManager.Instance.AddBattleHeroData(1);
-            ////BaseObj baseObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
-            //baseObj.InitData(true, myBossData.uid, gridMap, new Vector2Int(3, 3), new Vector2Int(7, 7));
-            //heroObjDic.Add(baseObj.UnitUID, baseObj);
+            UserDataManager.Instance.MyBossUID = baseObj.UnitUID;
         }
 
         private void RemoveAllHeroObj()

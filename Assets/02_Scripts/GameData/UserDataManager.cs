@@ -12,6 +12,8 @@ namespace SS
 
         public Dictionary<long, UnitData> EnemyDataDic => enemyDataDic;
         public Dictionary<long, SS.UnitData> BattleHeroDataDic => battleHeroDataDic;
+        public long MyBossUID { get; set; }
+        public bool HasMyBoss { get { return battleHeroDataDic.ContainsKey(MyBossUID); } }
         public SaveData SavableData { get; private set; }
 
         public void InitData()
@@ -21,7 +23,7 @@ namespace SS
 
         public void LoadLocalData()
         {
-            int newUser = PlayerPrefs.GetInt("IsNewUser", 0);
+            int newUser = PlayerPrefs.GetInt("IsNewUser_01", 0);
             if (newUser == 1)
             {
                 try
@@ -68,8 +70,8 @@ namespace SS
             SavableData = new SaveData();
             //var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
             var heroData = AddHeroData(11012, 1);
-
             AddBattleParty(heroData.uid);
+            AddHeroData(GameDefine.MyBossUnitTID, 1);
         }
         public int GetPartySlotIndexByUID(long _uid)
         {
