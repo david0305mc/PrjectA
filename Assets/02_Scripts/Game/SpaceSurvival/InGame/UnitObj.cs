@@ -11,6 +11,7 @@ public class UnitObj : BaseObj
     private CompositeDisposable compositeDisposable;
     private StateMachine<UnitStates, Driver> fsm;
     private bool isToChangeTarget;
+    private int currAggroTarget;
 
     protected override void Awake()
     {
@@ -24,6 +25,7 @@ public class UnitObj : BaseObj
     }
     protected override void ChangeIdleState()
     {
+        currAggroTarget = 0;
         base.ChangeIdleState();
         fsm.ChangeState(UnitStates.Idle);
     }
@@ -53,7 +55,8 @@ public class UnitObj : BaseObj
         targetObj = FindTarget();
         if (targetObj != null)
         {
-            RefreshPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
+            currAggroTarget = targetObj.unitData.refData.aggroorder;
+            RefreshPath(currTileX, currTileY, false);
             fsm.ChangeState(UnitStates.Move);
         }
     }
@@ -62,12 +65,13 @@ public class UnitObj : BaseObj
     {
         BaseObj target = SearchNearestOpponent(false);
 
-        if (target != null && !HasPath(currTileX, currTileY, target.currTileX, target.currTileY, false))
-        {
-            // ?????? ?????? ?????? ???? ????, ???????? ????
-            target = SearchNearestOpponent(true);
-        }
-        else if (target == null)
+        //if (target != null && !HasPath(currTileX, currTileY, target.currTileX, target.currTileY, false))
+        //{
+        //    // ?????? ?????? ?????? ???? ????, ???????? ????
+        //    target = SearchNearestOpponent(true);
+        //}
+        //else
+        if (target == null)
         {
             // ?????? ???? ????, ???????? ????
             target = SearchNearestOpponent(true);

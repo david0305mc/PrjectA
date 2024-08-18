@@ -43,7 +43,7 @@ public class BaseObj : Boids2D
 
     protected BaseObj targetObj;      // null???? endTile
     private float attackDelay;
-    protected SS.UnitData unitData;
+    public SS.UnitData unitData;
     protected bool isHero;
     public bool IsHero => isHero;
     
@@ -226,18 +226,36 @@ public class BaseObj : Boids2D
         return GetPathCount(_startX, _startY, _endX, _endY, _passBuilding) > 0;
     }
 
-    protected void RefreshPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    private int GetBuildingIndexOnPath()
     {
-        SetAStarPath(_startX, _startY, _endX, _endY, _passBuilding);
-        SetAStarPathWithBuilding(_startX, _startY, _endX, _endY, true);
+        for (int i = 0; i < pathList.Count; i++)
+        {
+            if (gridMap.Tiles[pathList[i].x, pathList[i].y].tileType == TileType.Building)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    protected void RefreshPath(int _startX, int _startY, bool _passBuilding)
+    {
+        SetAStarPath(_startX, _startY, targetObj.currTileX, targetObj.currTileY, _passBuilding);
+        //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
 
         pathList = pathFinder.FindPath();
-        var pathListPassBuilding = pathFinderPassBuilding.FindPath();
+        //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
 
-        if (pathListPassBuilding.Count + 4 < pathList.Count)
+        //if (pathListPassBuilding.Count + 4 < pathList.Count)
+        //{
+        //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
+        //    pathList = pathListPassBuilding;
+        //}
+        int buildingNodeIndex = GetBuildingIndexOnPath();
+        if (buildingNodeIndex > 0)
         {
-            // 건물 뚫고 가는것이 유리하면 타겟을 건물로 바꾼다.
-            pathList = pathListPassBuilding;
+            targetObj = SS.GameManager.Instance.GetBuildingObj(pathList[buildingNodeIndex].x, pathList[buildingNodeIndex].y);
+            SetAStarPath(_startX, _startY, targetObj.currTileX, targetObj.currTileY, _passBuilding);
+            pathList = pathFinder.FindPath();
         }
 
         startTile = gridMap.Tiles[_startX, _startY];
@@ -356,9 +374,10 @@ public class BaseObj : Boids2D
     protected BaseObj SearchNearestOpponent(bool _includeBuilding)
     {
         BaseObj targetObj = default;
-        float distTarget = 0;
+        float distTarget = float.MaxValue;
         var colliders = Physics2D.OverlapCircleAll(transform.position, 3f, GameDefine.LayerMaskUnit);
-        
+        int maxAggro = 0;
+
         foreach (var colliderObj in colliders)
         {
             var opponentObj = colliderObj.GetComponent<BaseObj>();
@@ -366,8 +385,7 @@ public class BaseObj : Boids2D
             {
                 continue;
             }
-            
-    
+
             if (isHero)
             {
                 if (opponentObj.IsHero)
@@ -399,15 +417,11 @@ public class BaseObj : Boids2D
                 }
             }
             
-
-            float dist = Vector2.Distance(opponentObj.transform.position, transform.position);
-            if (targetObj == default)
+            int aggro = opponentObj.unitData.refData.aggroorder;
+            if (aggro >= maxAggro)
             {
-                targetObj = opponentObj;
-                distTarget = dist;
-            }
-            else
-            {
+                aggro = maxAggro;
+                float dist = Vector2.Distance(opponentObj.transform.position, transform.position);
                 if (distTarget > dist)
                 {
                     // change Target

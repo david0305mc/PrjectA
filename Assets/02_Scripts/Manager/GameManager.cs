@@ -185,6 +185,21 @@ namespace SS
             currTile.SetTileType(TileType.Normal);
         }
 
+        public BaseObj GetBuildingObj(int _gridX, int _gridY)
+        {
+            foreach (var item in HeroObjDic)
+            {
+                if (item.Value.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+                {
+                    if (_gridX == item.Value.currTileX && _gridY == item.Value.currTileY)
+                    {
+                        return item.Value;
+                    }
+                }
+            }
+            return default;
+        }
+
         public void EnemyAttackHero(long _enemyUID, long _heroUID)
         {
             var enemyData = UserDataManager.Instance.GetEnemyData(_enemyUID);
