@@ -24,7 +24,9 @@ public class BattleUI : MonoBehaviour
             SS.GameManager.Instance.ExitStage();
         });
     }
-    private void Start()
+
+
+    private void OnEnable()
     {
         CreateUnitSlot();
     }

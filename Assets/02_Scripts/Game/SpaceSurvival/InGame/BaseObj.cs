@@ -41,7 +41,7 @@ public class BaseObj : Boids2D
     public int currTileX { get; protected set; }
     public int currTileY { get; protected set; }
 
-    protected BaseObj targetObj;      // null???? endTile
+    protected BaseObj TargetObj { get; set; }      // null???? endTile
     private float attackDelay;
     public SS.UnitData unitData;
     protected bool isHero;
@@ -94,7 +94,7 @@ public class BaseObj : Boids2D
         //Debug.Log("Attack_Enter");
         attackDelay = 0f;
         PlayAni("Attack");
-        FlipRenderers(transform.position.x <= targetObj.transform.position.x);
+        FlipRenderers(transform.position.x <= TargetObj.transform.position.x);
     }
     protected void Attack_Update()
     {
@@ -107,25 +107,29 @@ public class BaseObj : Boids2D
         }
     }
 
+    protected virtual void Attack_Exit()
+    { 
+    
+    }
+
     protected virtual void DoAttack()
     {
-        if (targetObj == null)
+        if (TargetObj == null)
         {
             return;
         }
         if (isHero)
         {
-            SS.GameManager.Instance.HeroAttackEnemy(UnitUID, targetObj.UnitUID);
-            if (SS.UserDataManager.Instance.GetEnemyData(targetObj.UnitUID) == null)
+            SS.GameManager.Instance.HeroAttackEnemy(UnitUID, TargetObj.UnitUID);
+            if (SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID) == null)
             {
                 ChangeIdleState();
-                
             }
         }
         else
         {
-            SS.GameManager.Instance.EnemyAttackHero(UnitUID, targetObj.UnitUID);
-            if (SS.UserDataManager.Instance.GetBattleHeroData(targetObj.UnitUID) == null)
+            SS.GameManager.Instance.EnemyAttackHero(UnitUID, TargetObj.UnitUID);
+            if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == null)
             {
                 ChangeIdleState();
             }
@@ -156,12 +160,25 @@ public class BaseObj : Boids2D
     //}
     private void SetAStarPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
-        pathFinder.Clear();
+        try
+        {
+            pathFinder.Clear();
+        }
+        catch
+        {
+            Debug.Log("check");
+        }
+
         pathFinder.SetStartNode(_startX, _startY);
         pathFinder.SetEndNode(_endX, _endY);
 
         foreach (var item in gridMap.Tiles)
         {
+            if (item.X == _endX && item.Y == _endY)
+            {
+                pathFinder.RefreshWalkable(item.X, item.Y, true);
+                continue;
+            }
             switch (item.tileType)
             {
                 case TileType.Block:
@@ -239,27 +256,34 @@ public class BaseObj : Boids2D
     }
     protected void RefreshPath(int _startX, int _startY, bool _passBuilding)
     {
-        SetAStarPath(_startX, _startY, targetObj.currTileX, targetObj.currTileY, _passBuilding);
-        //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
-
-        pathList = pathFinder.FindPath();
-        //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
-
-        //if (pathListPassBuilding.Count + 4 < pathList.Count)
-        //{
-        //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
-        //    pathList = pathListPassBuilding;
-        //}
-        int buildingNodeIndex = GetBuildingIndexOnPath();
-        if (buildingNodeIndex > 0)
+        if (!IsHero)
         {
-            targetObj = SS.GameManager.Instance.GetBuildingObj(pathList[buildingNodeIndex].x, pathList[buildingNodeIndex].y);
-            SetAStarPath(_startX, _startY, targetObj.currTileX, targetObj.currTileY, _passBuilding);
+            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+            //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
+
+            pathList = pathFinder.FindPath();
+            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
+
+            //if (pathListPassBuilding.Count + 4 < pathList.Count)
+            //{
+            //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
+            //    pathList = pathListPassBuilding;
+            //}
+            int buildingNodeIndex = GetBuildingIndexOnPath();
+            if (buildingNodeIndex > 0)
+            {
+                TargetObj = SS.GameManager.Instance.GetBuildingObj(pathList[buildingNodeIndex].x, pathList[buildingNodeIndex].y);
+                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, _passBuilding);
+                pathList = pathFinder.FindPath();
+            }
+        }
+        else
+        {
+            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
             pathList = pathFinder.FindPath();
         }
 
         startTile = gridMap.Tiles[_startX, _startY];
-
 
         foreach (var item in pathList)
         {
@@ -324,7 +348,7 @@ public class BaseObj : Boids2D
         pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
 
         currNodeIndex = -1;
-        targetObj = null;
+        TargetObj = null;
         endTile = gridMap.Tiles[_endTile.x, _endTile.y];
         //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
@@ -375,8 +399,8 @@ public class BaseObj : Boids2D
     {
         BaseObj targetObj = default;
         float distTarget = float.MaxValue;
-        var colliders = Physics2D.OverlapCircleAll(transform.position, 3f, GameDefine.LayerMaskUnit);
-        int maxAggro = 0;
+        var colliders = Physics2D.OverlapCircleAll(transform.position, 6f, GameDefine.LayerMaskUnit);
+        int maxAggro = -999;
 
         foreach (var colliderObj in colliders)
         {
@@ -420,7 +444,7 @@ public class BaseObj : Boids2D
             int aggro = opponentObj.unitData.refData.aggroorder;
             if (aggro >= maxAggro)
             {
-                aggro = maxAggro;
+                maxAggro = aggro;
                 float dist = Vector2.Distance(opponentObj.transform.position, transform.position);
                 if (distTarget > dist)
                 {
@@ -435,14 +459,14 @@ public class BaseObj : Boids2D
 
     protected bool CheckTargetRange()
     {
-        if (targetObj == null)
+        if (TargetObj == null)
         {
             Debug.LogError("targetObj == null");
             return false;
         }
         
-        float dist = Vector2.Distance(targetObj.transform.position, transform.position);
-        if (dist < 2f)
+        float dist = Vector2.Distance(TargetObj.transform.position, transform.position);
+        if (dist < 1f)
         {
             return true;
         }

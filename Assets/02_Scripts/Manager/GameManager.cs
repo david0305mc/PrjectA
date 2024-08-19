@@ -77,7 +77,7 @@ namespace SS
                 currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
                 await currMapOpHandler;
                 gridMap = currMapOpHandler.Result.GetComponent<GridMap>();
-                AddMyBossObj();
+                //AddMyBossObj();
             });
         }
 

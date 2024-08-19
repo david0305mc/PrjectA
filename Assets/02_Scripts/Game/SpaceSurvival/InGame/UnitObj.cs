@@ -25,7 +25,6 @@ public class UnitObj : BaseObj
     }
     protected override void ChangeIdleState()
     {
-        currAggroTarget = 0;
         base.ChangeIdleState();
         fsm.ChangeState(UnitStates.Idle);
     }
@@ -52,10 +51,13 @@ public class UnitObj : BaseObj
     }
     protected void Idle_Update()
     {
-        targetObj = FindTarget();
-        if (targetObj != null)
+        if (TargetObj == null)
         {
-            currAggroTarget = targetObj.unitData.refData.aggroorder;
+            TargetObj = FindTarget();
+        }
+        if (TargetObj != null)
+        {
+            currAggroTarget = TargetObj.unitData.refData.aggroorder;
             RefreshPath(currTileX, currTileY, false);
             fsm.ChangeState(UnitStates.Move);
         }
@@ -63,7 +65,7 @@ public class UnitObj : BaseObj
 
     private BaseObj FindTarget()
     {
-        BaseObj target = SearchNearestOpponent(false);
+        BaseObj target = SearchNearestOpponent(true);
 
         //if (target != null && !HasPath(currTileX, currTileY, target.currTileX, target.currTileY, false))
         //{
@@ -71,11 +73,11 @@ public class UnitObj : BaseObj
         //    target = SearchNearestOpponent(true);
         //}
         //else
-        if (target == null)
-        {
-            // ?????? ???? ????, ???????? ????
-            target = SearchNearestOpponent(true);
-        }
+        //if (target == null)
+        //{
+        //    // ?????? ???? ????, ???????? ????
+        //    target = SearchNearestOpponent(true);
+        //}
 
         if (!isHero)
         {
@@ -121,7 +123,7 @@ public class UnitObj : BaseObj
         compositeDisposable = new CompositeDisposable();
         MessageDispather.Receive<Vector2Int>(EMessage.UpdateTile).Subscribe(tile =>
         {
-            if (targetObj == null)
+            if (TargetObj == null)
                 return;
             
             if (!HasTileInPath(tile))
@@ -135,20 +137,20 @@ public class UnitObj : BaseObj
             {
                 if (SS.UserDataManager.Instance.GetBattleHeroData(UnitUID) == default)
                     return;
-                if (SS.UserDataManager.Instance.GetEnemyData(targetObj.UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID) == default)
                     return;
             }
             else
             {
                 if (SS.UserDataManager.Instance.GetEnemyData(UnitUID) == default)
                     return;
-                if (SS.UserDataManager.Instance.GetBattleHeroData(targetObj.UnitUID) == default)
+                if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == default)
                     return;
             }
             if (fsm != null)
             {
-                int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-                int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
+                //int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
+                //int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
                 if (currNodeIndex < pathList.Count - 1)
                 {
@@ -199,6 +201,11 @@ public class UnitObj : BaseObj
         base.Attack_Enter();
     }
 
+    protected override void Attack_Exit()
+    {
+        base.Attack_Exit();
+        TargetObj = null;
+    }
     protected override void DoAttack()
     {
         base.DoAttack();
@@ -249,13 +256,19 @@ public class UnitObj : BaseObj
             else if (gridMap.Tiles[pathList[targetNodeIndex].x, pathList[targetNodeIndex].y].IsBlock())
             {
                 Debug.Log("Next Tile Is Block");
-                fsm.ChangeState(UnitStates.Idle);
+                targetNodeIndex--;
+                //TargetObj = null;
+                //ChangeIdleState();
                 return;
             }
             else if (isToChangeTarget)
             {
                 Debug.Log("isToChangeTarget");
-                fsm.ChangeState(UnitStates.Idle);
+                if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
+                {
+                    TargetObj = null;
+                }
+                ChangeIdleState();
                 return;
             }
             else
