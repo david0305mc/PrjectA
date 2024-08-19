@@ -12,7 +12,6 @@ public class UnitObj : BaseObj
     private StateMachine<UnitStates, Driver> fsm;
     private bool isToChangeTarget;
     private int currAggroTarget;
-
     protected override void Awake()
     {
         base.Awake();
@@ -58,7 +57,7 @@ public class UnitObj : BaseObj
         if (TargetObj != null)
         {
             currAggroTarget = TargetObj.unitData.refData.aggroorder;
-            RefreshPath(currTileX, currTileY, false);
+            RefreshPath();
             fsm.ChangeState(UnitStates.Move);
         }
     }
@@ -125,14 +124,20 @@ public class UnitObj : BaseObj
         {
             if (TargetObj == null)
                 return;
-            
+
+            if (isBlocked)
+            {
+                ChangeIdleState();
+                return;
+            }
+
             if (!HasTileInPath(tile))
             {
                 Debug.Log("!HasTileInPath");
                 return;
             }
-            
-           
+
+
             if (isHero)
             {
                 if (SS.UserDataManager.Instance.GetBattleHeroData(UnitUID) == default)
@@ -147,12 +152,13 @@ public class UnitObj : BaseObj
                 if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == default)
                     return;
             }
+            isBlocked = false;
             if (fsm != null)
             {
                 //int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
                 //int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
 
-                if (currNodeIndex < pathList.Count - 1)
+                if (currNodeIndex < PathList.Count - 1)
                 {
                     //fsm.ChangeState(UnitStates.Idle);
                     isToChangeTarget = true;
@@ -218,45 +224,46 @@ public class UnitObj : BaseObj
 
     private Vector2Int GetNextTile()
     {
-        if (pathList == null || pathList.Count == 0)
+        if (PathList == null || PathList.Count == 0)
         {
             return new Vector2Int(-1, -1);
         }
         
         int nextNodeIndex = targetNodeIndex + 1;
-        if (nextNodeIndex >= pathList.Count)
+        if (nextNodeIndex >= PathList.Count)
         {
             return new Vector2Int(-1, -1);
         }
-        return new Vector2Int(pathList[nextNodeIndex].x, pathList[nextNodeIndex].y);
+        return new Vector2Int(PathList[nextNodeIndex].x, PathList[nextNodeIndex].y);
     }
 
     private void MoveEvent()
     {
-        if (pathList.Count == 0 || targetNodeIndex >= pathList.Count)
+        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count)
             return;
 
         DrawPathLine();
 
 
-        var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
+        var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {
             targetNodeIndex++;
-            if (targetNodeIndex >= pathList.Count)
+            if (targetNodeIndex >= PathList.Count)
             {
                 //Debug.LogError("Complete");
                 //Lean.Pool.LeanPool.Despawn(gameObject);
                 //isActive = false;
                 //fsm.ChangeState(UnitStates.Idle);
-                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(pathList[pathList.Count - 1].x, pathList[pathList.Count - 1].y));
+                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y));
                 fsm.ChangeState(UnitStates.Attack);
                 return;
             }
-            else if (gridMap.Tiles[pathList[targetNodeIndex].x, pathList[targetNodeIndex].y].IsBlock())
+            else if (gridMap.Tiles[PathList[targetNodeIndex].x, PathList[targetNodeIndex].y].IsBlock())
             {
                 Debug.Log("Next Tile Is Block");
                 targetNodeIndex--;
+                isBlocked = true;
                 //TargetObj = null;
                 //ChangeIdleState();
                 return;
@@ -273,9 +280,9 @@ public class UnitObj : BaseObj
             }
             else
             {
-                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(pathList[targetNodeIndex].x, pathList[targetNodeIndex].y));
+                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(PathList[targetNodeIndex].x, PathList[targetNodeIndex].y));
             }
-            distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
+            distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         }
         //currTile = mapCreator.Tiles[_startX, _startY];
         //currTile.currNodeMark.SetActive(true);
@@ -283,11 +290,11 @@ public class UnitObj : BaseObj
         Vector2 distBetweenNode;
         if (targetNodeIndex == 0)
         {
-            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[targetNodeIndex].location;
+            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[targetNodeIndex].location;
         }
         else
         {
-            distBetweenNode = (Vector2)pathList[targetNodeIndex].location - (Vector2)pathList[targetNodeIndex - 1].location;
+            distBetweenNode = (Vector2)PathList[targetNodeIndex].location - (Vector2)PathList[targetNodeIndex - 1].location;
         }
 
         if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
@@ -300,17 +307,17 @@ public class UnitObj : BaseObj
                 }
                 else
                 {
-                    gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
+                    gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(false);
                 }
 
                 currNodeIndex = targetNodeIndex;
-                currTileX = pathList[currNodeIndex].x;
-                currTileY = pathList[currNodeIndex].y;
-                gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
+                currTileX = PathList[currNodeIndex].x;
+                currTileY = PathList[currNodeIndex].y;
+                gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(true);
             }
         }
 
-        var targetNode = pathList[targetNodeIndex];
+        var targetNode = PathList[targetNodeIndex];
         Vector2 newPos;
         if (isBoidsAlgorithm)
         {
@@ -330,9 +337,9 @@ public class UnitObj : BaseObj
 
     private bool HasTileInPath(Vector2Int _tile)
     {
-        for (int i = targetNodeIndex; i < pathList.Count; i++)
+        for (int i = targetNodeIndex; i < PathList.Count; i++)
         {
-            if (_tile.x == pathList[i].x && _tile.y == pathList[i].y)
+            if (_tile.x == PathList[i].x && _tile.y == PathList[i].y)
             {
                 return true;
             }

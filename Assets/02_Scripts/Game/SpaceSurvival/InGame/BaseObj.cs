@@ -29,14 +29,15 @@ public class BaseObj : Boids2D
 
     private AbsPathFinder pathFinder;
     private AbsPathFinder pathFinderPassBuilding;
-    protected List<PathNode> pathList;
+    protected List<PathNode> PathList { get; set; }
     protected int targetNodeIndex;
     protected int currNodeIndex;
     protected GridMap gridMap;
     protected TileObject startTile;
     private TileObject endTile;
     protected Vector2 randPosOffset;        // ???? ?????? ???? ???? ??????
-    
+    protected bool isBlocked;
+
     public long UnitUID { get { return unitData.uid; } }
     public int currTileX { get; protected set; }
     public int currTileY { get; protected set; }
@@ -204,13 +205,13 @@ public class BaseObj : Boids2D
             switch (item.tileType)
             {
                 case TileType.Block:
-                    pathFinder.RefreshWalkable(item.X, item.Y, false);
+                    pathFinderPassBuilding.RefreshWalkable(item.X, item.Y, false);
                     break;
                 case TileType.Building:
-                    pathFinder.RefreshWalkable(item.X, item.Y, _passBuilding);
+                    pathFinderPassBuilding.RefreshWalkable(item.X, item.Y, _passBuilding);
                     break;
                 default:
-                    pathFinder.RefreshWalkable(item.X, item.Y, true);
+                    pathFinderPassBuilding.RefreshWalkable(item.X, item.Y, true);
                     break;
             }
         }
@@ -245,23 +246,25 @@ public class BaseObj : Boids2D
 
     private int GetBuildingIndexOnPath()
     {
-        for (int i = 0; i < pathList.Count; i++)
+        for (int i = 0; i < PathList.Count; i++)
         {
-            if (gridMap.Tiles[pathList[i].x, pathList[i].y].tileType == TileType.Building)
+            if (gridMap.Tiles[PathList[i].x, PathList[i].y].tileType == TileType.Building)
             {
                 return i;
             }
         }
         return -1;
     }
-    protected void RefreshPath(int _startX, int _startY, bool _passBuilding)
+    protected void RefreshPath()
     {
+        int _startX = currTileX;
+        int _startY = currTileY;
         if (!IsHero)
         {
             SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
             //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
 
-            pathList = pathFinder.FindPath();
+            PathList = pathFinder.FindPath();
             //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
 
             //if (pathListPassBuilding.Count + 4 < pathList.Count)
@@ -272,20 +275,35 @@ public class BaseObj : Boids2D
             int buildingNodeIndex = GetBuildingIndexOnPath();
             if (buildingNodeIndex > 0)
             {
-                TargetObj = SS.GameManager.Instance.GetBuildingObj(pathList[buildingNodeIndex].x, pathList[buildingNodeIndex].y);
-                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, _passBuilding);
-                pathList = pathFinder.FindPath();
+                TargetObj = SS.GameManager.Instance.GetBuildingObj(PathList[buildingNodeIndex].x, PathList[buildingNodeIndex].y);
+                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
+                PathList = pathFinder.FindPath();
             }
         }
         else
         {
-            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-            pathList = pathFinder.FindPath();
+            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
+            PathList = pathFinder.FindPath();
+
+            if (PathList.Count == 0)
+            {
+                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+                PathList = pathFinder.FindPath();
+
+                // To Do : Check Next Is Building
+                if (gridMap.Tiles[PathList[1].x, PathList[1].y].tileType == TileType.Building)
+                {
+                    PathList.Clear();
+                    isBlocked = true;
+                }
+            }
+            //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
         }
 
         startTile = gridMap.Tiles[_startX, _startY];
 
-        foreach (var item in pathList)
+        foreach (var item in PathList)
         {
             item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
         }
@@ -293,17 +311,17 @@ public class BaseObj : Boids2D
         targetNodeIndex = 0;
         currNodeIndex = -1;
 
-        if (targetNodeIndex < pathList.Count)
+        if (targetNodeIndex < PathList.Count)
         {
-            var distToTarget = (Vector2)pathList[targetNodeIndex].location - _rigidbody2D.position;
+            var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
             Vector2 distBetweenNode;
             if (currNodeIndex == -1)
             {
-                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)pathList[0].location;
+                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[0].location;
             }
             else
             {
-                distBetweenNode = (Vector2)pathList[currNodeIndex].location - (Vector2)pathList[currNodeIndex + 1].location;
+                distBetweenNode = (Vector2)PathList[currNodeIndex].location - (Vector2)PathList[currNodeIndex + 1].location;
             }
 
             if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
@@ -316,12 +334,12 @@ public class BaseObj : Boids2D
                     }
                     else
                     {
-                        gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(false);
+                        gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(false);
                     }
                     currNodeIndex = targetNodeIndex;
-                    currTileX = pathList[currNodeIndex].x;
-                    currTileY = pathList[currNodeIndex].y;
-                    gridMap.Tiles[pathList[currNodeIndex].x, pathList[currNodeIndex].y].SetCurrNodeMark(true);
+                    currTileX = PathList[currNodeIndex].x;
+                    currTileY = PathList[currNodeIndex].y;
+                    gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(true);
                 }
             }
         }
@@ -379,9 +397,9 @@ public class BaseObj : Boids2D
 
     protected void DrawPathLine()
     {
-        for (int i = 0; i < pathList.Count - 1; i++)
+        for (int i = 0; i < PathList.Count - 1; i++)
         {
-            Debug.DrawLine(pathList[i].location, pathList[i + 1].location, Color.red);
+            Debug.DrawLine(PathList[i].location, PathList[i + 1].location, Color.red);
         }
     }
 
@@ -466,7 +484,7 @@ public class BaseObj : Boids2D
         }
         
         float dist = Vector2.Distance(TargetObj.transform.position, transform.position);
-        if (dist < 1f)
+        if (dist < 1.5f)
         {
             return true;
         }
