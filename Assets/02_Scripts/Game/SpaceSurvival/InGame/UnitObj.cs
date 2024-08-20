@@ -127,6 +127,7 @@ public class UnitObj : BaseObj
 
             if (isBlocked)
             {
+                isBlocked = false;
                 ChangeIdleState();
                 return;
             }

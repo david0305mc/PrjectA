@@ -130,8 +130,10 @@ public class BaseObj : Boids2D
         else
         {
             SS.GameManager.Instance.EnemyAttackHero(UnitUID, TargetObj.UnitUID);
+            Vector2Int targetTile = new Vector2Int(TargetObj.currTileX, TargetObj.currTileY);
             if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == null)
             {
+                MessageDispather.Publish(EMessage.UpdateTile, targetTile);
                 ChangeIdleState();
             }
         }
@@ -293,10 +295,13 @@ public class BaseObj : Boids2D
                 SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
                 PathList = pathFinder.FindPath();
 
-                // To Do : Check Next Is Building
-                if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
+                if (PathList.Count > 0)
                 {
-                    isBlocked = true;
+                    // To Do : Check Next Is Building
+                    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
+                    {
+                        isBlocked = true;
+                    }
                 }
             }
             //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
