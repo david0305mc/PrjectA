@@ -204,7 +204,7 @@ public enum BuildingStates
 
 public enum UnitStates
 {
-    Drag,
+    UI,
     Idle,
     Move,
     Attack,

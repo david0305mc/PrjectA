@@ -107,7 +107,7 @@ public class UnitObj : BaseObj
     public override void SetUIMode(int _sortingOrder)
     {
         base.SetUIMode(_sortingOrder);
-        fsm.ChangeState(UnitStates.Idle);
+        fsm.ChangeState(UnitStates.UI);
     }
     public override void SetBattleMode()
     {
