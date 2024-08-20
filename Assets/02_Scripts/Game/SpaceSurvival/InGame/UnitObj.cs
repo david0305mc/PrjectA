@@ -239,12 +239,12 @@ public class UnitObj : BaseObj
 
     private void MoveEvent()
     {
-        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count)
+        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count || isBlocked)
             return;
 
         DrawPathLine();
 
-
+        
         var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {

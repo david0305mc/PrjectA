@@ -45,9 +45,10 @@ namespace Game
         public static readonly string DefaultLayerName = "Default";
         public static readonly string ForegroundLayerName = "Foreground";
         public static readonly string UILayerName = "UI";
+        public static readonly string UnitLayerName = "Unit";
         public static readonly string BattleSlotLayerName = "BattleSlot";
 
-        public static int UnitLayerMask = LayerMask.GetMask("Unit");
+        public static int UnitLayerMask = LayerMask.GetMask(UnitLayerName);
         public static int ItemLayerMask = LayerMask.GetMask("Item");
         public static int GroundLayerMask = LayerMask.GetMask("Ground");
         public static int TileLayerMask = LayerMask.GetMask("Tile");

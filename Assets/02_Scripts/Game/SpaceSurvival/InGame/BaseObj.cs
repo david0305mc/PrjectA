@@ -259,6 +259,9 @@ public class BaseObj : Boids2D
     {
         int _startX = currTileX;
         int _startY = currTileY;
+        targetNodeIndex = 0;
+        currNodeIndex = -1;
+
         if (!IsHero)
         {
             SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
@@ -291,9 +294,8 @@ public class BaseObj : Boids2D
                 PathList = pathFinder.FindPath();
 
                 // To Do : Check Next Is Building
-                if (gridMap.Tiles[PathList[1].x, PathList[1].y].tileType == TileType.Building)
+                if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
                 {
-                    PathList.Clear();
                     isBlocked = true;
                 }
             }
@@ -307,9 +309,6 @@ public class BaseObj : Boids2D
         {
             item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
         }
-
-        targetNodeIndex = 0;
-        currNodeIndex = -1;
 
         if (targetNodeIndex < PathList.Count)
         {
@@ -346,6 +345,7 @@ public class BaseObj : Boids2D
     }
     public virtual void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
     {
+        gameObject.layer = LayerMask.NameToLayer(Game.GameConfig.UnitLayerName);
         isHero = _isHero;
         if (_isHero)
         {
@@ -355,7 +355,12 @@ public class BaseObj : Boids2D
         {
             unitData = SS.UserDataManager.Instance.GetEnemyData(_unitUID);
         }
-        
+
+        if (unitData == null)
+        {
+            Debug.LogError("unitData == null");
+        }
+            
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(gridMap.Node2Pos);
@@ -419,10 +424,10 @@ public class BaseObj : Boids2D
         float distTarget = float.MaxValue;
         var colliders = Physics2D.OverlapCircleAll(transform.position, 6f, GameDefine.LayerMaskUnit);
         int maxAggro = -999;
+        var baseObjList = colliders.Select(item => item.GetComponent<BaseObj>()).ToList();
 
-        foreach (var colliderObj in colliders)
+        foreach (var opponentObj in baseObjList)
         {
-            var opponentObj = colliderObj.GetComponent<BaseObj>();
             if (opponentObj == default)
             {
                 continue;
