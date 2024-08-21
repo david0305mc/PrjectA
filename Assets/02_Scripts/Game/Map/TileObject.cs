@@ -23,7 +23,6 @@ public class TileObject : MonoBehaviour
 
     public void SetCurrNodeMark(bool _value)
     {
-        return;
         currNodeMark.SetActive(_value);
     }
 

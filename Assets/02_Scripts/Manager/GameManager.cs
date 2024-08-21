@@ -23,7 +23,7 @@ namespace SS
 
         private GridMap gridMap;
         public GridMap GridMap { get { return gridMap; } }
-        private GameConfig.GameState gameState;
+        public GameDefine.GameState GameState { get; private set; }
         private Dictionary<long, BaseObj> enemyObjDic = new Dictionary<long, BaseObj>();
         private Dictionary<long, BaseObj> heroObjDic = new Dictionary<long, BaseObj>();
         public Dictionary<long, BaseObj> HeroObjDic { get { return heroObjDic; } }
@@ -59,6 +59,7 @@ namespace SS
         {
             mainUI.SetActive(true);
             ingameUI.SetActive(false);
+            GameState = GameDefine.GameState.MainScene;
         }
 
         public void SetIngameUI()
@@ -66,6 +67,7 @@ namespace SS
             mainUI.SetActive(false);
             mainUI.HideStageInfo();
             ingameUI.SetActive(true);
+            GameState = GameDefine.GameState.InGame;
             //worldMap.SelectStage(-1);
         }
         public void StartSpaceSurvival(string mapPrefab)
@@ -139,7 +141,6 @@ namespace SS
         }
         public void BackToWorld()
         {
-            gameState = GameConfig.GameState.MainUI;
             SetWorldUI();
             //worldMap.gameObject.SetActive(true);
             //worldMap.UpdateWorld();

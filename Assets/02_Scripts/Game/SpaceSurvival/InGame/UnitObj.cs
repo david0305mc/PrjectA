@@ -302,19 +302,9 @@ public class UnitObj : BaseObj
         {
             if (currNodeIndex < targetNodeIndex)
             {
-                if (currNodeIndex == -1)
-                {
-                    startTile.SetCurrNodeMark(false);
-                }
-                else
-                {
-                    gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(false);
-                }
-
                 currNodeIndex = targetNodeIndex;
                 currTileX = PathList[currNodeIndex].x;
                 currTileY = PathList[currNodeIndex].y;
-                gridMap.Tiles[PathList[currNodeIndex].x, PathList[currNodeIndex].y].SetCurrNodeMark(true);
             }
         }
 

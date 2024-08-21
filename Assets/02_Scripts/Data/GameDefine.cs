@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class GameDefine 
 {
+    public enum GameState
+    {
+        MainScene,
+        InGame,
+    }
+
     public static int layerUnit = 8;
     public static int LayerMaskUnit = 1 << layerUnit;
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "SaveData");

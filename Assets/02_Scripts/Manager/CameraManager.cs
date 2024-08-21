@@ -17,6 +17,7 @@ public class CameraManager : SingletonMono<CameraManager>
 
     [SerializeField] private Transform worldRoot;
     private BaseObj selectedObject;
+    private TileObject oldTileObj;
     public Vector2Int TestTarget = new Vector2Int(0, 0);
 
     private void Update()
@@ -36,8 +37,15 @@ public class CameraManager : SingletonMono<CameraManager>
 
     private void UpdateOneTouch()
     {
+        if (SS.GameManager.Instance.GameState == GameDefine.GameState.MainScene)
+        {
+            oldTileObj = null;
+            return;
+        }
+
         if (Input.touchCount > 1)
             return;
+
         if (Input.GetMouseButtonDown(0))
         {
             var uiUnitSlot = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
@@ -62,23 +70,25 @@ public class CameraManager : SingletonMono<CameraManager>
             if (dragStarted)
             {
                 newPos = Input.mousePosition - dragStartInputPos;
-                //selectedObject.transform.position = (Vector2)newPos;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;
-
-                //if (!hitPoint.Equals(PositiveInfinityVector))
-                //{
-
-                //    //newPos = transform.position + dragStartPos - hitPoint;
-                //    //panVelocity = (previousPanPoint - newPos) * panInertiafactor;
-                //    //previousPanPoint = newPos;
-                //    //if (!newPos.Equals(oldPos))
-                //    //{
-                //    //    transform.position = newPos;
-                //    //    oldPos = transform.position;
-                //    //}
-                //}
             }
+
+            {
+                var hitobj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
+                if (hitobj != null)
+                {
+                    var tileObj = hitobj.GetComponent<TileObject>();
+                    if (oldTileObj != tileObj)
+                    {
+                        oldTileObj?.SetCurrNodeMark(false);
+                        tileObj.SetCurrNodeMark(true);
+                        oldTileObj = tileObj;
+                    }
+                }
+            }
+
+
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -115,6 +125,10 @@ public class CameraManager : SingletonMono<CameraManager>
                 //    TestTarget = new Vector2Int(tileObj.X, tileObj.Y);
                 //    MessageDispather.Publish(EMessage.UpdateTile, 1);
                 //}
+            }
+            if (oldTileObj != null)
+            {
+                oldTileObj.SetCurrNodeMark(false);
             }
             //groundDragStarted = false;
             //dragStartPos = PositiveInfinityVector;
