@@ -46,6 +46,7 @@ public class UIPanelUnitSelect : MonoBehaviour
         }
 
         heroDataList = (from item in SS.UserDataManager.Instance.SavableData.HeroDataDic
+                        where item.Value.refData.id != GameDefine.MyBossUnitTID
                         orderby item.Key ascending
                         orderby item.Value.grade descending
                         orderby item.Value.refData.unitrarity descending
