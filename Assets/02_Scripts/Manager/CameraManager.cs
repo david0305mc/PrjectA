@@ -68,29 +68,30 @@ public class CameraManager : SingletonMono<CameraManager>
             {
                 newPos = Input.mousePosition - dragStartInputPos;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
-                
                 var hitobj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
-                var tileObj = hitobj.GetComponent<TileObject>();
-                selectedObject.transform.position = (Vector2)hitPoint;
-                if (hitobj != null && tileObj != null)
+                if (hitobj != null)
                 {
-                    var buildingObj = SS.GameManager.Instance.GetBuildingObj(tileObj.X, tileObj.Y);
-                    if (buildingObj != default)
+                    var tileObj = hitobj.GetComponent<TileObject>();
+                    selectedObject.transform.position = (Vector2)hitPoint;
+                    if (tileObj != null)
                     {
-                        if (oldTileObj != tileObj)
+                        if (tileObj.IsBlock())
                         {
-                            oldTileObj?.SetCurrNodeMark(false);
-                            tileObj.SetCurrNodeMark(true, Color.red);
-                            oldTileObj = tileObj;
+                            if (oldTileObj != tileObj)
+                            {
+                                oldTileObj?.SetCurrNodeMark(false);
+                                tileObj.SetCurrNodeMark(true, Color.red);
+                                oldTileObj = tileObj;
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (oldTileObj != tileObj)
+                        else
                         {
-                            oldTileObj?.SetCurrNodeMark(false);
-                            tileObj.SetCurrNodeMark(true);
-                            oldTileObj = tileObj;
+                            if (oldTileObj != tileObj)
+                            {
+                                oldTileObj?.SetCurrNodeMark(false);
+                                tileObj.SetCurrNodeMark(true);
+                                oldTileObj = tileObj;
+                            }
                         }
                     }
                 }
@@ -108,7 +109,7 @@ public class CameraManager : SingletonMono<CameraManager>
                 {
                     var tileObj = obj.GetComponent<TileObject>();
                     var buildingObj = SS.GameManager.Instance.GetBuildingObj(tileObj.X, tileObj.Y);
-                    if (buildingObj != default)
+                    if (tileObj.IsBlock())
                     {
                         Lean.Pool.LeanPool.Despawn(selectedObject);
                         selectedObject = null;
