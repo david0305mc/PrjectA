@@ -17,7 +17,6 @@ public class BaseObj : Boids2D
         public StateEvent FixedUpdate;
     }
 
-    public int TID { get; set; }
     // Component
     protected Canvas canvas;
     protected SortingGroup sortingGroup;
@@ -38,13 +37,13 @@ public class BaseObj : Boids2D
     protected Vector2 randPosOffset;        // ???? ?????? ???? ???? ??????
     protected bool isBlocked;
 
-    public long UnitUID { get { return unitData.uid; } }
+    public long UnitUID { get { return UnitData.uid; } }
     public int currTileX { get; protected set; }
     public int currTileY { get; protected set; }
 
     protected BaseObj TargetObj { get; set; }      // null???? endTile
     private float attackDelay;
-    public SS.UnitData unitData;
+    public SS.UnitData UnitData { get; set; }
     protected bool isHero;
     public bool IsHero => isHero;
     
@@ -339,30 +338,33 @@ public class BaseObj : Boids2D
             }
         }
     }
-    public virtual void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    public virtual void InitData(bool _isHero, long _unitUID)
     {
         gameObject.layer = LayerMask.NameToLayer(Game.GameConfig.UnitLayerName);
         isHero = _isHero;
         if (_isHero)
         {
-            unitData = SS.UserDataManager.Instance.GetBattleHeroData(_unitUID);
+            UnitData = SS.UserDataManager.Instance.GetBattleHeroData(_unitUID);
         }
         else
         {
-            unitData = SS.UserDataManager.Instance.GetEnemyData(_unitUID);
+            UnitData = SS.UserDataManager.Instance.GetEnemyData(_unitUID);
         }
 
-        if (unitData == null)
+        if (UnitData == null)
         {
             Debug.LogError("unitData == null");
         }
-            
+    }
+
+    public void InitBattleData(GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    {
         gridMap = _mapCreator;
         pathFinder = new AStarPathFinder(this);
         pathFinder.SetNode2Pos(gridMap.Node2Pos);
         pathFinder.InitMap(gridMap.gridCol, gridMap.gridRow);
 
-        pathFinderPassBuilding  = new AStarPathFinder(this);
+        pathFinderPassBuilding = new AStarPathFinder(this);
         pathFinderPassBuilding.SetNode2Pos(gridMap.Node2Pos);
         pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
 
@@ -374,7 +376,7 @@ public class BaseObj : Boids2D
 
         currTileX = _startTile.x;
         currTileY = _startTile.y;
-        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+        if (UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y);
             randPosOffset = Vector2.zero;
@@ -384,11 +386,11 @@ public class BaseObj : Boids2D
             randPosOffset = new Vector2(Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax), Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax));
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
-        
+
         UpdateUI();
         ChangeIdleState();
         SetBattleMode();
-        if (unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+        if (UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             var currTile = gridMap.Tiles[currTileX, currTileY];
             currTile.SetTileType(TileType.Building);
@@ -454,13 +456,13 @@ public class BaseObj : Boids2D
 
             if (!_includeBuilding)
             {
-                if (opponentObj.unitData.refData.unit_type == UNIT_TYPE.BUILDING)
+                if (opponentObj.UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
                 {
                     continue;
                 }
             }
             
-            int aggro = opponentObj.unitData.refData.aggroorder;
+            int aggro = opponentObj.UnitData.refData.aggroorder;
             if (aggro >= maxAggro)
             {
                 maxAggro = aggro;
@@ -514,7 +516,7 @@ public class BaseObj : Boids2D
     {
         if (hpBar == null)
             return;
-        hpBar.value = (float)unitData.hp / unitData.maxHp;
+        hpBar.value = (float)UnitData.hp / UnitData.maxHp;
     }
 
     public void DragToTarget(Vector2 _target, System.Action _callback)

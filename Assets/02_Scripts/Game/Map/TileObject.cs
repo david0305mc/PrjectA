@@ -8,34 +8,25 @@ public class TileObject : MonoBehaviour
     public TileType tileType;
     public SpriteRenderer sprite;
 
+    private SpriteRenderer nodeSprite;
     public int X;
     public int Y;
 
+    private void Awake()
+    {
+        nodeSprite = currNodeMark.GetComponent<SpriteRenderer>();
+    }
     public bool IsBlock()
     {
         return tileType == TileType.Block || tileType == TileType.Building;
     }
 
-    private void Awake()
-    {
-        UpdateTile();
-    }
-
-    public void SetCurrNodeMark(bool _value)
+    public void SetCurrNodeMark(bool _value, Color? _color = default)
     {
         currNodeMark.SetActive(_value);
-    }
-
-    public void UpdateTile()
-    {
-        switch (tileType)
+        if (_value)
         {
-            case TileType.Block:
-                sprite.color = Color.red;
-                break;
-            default:
-                sprite.color = Color.white;
-                break;
+            nodeSprite.color = _color?? Color.green;
         }
     }
     //private void OnMouseDown()
@@ -50,7 +41,6 @@ public class TileObject : MonoBehaviour
         if (tileType != _type)
         {
             tileType = _type;
-            UpdateTile();
             MessageDispather.Publish(EMessage.UpdateTile, 1);
         }
     }

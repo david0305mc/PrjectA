@@ -51,16 +51,13 @@ public class CameraManager : SingletonMono<CameraManager>
             var uiUnitSlot = TryGetRayCastUIItem(Input.mousePosition, GameConfig.BattleSlotLayerName);
             if (uiUnitSlot != null)
             {
-                //uiUnitSlot.UnitTID
-                //selectedObject = hitObj;
-
                 var unitData = SS.UserDataManager.Instance.GetHeroData(uiUnitSlot.UnitUID);
                 dragStartInputPos = Input.mousePosition;
                 dragStarted = true;
                 GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitData.refData.prefabname);
                 selectedObject = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
+                selectedObject.UnitData = unitData;
                 selectedObject.gameObject.layer = LayerMask.NameToLayer(GameConfig.UILayerName);
-                selectedObject.TID = unitData.refData.id;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;
             }
@@ -71,24 +68,33 @@ public class CameraManager : SingletonMono<CameraManager>
             {
                 newPos = Input.mousePosition - dragStartInputPos;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
-                selectedObject.transform.position = (Vector2)hitPoint;
-            }
-
-            {
+                
                 var hitobj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
-                if (hitobj != null)
+                var tileObj = hitobj.GetComponent<TileObject>();
+                selectedObject.transform.position = (Vector2)hitPoint;
+                if (hitobj != null && tileObj != null)
                 {
-                    var tileObj = hitobj.GetComponent<TileObject>();
-                    if (oldTileObj != tileObj)
+                    var buildingObj = SS.GameManager.Instance.GetBuildingObj(tileObj.X, tileObj.Y);
+                    if (buildingObj != default)
                     {
-                        oldTileObj?.SetCurrNodeMark(false);
-                        tileObj.SetCurrNodeMark(true);
-                        oldTileObj = tileObj;
+                        if (oldTileObj != tileObj)
+                        {
+                            oldTileObj?.SetCurrNodeMark(false);
+                            tileObj.SetCurrNodeMark(true, Color.red);
+                            oldTileObj = tileObj;
+                        }
+                    }
+                    else
+                    {
+                        if (oldTileObj != tileObj)
+                        {
+                            oldTileObj?.SetCurrNodeMark(false);
+                            tileObj.SetCurrNodeMark(true);
+                            oldTileObj = tileObj;
+                        }
                     }
                 }
             }
-
-
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -101,14 +107,23 @@ public class CameraManager : SingletonMono<CameraManager>
                 if (obj != null)
                 {
                     var tileObj = obj.GetComponent<TileObject>();
-                    selectedObject.DragToTarget(tileObj.transform.position, ()=> {
-                        SS.GameManager.Instance.AddBattleHeroObj(selectedObject, selectedObject.TID, tileObj.X, tileObj.Y);
-                        if (selectedObject.UnitUID == 0)
-                        {
-                            Debug.LogError($"battleEnemyDataDic not found {selectedObject.UnitUID}");
-                        }
+                    var buildingObj = SS.GameManager.Instance.GetBuildingObj(tileObj.X, tileObj.Y);
+                    if (buildingObj != default)
+                    {
+                        Lean.Pool.LeanPool.Despawn(selectedObject);
                         selectedObject = null;
-                    });
+                    }
+                    else
+                    {
+                        selectedObject.DragToTarget(tileObj.transform.position, () => {
+                            SS.GameManager.Instance.AddBattleHeroObj(selectedObject, selectedObject.UnitData.tid, tileObj.X, tileObj.Y);
+                            if (selectedObject.UnitUID == 0)
+                            {
+                                Debug.LogError($"battleEnemyDataDic not found {selectedObject.UnitUID}");
+                            }
+                            selectedObject = null;
+                        });
+                    }
                 }
                 else
                 {
@@ -118,6 +133,7 @@ public class CameraManager : SingletonMono<CameraManager>
             }
             else
             {
+                // For Test
                 //var obj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
                 //if (obj != null)
                 //{

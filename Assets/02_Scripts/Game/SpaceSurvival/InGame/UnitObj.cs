@@ -18,9 +18,9 @@ public class UnitObj : BaseObj
         fsm = new StateMachine<UnitStates, Driver>(this);
     }
 
-    public override void InitData(bool _isHero, long _unitUID, GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
+    public override void InitData(bool _isHero, long _unitUID)
     {
-        base.InitData(_isHero, _unitUID, _mapCreator, _startTile, _endTile);
+        base.InitData(_isHero, _unitUID);
     }
     protected override void ChangeIdleState()
     {
@@ -56,7 +56,7 @@ public class UnitObj : BaseObj
         }
         if (TargetObj != null)
         {
-            currAggroTarget = TargetObj.unitData.refData.aggroorder;
+            currAggroTarget = TargetObj.UnitData.refData.aggroorder;
             RefreshPath();
             fsm.ChangeState(UnitStates.Move);
         }
