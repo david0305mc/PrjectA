@@ -132,7 +132,8 @@ public class BaseObj : Boids2D
             Vector2Int targetTile = new Vector2Int(TargetObj.currTileX, TargetObj.currTileY);
             if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == null)
             {
-                MessageDispather.Publish(EMessage.UpdateTile, targetTile);
+                
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, targetTile));
                 ChangeIdleState();
             }
         }
@@ -424,6 +425,7 @@ public class BaseObj : Boids2D
         int maxAggro = -999;
         var baseObjList = colliders.Select(item => item.GetComponent<BaseObj>()).ToList();
 
+        List<BaseObj> tempObjList = new List<BaseObj>();
         foreach (var opponentObj in baseObjList)
         {
             if (opponentObj == default)
@@ -461,18 +463,20 @@ public class BaseObj : Boids2D
                     continue;
                 }
             }
-            
             int aggro = opponentObj.UnitData.refData.aggroorder;
             if (aggro >= maxAggro)
             {
                 maxAggro = aggro;
-                float dist = Vector2.Distance(opponentObj.transform.position, transform.position);
-                if (distTarget > dist)
-                {
-                    // change Target
-                    targetObj = opponentObj;
-                    distTarget = dist;
-                }
+                tempObjList.Add(opponentObj);
+            }
+        }
+        foreach (var item in tempObjList)
+        {
+            float dist = Vector2.Distance(item.transform.position, transform.position);
+            if (distTarget > dist)
+            {
+                targetObj = item;
+                distTarget = dist;
             }
         }
         return targetObj;

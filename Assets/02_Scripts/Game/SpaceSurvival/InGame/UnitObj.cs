@@ -10,7 +10,6 @@ public class UnitObj : BaseObj
 
     private CompositeDisposable compositeDisposable;
     private StateMachine<UnitStates, Driver> fsm;
-    private bool isToChangeTarget;
     private int currAggroTarget;
     protected override void Awake()
     {
@@ -45,12 +44,11 @@ public class UnitObj : BaseObj
     protected void Idle_Enter()
     {
         //Debug.Log("Idle_Enter");
-        isToChangeTarget = false;
         PlayAni("Walk");
     }
     protected void Idle_Update()
     {
-        if (TargetObj == null)
+        //if (TargetObj == null)
         {
             TargetObj = FindTarget();
         }
@@ -116,13 +114,15 @@ public class UnitObj : BaseObj
 
     protected void Move_Enter()
     {
-        //Debug.Log("Move_Enter");
         PlayAni("Walk");
         compositeDisposable?.Clear();
         compositeDisposable = new CompositeDisposable();
-        MessageDispather.Receive<Vector2Int>(EMessage.UpdateTile).Subscribe(tile =>
+        MessageDispather.Receive<EMessage, EventParm<long, Vector2Int>>(EMessage.UpdateTile).Subscribe(_param =>
         {
             if (TargetObj == null)
+                return;
+
+            if (_param.arg1 == UnitUID)
                 return;
 
             if (isBlocked)
@@ -132,7 +132,7 @@ public class UnitObj : BaseObj
                 return;
             }
 
-            if (!HasTileInPath(tile))
+            if (!HasTileInPath(new Vector2Int(_param.arg2.x, _param.arg2.y)))
             {
                 Debug.Log("!HasTileInPath");
                 return;
@@ -162,7 +162,12 @@ public class UnitObj : BaseObj
                 if (currNodeIndex < PathList.Count - 1)
                 {
                     //fsm.ChangeState(UnitStates.Idle);
-                    isToChangeTarget = true;
+                    
+                    if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
+                    {
+                        TargetObj = null;
+                    }
+                    ChangeIdleState();
                 }
                 else
                 {
@@ -245,7 +250,7 @@ public class UnitObj : BaseObj
 
         DrawPathLine();
 
-        
+        int temp;
         var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {
@@ -256,7 +261,7 @@ public class UnitObj : BaseObj
                 //Lean.Pool.LeanPool.Despawn(gameObject);
                 //isActive = false;
                 //fsm.ChangeState(UnitStates.Idle);
-                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y));
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
                 fsm.ChangeState(UnitStates.Attack);
                 return;
             }
@@ -269,21 +274,25 @@ public class UnitObj : BaseObj
                 //ChangeIdleState();
                 return;
             }
-            else if (isToChangeTarget)
-            {
-                Debug.Log("isToChangeTarget");
-                if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
-                {
-                    TargetObj = null;
-                }
-                ChangeIdleState();
-                return;
-            }
             else
             {
-                MessageDispather.Publish(EMessage.UpdateTile, new Vector2Int(PathList[targetNodeIndex].x, PathList[targetNodeIndex].y));
+                temp = PathList.Count;
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
+                if (temp != PathList.Count)
+                {
+                    Debug.Log("temp != PathList.Count");
+                }
             }
-            distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
+
+            
+            try
+            {
+                distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
+            }
+            catch
+            {
+                Debug.Log($"PathList.Count {PathList.Count}  targetNodeIndex {targetNodeIndex}");
+            }
         }
         //currTile = mapCreator.Tiles[_startX, _startY];
         //currTile.currNodeMark.SetActive(true);
