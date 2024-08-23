@@ -26,8 +26,8 @@ public class BaseObj : Boids2D
     protected AnimationLink animationLink;
     private Transform renderRoot;
 
-    private AbsPathFinder pathFinder;
-    private AbsPathFinder pathFinderPassBuilding;
+    protected AbsPathFinder pathFinder;
+    protected AbsPathFinder pathFinderPassBuilding;
     protected List<PathNode> PathList { get; set; }
     protected int targetNodeIndex;
     protected int currNodeIndex;
@@ -35,7 +35,6 @@ public class BaseObj : Boids2D
     protected TileObject startTile;
     private TileObject endTile;
     protected Vector2 randPosOffset;        // ???? ?????? ???? ???? ??????
-    protected bool isBlocked;
 
     public long UnitUID { get { return UnitData.uid; } }
     public int currTileX { get; protected set; }
@@ -161,7 +160,7 @@ public class BaseObj : Boids2D
     //    }
     //    return pathFinder.FindPath();
     //}
-    private void SetAStarPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
+    protected void SetAStarPath(int _startX, int _startY, int _endX, int _endY, bool _passBuilding)
     {
         try
         {
@@ -246,7 +245,7 @@ public class BaseObj : Boids2D
         return GetPathCount(_startX, _startY, _endX, _endY, _passBuilding) > 0;
     }
 
-    private int GetBuildingIndexOnPath()
+    protected int GetBuildingIndexOnPath()
     {
         for (int i = 0; i < PathList.Count; i++)
         {
@@ -256,88 +255,6 @@ public class BaseObj : Boids2D
             }
         }
         return -1;
-    }
-    protected void RefreshPath()
-    {
-        int _startX = currTileX;
-        int _startY = currTileY;
-        targetNodeIndex = 0;
-        currNodeIndex = -1;
-
-        if (!IsHero)
-        {
-            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-            //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
-
-            PathList = pathFinder.FindPath();
-            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
-
-            //if (pathListPassBuilding.Count + 4 < pathList.Count)
-            //{
-            //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
-            //    pathList = pathListPassBuilding;
-            //}
-            int buildingNodeIndex = GetBuildingIndexOnPath();
-            if (buildingNodeIndex > 0)
-            {
-                TargetObj = SS.GameManager.Instance.GetBuildingObj(PathList[buildingNodeIndex].x, PathList[buildingNodeIndex].y);
-                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
-                PathList = pathFinder.FindPath();
-            }
-        }
-        else
-        {
-            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
-            PathList = pathFinder.FindPath();
-
-            if (PathList.Count == 0)
-            {
-                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-                PathList = pathFinder.FindPath();
-
-                if (PathList.Count > 0)
-                {
-                    // To Do : Check Next Is Building
-                    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
-                    {
-                        isBlocked = true;
-                    }
-                }
-            }
-            //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
-        }
-
-        startTile = gridMap.Tiles[_startX, _startY];
-
-        foreach (var item in PathList)
-        {
-            item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
-        }
-
-        if (targetNodeIndex < PathList.Count)
-        {
-            var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
-            Vector2 distBetweenNode;
-            if (currNodeIndex == -1)
-            {
-                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[0].location;
-            }
-            else
-            {
-                distBetweenNode = (Vector2)PathList[currNodeIndex].location - (Vector2)PathList[currNodeIndex + 1].location;
-            }
-
-            if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
-            {
-                if (currNodeIndex < targetNodeIndex)
-                {
-                    currNodeIndex = targetNodeIndex;
-                    currTileX = PathList[currNodeIndex].x;
-                    currTileY = PathList[currNodeIndex].y;
-                }
-            }
-        }
     }
     public virtual void InitData(bool _isHero, long _unitUID)
     {
@@ -490,6 +407,11 @@ public class BaseObj : Boids2D
             return false;
         }
         
+        if (TargetObj.UnitData.state == UnitDataStates.Dead)
+        {
+            ChangeIdleState();
+        }
+
         float dist = Vector2.Distance(TargetObj.transform.position, transform.position);
         if (dist < 1.5f)
         {

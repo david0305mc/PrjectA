@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using MonsterLove.StateMachine;
 using UniRx;
 using UnityEngine;
@@ -48,6 +49,15 @@ public class UnitObj : BaseObj
     }
     protected void Idle_Update()
     {
+        if (IsHero)
+        {
+            int test = 0;
+        }
+        else
+        {
+            int test = 0;
+        }
+
         //if (TargetObj == null)
         {
             TargetObj = FindTarget();
@@ -60,6 +70,100 @@ public class UnitObj : BaseObj
         }
     }
 
+    protected void RefreshPath()
+    {
+        int _startX = currTileX;
+        int _startY = currTileY;
+        targetNodeIndex = 0;
+        currNodeIndex = -1;
+
+        if (!IsHero)
+        {
+            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+            //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
+
+            PathList = pathFinder.FindPath();
+            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
+
+            //if (pathListPassBuilding.Count + 4 < pathList.Count)
+            //{
+            //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
+            //    pathList = pathListPassBuilding;
+            //}
+            int buildingNodeIndex = GetBuildingIndexOnPath();
+            if (buildingNodeIndex > 0)
+            {
+                TargetObj = SS.GameManager.Instance.GetBuildingObj(PathList[buildingNodeIndex].x, PathList[buildingNodeIndex].y);
+                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
+                PathList = pathFinder.FindPath();
+            }
+        }
+        else
+        {
+            SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
+            PathList = pathFinder.FindPath();
+
+            if (PathList.Count == 0)
+            {
+                SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+                PathList = pathFinder.FindPath();
+
+                if (PathList.Count == 0)
+                {
+                    ChangeIdleState();
+                    return;
+                }
+                //ChangeIdleState();
+
+                //if (PathList.Count > 0)
+                //{
+                //    // To Do : Check Next Is Building
+                //    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
+                //    {
+                //        isBlocked = true;
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.LogError("PathList.Count == 0");
+                //    isBlocked = true;
+                //}
+            }
+            //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
+            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
+        }
+
+        startTile = gridMap.Tiles[_startX, _startY];
+
+        foreach (var item in PathList)
+        {
+            item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
+        }
+
+        if (targetNodeIndex < PathList.Count)
+        {
+            var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
+            Vector2 distBetweenNode;
+            if (currNodeIndex == -1)
+            {
+                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[0].location;
+            }
+            else
+            {
+                distBetweenNode = (Vector2)PathList[currNodeIndex].location - (Vector2)PathList[currNodeIndex + 1].location;
+            }
+
+            if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
+            {
+                if (currNodeIndex < targetNodeIndex)
+                {
+                    currNodeIndex = targetNodeIndex;
+                    currTileX = PathList[currNodeIndex].x;
+                    currTileY = PathList[currNodeIndex].y;
+                }
+            }
+        }
+    }
     private BaseObj FindTarget()
     {
         BaseObj target = SearchNearestOpponent(true);
@@ -120,24 +224,19 @@ public class UnitObj : BaseObj
         MessageDispather.Receive<EMessage, EventParm<long, Vector2Int>>(EMessage.UpdateTile).Subscribe(_param =>
         {
             if (TargetObj == null)
-                return;
-
-            if (_param.arg1 == UnitUID)
-                return;
-
-            if (isBlocked)
             {
-                isBlocked = false;
                 ChangeIdleState();
                 return;
             }
+            
+            if (_param.arg1 == UnitUID)
+                return;
 
             if (!HasTileInPath(new Vector2Int(_param.arg2.x, _param.arg2.y)))
             {
                 Debug.Log("!HasTileInPath");
                 return;
             }
-
 
             if (isHero)
             {
@@ -153,7 +252,7 @@ public class UnitObj : BaseObj
                 if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == default)
                     return;
             }
-            isBlocked = false;
+
             if (fsm != null)
             {
                 //int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
@@ -162,7 +261,6 @@ public class UnitObj : BaseObj
                 if (currNodeIndex < PathList.Count - 1)
                 {
                     //fsm.ChangeState(UnitStates.Idle);
-                    
                     if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
                     {
                         TargetObj = null;
@@ -198,6 +296,14 @@ public class UnitObj : BaseObj
 
     protected void Move_Update()
     {
+        if (IsHero)
+        {
+            int test = 0;
+        }
+        else
+        {
+            int test = 0;
+        }
         if (CheckTargetRange())
         {
             fsm.ChangeState(UnitStates.Attack);
@@ -245,12 +351,14 @@ public class UnitObj : BaseObj
 
     private void MoveEvent()
     {
-        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count || isBlocked)
+        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count)
+            return;
+
+        if (gridMap.Tiles[PathList[targetNodeIndex].x, PathList[targetNodeIndex].y].IsBlock())
             return;
 
         DrawPathLine();
 
-        int temp;
         var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {
@@ -267,32 +375,20 @@ public class UnitObj : BaseObj
             }
             else if (gridMap.Tiles[PathList[targetNodeIndex].x, PathList[targetNodeIndex].y].IsBlock())
             {
+                ChangeIdleState();
                 Debug.Log("Next Tile Is Block");
-                targetNodeIndex--;
-                isBlocked = true;
+                //targetNodeIndex--;
+                //isBlocked = true;
                 //TargetObj = null;
                 //ChangeIdleState();
                 return;
             }
             else
             {
-                temp = PathList.Count;
                 MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
-                if (temp != PathList.Count)
-                {
-                    Debug.Log("temp != PathList.Count");
-                }
             }
 
-            
-            try
-            {
-                distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
-            }
-            catch
-            {
-                Debug.Log($"PathList.Count {PathList.Count}  targetNodeIndex {targetNodeIndex}");
-            }
+            distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         }
         //currTile = mapCreator.Tiles[_startX, _startY];
         //currTile.currNodeMark.SetActive(true);
