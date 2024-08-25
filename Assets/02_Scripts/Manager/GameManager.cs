@@ -168,7 +168,7 @@ namespace SS
                 return;
             }
             var enemyObj = enemyObjDic[_enemyUID];
-            UserDataManager.Instance.AttackToEnemy(_enemyUID, GameDefine.TestHeroAttackDamage);
+            UserDataManager.Instance.AttackToEnemy(_enemyUID, GameDefine.TestEnemyDefeatDamage);
             enemyObj.GetAttacked();
             if (enemyData.state == UnitDataStates.Dead)
             {
@@ -211,7 +211,14 @@ namespace SS
                 return;
             }
             var heroObj = heroObjDic[_heroUID];
-            UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestEnemyAttackDamage);
+            if (heroData.refData.unit_type == UNIT_TYPE.BUILDING)
+            {
+                UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestBuildingDefeatDamage);
+            }
+            else
+            {
+                UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestHeroDefeatDamage);
+            }
             heroObj.GetAttacked();
             if (heroData.state == UnitDataStates.Dead)
             {

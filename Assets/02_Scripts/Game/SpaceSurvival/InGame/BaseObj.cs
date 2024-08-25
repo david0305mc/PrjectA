@@ -120,8 +120,11 @@ public class BaseObj : Boids2D
         if (isHero)
         {
             SS.GameManager.Instance.HeroAttackEnemy(UnitUID, TargetObj.UnitUID);
-            if (SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID) == null)
+            Vector2Int targetTile = new Vector2Int(TargetObj.currTileX, TargetObj.currTileY);
+            var enemyData = SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID);
+            if (enemyData == null || enemyData.state == UnitDataStates.Dead)
             {
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, targetTile));
                 ChangeIdleState();
             }
         }
@@ -129,9 +132,9 @@ public class BaseObj : Boids2D
         {
             SS.GameManager.Instance.EnemyAttackHero(UnitUID, TargetObj.UnitUID);
             Vector2Int targetTile = new Vector2Int(TargetObj.currTileX, TargetObj.currTileY);
-            if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == null)
+            var heroData = SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID);
+            if (heroData == null || heroData.state == UnitDataStates.Dead)
             {
-                
                 MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, targetTile));
                 ChangeIdleState();
             }

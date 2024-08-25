@@ -65,12 +65,14 @@ public class UnitObj : BaseObj
         if (TargetObj != null)
         {
             currAggroTarget = TargetObj.UnitData.refData.aggroorder;
-            RefreshPath();
-            fsm.ChangeState(UnitStates.Move);
+            if (RefreshPath())
+            {
+                fsm.ChangeState(UnitStates.Move);
+            }
         }
     }
 
-    protected void RefreshPath()
+    protected bool RefreshPath()
     {
         int _startX = currTileX;
         int _startY = currTileY;
@@ -96,6 +98,11 @@ public class UnitObj : BaseObj
                 TargetObj = SS.GameManager.Instance.GetBuildingObj(PathList[buildingNodeIndex].x, PathList[buildingNodeIndex].y);
                 SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
                 PathList = pathFinder.FindPath();
+                if (PathList.Count == 0)
+                {
+                    ChangeIdleState();
+                    return false;
+                }
             }
         }
         else
@@ -110,24 +117,28 @@ public class UnitObj : BaseObj
 
                 if (PathList.Count == 0)
                 {
-                    ChangeIdleState();
-                    return;
+                    return false;
+                }
+                if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
+                {
+                    return false;
+
                 }
                 //ChangeIdleState();
 
-                //if (PathList.Count > 0)
-                //{
-                //    // To Do : Check Next Is Building
-                //    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
-                //    {
-                //        isBlocked = true;
-                //    }
-                //}
-                //else
-                //{
-                //    Debug.LogError("PathList.Count == 0");
-                //    isBlocked = true;
-                //}
+                    //if (PathList.Count > 0)
+                    //{
+                    //    // To Do : Check Next Is Building
+                    //    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
+                    //    {
+                    //        isBlocked = true;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Debug.LogError("PathList.Count == 0");
+                    //    isBlocked = true;
+                    //}
             }
             //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
             //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
@@ -163,6 +174,7 @@ public class UnitObj : BaseObj
                 }
             }
         }
+        return true;
     }
     private BaseObj FindTarget()
     {
@@ -232,11 +244,11 @@ public class UnitObj : BaseObj
             if (_param.arg1 == UnitUID)
                 return;
 
-            if (!HasTileInPath(new Vector2Int(_param.arg2.x, _param.arg2.y)))
-            {
-                Debug.Log("!HasTileInPath");
-                return;
-            }
+            //if (!HasTileInPath(new Vector2Int(_param.arg2.x, _param.arg2.y)))
+            //{
+            //    Debug.Log("!HasTileInPath");
+            //    return;
+            //}
 
             if (isHero)
             {
