@@ -201,6 +201,25 @@ namespace SS
             return default;
         }
 
+        public bool HasObjInTile(int _gridX, int _gridY)
+        {
+            foreach (var item in HeroObjDic)
+            {
+                if (_gridX == item.Value.currTileX && _gridY == item.Value.currTileY)
+                {
+                    return true;
+                }
+            }
+            foreach (var item in enemyObjDic)
+            {
+                if (_gridX == item.Value.currTileX && _gridY == item.Value.currTileY)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void EnemyAttackHero(long _enemyUID, long _heroUID)
         {
             var enemyData = UserDataManager.Instance.GetEnemyData(_enemyUID);
@@ -236,6 +255,7 @@ namespace SS
             _obj.InitData(true, heroData.uid);
             _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
             heroObjDic.Add(_obj.UnitUID, _obj);
+            MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(_obj.UnitUID, new Vector2Int(_gridX, _gridY)));
         }
 
         private void AddMyBossObj()
@@ -297,7 +317,7 @@ namespace SS
         public void AddBattleEnemyObj(int _tid)
         {
             var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
-            BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, gridMap.ObjectField, false);
+            BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
             moveObj.InitData(false, enemyData.uid);
             moveObj.InitBattleData(gridMap, startPos, endPos);
             enemyObjDic.Add(moveObj.UnitUID, moveObj);

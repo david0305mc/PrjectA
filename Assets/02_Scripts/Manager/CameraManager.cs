@@ -58,6 +58,7 @@ public class CameraManager : SingletonMono<CameraManager>
                 selectedObject = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
                 selectedObject.UnitData = unitData;
                 selectedObject.gameObject.layer = LayerMask.NameToLayer(GameConfig.UILayerName);
+                selectedObject.SetUIState();
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
                 selectedObject.transform.position = (Vector2)hitPoint;
             }
@@ -76,7 +77,7 @@ public class CameraManager : SingletonMono<CameraManager>
                     selectedObject.transform.position = (Vector2)hitPoint;
                     if (tileObj != null)
                     {
-                        if (tileObj.IsBlock())
+                        if (selectedObject.UnitData.refData.unit_type == UNIT_TYPE.BUILDING && SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y))
                         {
                             if (oldTileObj != tileObj)
                             {
@@ -109,8 +110,7 @@ public class CameraManager : SingletonMono<CameraManager>
                 if (obj != null)
                 {
                     var tileObj = obj.GetComponent<TileObject>();
-                    var buildingObj = SS.GameManager.Instance.GetBuildingObj(tileObj.X, tileObj.Y);
-                    if (tileObj.IsBlock())
+                    if (SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y))
                     {
                         Lean.Pool.LeanPool.Despawn(selectedObject);
                         selectedObject = null;

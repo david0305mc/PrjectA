@@ -29,16 +29,19 @@ public class BaseObj : Boids2D
     protected AbsPathFinder pathFinder;
     protected AbsPathFinder pathFinderPassBuilding;
     protected List<PathNode> PathList { get; set; }
-    protected int targetNodeIndex;
-    protected int currNodeIndex;
+    protected int TargetNodeIndex { get; set; }
     protected GridMap gridMap;
     protected TileObject startTile;
     private TileObject endTile;
-    protected Vector2 randPosOffset;        // ???? ?????? ???? ???? ??????
+    protected Vector3 randPosOffset { get; set; }
 
-    public long UnitUID { get { return UnitData.uid; } }
-    public int currTileX { get; protected set; }
-    public int currTileY { get; protected set; }
+    public long UnitUID;
+    public int currTileX { get {
+            return gridMap.Pos2Node(transform.position).x;
+        } }
+    public int currTileY { get {
+            return gridMap.Pos2Node(transform.position).y;
+        } }
 
     protected BaseObj TargetObj { get; set; }      // null???? endTile
     private float attackDelay;
@@ -272,10 +275,7 @@ public class BaseObj : Boids2D
             UnitData = SS.UserDataManager.Instance.GetEnemyData(_unitUID);
         }
 
-        if (UnitData == null)
-        {
-            Debug.LogError("unitData == null");
-        }
+        UnitUID = UnitData.uid;
     }
 
     public void InitBattleData(GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile)
@@ -289,14 +289,9 @@ public class BaseObj : Boids2D
         pathFinderPassBuilding.SetNode2Pos(gridMap.Node2Pos);
         pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
 
-        currNodeIndex = -1;
         TargetObj = null;
         endTile = gridMap.Tiles[_endTile.x, _endTile.y];
-        //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
-        //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
-
-        currTileX = _startTile.x;
-        currTileY = _startTile.y;
+        
         if (UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
         {
             transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y);
@@ -305,7 +300,7 @@ public class BaseObj : Boids2D
         else
         {
             randPosOffset = new Vector2(Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax), Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax));
-            transform.position = (Vector2)gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
+            transform.position = gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
 
         UpdateUI();
@@ -323,7 +318,7 @@ public class BaseObj : Boids2D
     {
         for (int i = 0; i < PathList.Count - 1; i++)
         {
-            Debug.DrawLine(PathList[i].location, PathList[i + 1].location, Color.red);
+            Debug.DrawLine(PathList[i].location + randPosOffset, PathList[i + 1].location + randPosOffset, Color.red);
         }
     }
 
@@ -341,23 +336,23 @@ public class BaseObj : Boids2D
     {
         BaseObj targetObj = default;
         float distTarget = float.MaxValue;
-        var colliders = Physics2D.OverlapCircleAll(transform.position, 6f, GameDefine.LayerMaskUnit);
+        var colliders = Physics2D.OverlapCircleAll(transform.position, 10f, GameDefine.LayerMaskUnit);
         int maxAggro = -999;
         var baseObjList = colliders.Select(item => item.GetComponent<BaseObj>()).ToList();
 
         List<BaseObj> tempObjList = new List<BaseObj>();
         foreach (var opponentObj in baseObjList)
         {
-            if (opponentObj == default)
+            if (opponentObj == default || opponentObj == this)
             {
                 continue;
             }
-
+            
             if (isHero)
             {
                 if (opponentObj.IsHero)
                     continue;
-                
+
                 if (SS.UserDataManager.Instance.GetEnemyData(opponentObj.UnitUID) == null)
                 {
                     Debug.LogError($"battleEnemyDataDic not found {opponentObj.UnitUID}");
@@ -416,7 +411,7 @@ public class BaseObj : Boids2D
         }
 
         float dist = Vector2.Distance(TargetObj.transform.position, transform.position);
-        if (dist < 1.5f)
+        if (dist < 1f)
         {
             return true;
         }
@@ -485,6 +480,9 @@ public class BaseObj : Boids2D
         HideCanvase();
         transform.SetScale(200f);
         PlayAni("Idle");
+    }
+    public virtual void SetUIState()
+    {
     }
     public virtual void SetBattleMode()
     {

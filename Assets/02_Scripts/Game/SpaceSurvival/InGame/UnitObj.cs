@@ -55,7 +55,7 @@ public class UnitObj : BaseObj
         }
         else
         {
-            int test = 0;
+            return;
         }
 
         //if (TargetObj == null)
@@ -76,22 +76,12 @@ public class UnitObj : BaseObj
     {
         int _startX = currTileX;
         int _startY = currTileY;
-        targetNodeIndex = 0;
-        currNodeIndex = -1;
+        TargetNodeIndex = 0;
 
         if (!IsHero)
         {
             SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-            //SetAStarPathWithBuilding(_startX, _startY, targetObj.currTileX, targetObj.currTileY, true);
-
             PathList = pathFinder.FindPath();
-            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
-
-            //if (pathListPassBuilding.Count + 4 < pathList.Count)
-            //{
-            //    // ???? ???? ???????? ???????? ?????? ?????? ??????.
-            //    pathList = pathListPassBuilding;
-            //}
             int buildingNodeIndex = GetBuildingIndexOnPath();
             if (buildingNodeIndex > 0)
             {
@@ -122,75 +112,16 @@ public class UnitObj : BaseObj
                 if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
                 {
                     return false;
-
                 }
-                //ChangeIdleState();
-
-                    //if (PathList.Count > 0)
-                    //{
-                    //    // To Do : Check Next Is Building
-                    //    if (gridMap.Tiles[PathList[0].x, PathList[0].y].tileType == TileType.Building)
-                    //    {
-                    //        isBlocked = true;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    Debug.LogError("PathList.Count == 0");
-                    //    isBlocked = true;
-                    //}
             }
-            //SetAStarPathWithBuilding(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
-            //var pathListPassBuilding = pathFinderPassBuilding.FindPath();
         }
 
         startTile = gridMap.Tiles[_startX, _startY];
-        
-        foreach (var item in PathList)
-        {
-            item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);
-        }
-
-        if (targetNodeIndex < PathList.Count)
-        {
-            var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
-            Vector2 distBetweenNode;
-            if (currNodeIndex == -1)
-            {
-                distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[0].location;
-            }
-            else
-            {
-                distBetweenNode = (Vector2)PathList[currNodeIndex].location - (Vector2)PathList[currNodeIndex + 1].location;
-            }
-
-            if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
-            {
-                if (currNodeIndex < targetNodeIndex)
-                {
-                    currNodeIndex = targetNodeIndex;
-                    currTileX = PathList[currNodeIndex].x;
-                    currTileY = PathList[currNodeIndex].y;
-                }
-            }
-        }
         return true;
     }
     private BaseObj FindTarget()
     {
         BaseObj target = SearchNearestOpponent(true);
-
-        //if (target != null && !HasPath(currTileX, currTileY, target.currTileX, target.currTileY, false))
-        //{
-        //    // ?????? ?????? ?????? ???? ????, ???????? ????
-        //    target = SearchNearestOpponent(true);
-        //}
-        //else
-        //if (target == null)
-        //{
-        //    // ?????? ???? ????, ???????? ????
-        //    target = SearchNearestOpponent(true);
-        //}
 
         if (!isHero)
         {
@@ -221,6 +152,11 @@ public class UnitObj : BaseObj
     public override void SetUIMode(int _sortingOrder)
     {
         base.SetUIMode(_sortingOrder);
+        SetUIState();
+    }
+    public override void SetUIState()
+    {
+        base.SetUIState();
         fsm.ChangeState(UnitStates.UI);
     }
     public override void SetBattleMode()
@@ -240,15 +176,9 @@ public class UnitObj : BaseObj
                 ChangeIdleState();
                 return;
             }
-            
+             
             if (_param.arg1 == UnitUID)
                 return;
-
-            //if (!HasTileInPath(new Vector2Int(_param.arg2.x, _param.arg2.y)))
-            //{
-            //    Debug.Log("!HasTileInPath");
-            //    return;
-            //}
 
             if (isHero)
             {
@@ -267,36 +197,18 @@ public class UnitObj : BaseObj
 
             if (fsm != null)
             {
-                //int x = currNodeIndex == -1 ? startTile.X : pathList[currNodeIndex].x;
-                //int y = currNodeIndex == -1 ? startTile.Y : pathList[currNodeIndex].y;
-
-                if (currNodeIndex < PathList.Count - 1)
+                if (TargetObj.currTileX == currTileX && TargetObj.currTileY == currTileY)
                 {
-                    //fsm.ChangeState(UnitStates.Idle);
+                    Debug.Log("Almost Finish");
+                }
+                else
+                {
                     if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
                     {
                         TargetObj = null;
                     }
                     ChangeIdleState();
                 }
-                else
-                {
-                    Debug.Log("Almost Finish");
-                }
-                //if (targetObj != null && !HasPath(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false))
-                //{
-                //    targetObj = SearchNearestOpponent(true);
-                //}
-                //if (targetObj != null)
-                //{
-                //    targetTile = GetNearestOutTile(currTileX, currTileY, targetObj.currTileX, targetObj.currTileY, false);
-                //    RefreshPath(x, y, targetObj.currTileX, targetObj.currTileY, false);
-                //}
-                //else
-                //{
-                //    fsm.ChangeState(UnitStates.Idle);
-                //}
-                //fsm.ChangeState(UnitStates.Idle);
             }
         }).AddTo(compositeDisposable);
     }
@@ -353,7 +265,7 @@ public class UnitObj : BaseObj
             return new Vector2Int(-1, -1);
         }
         
-        int nextNodeIndex = targetNodeIndex + 1;
+        int nextNodeIndex = TargetNodeIndex + 1;
         if (nextNodeIndex >= PathList.Count)
         {
             return new Vector2Int(-1, -1);
@@ -363,19 +275,19 @@ public class UnitObj : BaseObj
 
     private void MoveEvent()
     {
-        if (PathList.Count == 0 || targetNodeIndex >= PathList.Count)
+        if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
             return;
 
-        if (gridMap.Tiles[PathList[targetNodeIndex].x, PathList[targetNodeIndex].y].IsBlock())
+        if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
             return;
 
         DrawPathLine();
 
-        var distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
+        var distToTarget = (Vector2)(PathList[TargetNodeIndex].location + randPosOffset) - _rigidbody2D.position;
         if (distToTarget.magnitude < 0.05f)
         {
-            targetNodeIndex++;
-            if (targetNodeIndex >= PathList.Count)
+            TargetNodeIndex++;
+            if (TargetNodeIndex >= PathList.Count)
             {
                 //Debug.LogError("Complete");
                 //Lean.Pool.LeanPool.Despawn(gameObject);
@@ -385,7 +297,7 @@ public class UnitObj : BaseObj
                 fsm.ChangeState(UnitStates.Attack);
                 return;
             }
-            else if (gridMap.Tiles[PathList[targetNodeIndex].x, PathList[targetNodeIndex].y].IsBlock())
+            else if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
             {
                 ChangeIdleState();
                 Debug.Log("Next Tile Is Block");
@@ -399,45 +311,24 @@ public class UnitObj : BaseObj
             {
                 MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
             }
-
-            distToTarget = (Vector2)PathList[targetNodeIndex].location - _rigidbody2D.position;
         }
         //currTile = mapCreator.Tiles[_startX, _startY];
         //currTile.currNodeMark.SetActive(true);
 
-        Vector2 distBetweenNode;
-        if (targetNodeIndex == 0)
-        {
-            distBetweenNode = (Vector2)startTile.transform.position - (Vector2)PathList[targetNodeIndex].location;
-        }
-        else
-        {
-            distBetweenNode = (Vector2)PathList[targetNodeIndex].location - (Vector2)PathList[targetNodeIndex - 1].location;
-        }
-
-        if (distToTarget.magnitude < distBetweenNode.magnitude * 0.5f)
-        {
-            if (currNodeIndex < targetNodeIndex)
-            {
-                currNodeIndex = targetNodeIndex;
-                currTileX = PathList[currNodeIndex].x;
-                currTileY = PathList[currNodeIndex].y;
-            }
-        }
-
-        var targetNode = PathList[targetNodeIndex];
+        var targetNode = PathList[TargetNodeIndex];
         Vector2 newPos;
         if (isBoidsAlgorithm)
         {
-            var velocity = CalculateBoidsAlgorithm((Vector2)targetNode.location);
+            var velocity = CalculateBoidsAlgorithm((Vector2)targetNode.location + (Vector2)randPosOffset);
             newPos = Vector2.MoveTowards(_rigidbody2D.position, _rigidbody2D.position + velocity, _forwardSpeed * Time.deltaTime);
         }
         else
         {
-            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)targetNode.location, _forwardSpeed * Time.deltaTime);
+            newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)(targetNode.location + randPosOffset), _forwardSpeed * Time.deltaTime);
         }
         _rigidbody2D.MovePosition(newPos);
-        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x);
+        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x + randPosOffset.x);
+        
         //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
 
         //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
@@ -445,7 +336,7 @@ public class UnitObj : BaseObj
 
     private bool HasTileInPath(Vector2Int _tile)
     {
-        for (int i = targetNodeIndex; i < PathList.Count; i++)
+        for (int i = TargetNodeIndex; i < PathList.Count; i++)
         {
             if (_tile.x == PathList[i].x && _tile.y == PathList[i].y)
             {
