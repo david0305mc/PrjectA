@@ -68,6 +68,7 @@ public class CameraManager : SingletonMono<CameraManager>
             {
                 newPos = Input.mousePosition - dragStartInputPos;
                 Vector3 hitPoint = TryGetRayCastHitPoint(Input.mousePosition, GameConfig.GroundLayerMask);
+                
                 var hitobj = TryGetRayCastObject(Input.mousePosition, GameConfig.TileLayerMask);
                 if (hitobj != null)
                 {

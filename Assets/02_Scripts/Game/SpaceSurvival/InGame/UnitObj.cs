@@ -145,7 +145,7 @@ public class UnitObj : BaseObj
         }
 
         startTile = gridMap.Tiles[_startX, _startY];
-
+        
         foreach (var item in PathList)
         {
             item.location += new Vector3(randPosOffset.x, randPosOffset.y, 0);

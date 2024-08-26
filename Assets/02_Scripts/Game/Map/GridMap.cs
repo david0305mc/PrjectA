@@ -22,6 +22,9 @@ public class GridMap : MonoBehaviour
     private float gridWidth;
     private float tileWidth;
 
+    private Vector2 startMapPos;
+    private Vector2 endMapPos;
+
     private void Awake()
     {
         if (myCamera == null)
@@ -37,6 +40,8 @@ public class GridMap : MonoBehaviour
         gridWidth = worldWidth;
         tileWidth = gridWidth / gridCol;
         tiles = new TileObject[gridCol, gridRow];
+        startMapPos = Node2Pos(0, 0) - new Vector3(tileWidth / 2, tileWidth / 2, 0);
+        endMapPos = Node2Pos(gridCol, gridRow) - new Vector3(tileWidth / 2, tileWidth / 2, 0);
 
         var mapObjs = GetComponentsInChildren<TileObject>();
         foreach (var item in mapObjs)
@@ -53,6 +58,16 @@ public class GridMap : MonoBehaviour
         float startY = -gridHeigh / 2 + tileWidth / 2;
 
         return new Vector3(startX + i * tileWidth, startY + j * tileWidth, 0);
+    }
+    public Vector2Int Pos2Node(Vector2 _pos)
+    {
+        if(_pos.x < startMapPos.x || _pos.y < startMapPos.y)
+            return new Vector2Int(-1, -1);
+        if (_pos.x > endMapPos.x || _pos.y > endMapPos.y)
+            return new Vector2Int(-1, -1);
+        var convertPos = _pos - startMapPos;
+
+        return new Vector2Int(Mathf.FloorToInt(convertPos.x / tileWidth), Mathf.FloorToInt(convertPos.y / tileWidth));
     }
     [ContextMenu("Create Map")]
     private void CreateMap()
