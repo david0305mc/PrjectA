@@ -34,6 +34,7 @@ public class BaseObj : Boids2D
     protected TileObject startTile;
     private TileObject endTile;
     protected Vector3 randPosOffset { get; set; }
+    protected Vector3 OrgPos { get; private set; }
 
     public long UnitUID;
     public int currTileX { get {
@@ -302,6 +303,7 @@ public class BaseObj : Boids2D
             randPosOffset = new Vector2(Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax), Random.Range(GameDefine.RandPosOffsetMin, GameDefine.RandPosOffsetMax));
             transform.position = gridMap.Node2Pos(_startTile.x, _startTile.y) + randPosOffset;
         }
+        OrgPos = transform.position;
 
         UpdateUI();
         ChangeIdleState();

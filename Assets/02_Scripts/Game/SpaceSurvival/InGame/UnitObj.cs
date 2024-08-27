@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class UnitObj : BaseObj
 {
-
     private CompositeDisposable compositeDisposable;
     private StateMachine<UnitStates, Driver> fsm;
     private int currAggroTarget;
@@ -68,6 +67,17 @@ public class UnitObj : BaseObj
             if (RefreshPath())
             {
                 fsm.ChangeState(UnitStates.Move);
+            }
+        }
+        else 
+        {
+            if (isHero)
+            {
+                var grid = gridMap.Pos2Node(OrgPos);
+                if (grid.x != currTileX || grid.y != currTileY)
+                {
+                    fsm.ChangeState(UnitStates.MoveToHome);
+                }
             }
         }
     }
@@ -236,6 +246,52 @@ public class UnitObj : BaseObj
         {
             MoveEvent();
         }
+    }
+    protected void MoveToHome_Enter()
+    {
+        var grid = gridMap.Pos2Node(OrgPos);
+        SetAStarPath(currTileX, currTileY, grid.x, grid.y, false);
+        PathList = pathFinder.FindPath();
+        TargetNodeIndex = 0;
+    }
+
+    protected void MoveToHome_Update()
+    {
+        if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
+            return;
+
+        DrawPathLine();
+
+        var distToTarget = (Vector2)(PathList[TargetNodeIndex].location + randPosOffset) - _rigidbody2D.position;
+        if (distToTarget.magnitude < 0.05f)
+        {
+            TargetNodeIndex++;
+            if (TargetNodeIndex >= PathList.Count)
+            {
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
+                fsm.ChangeState(UnitStates.Idle);
+                return;
+            }
+            else if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
+            {
+                ChangeIdleState();
+                Debug.Log("Next Tile Is Block");
+                return;
+            }
+            else
+            {
+                MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
+            }
+        }
+        
+        var targetNode = PathList[TargetNodeIndex];
+        Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)(targetNode.location + randPosOffset), _forwardSpeed * Time.deltaTime);
+        _rigidbody2D.MovePosition(newPos);
+        FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x + randPosOffset.x);
+    }
+    protected void MoveToHome_Exit()
+    {
+
     }
 
     protected override void Attack_Enter()

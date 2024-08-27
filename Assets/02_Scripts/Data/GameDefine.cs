@@ -215,6 +215,7 @@ public enum UnitStates
     UI,
     Idle,
     Move,
+    MoveToHome,
     Attack,
     End,
 }
