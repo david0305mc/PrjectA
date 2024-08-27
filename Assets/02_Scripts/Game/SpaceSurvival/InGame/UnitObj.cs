@@ -48,15 +48,6 @@ public class UnitObj : BaseObj
     }
     protected void Idle_Update()
     {
-        if (IsHero)
-        {
-            int test = 0;
-        }
-        else
-        {
-
-        }
-
         //if (TargetObj == null)
         {
             TargetObj = FindTarget();
@@ -64,7 +55,7 @@ public class UnitObj : BaseObj
         if (TargetObj != null)
         {
             currAggroTarget = TargetObj.UnitData.refData.aggroorder;
-            if (RefreshPath())
+            if (GeneratePath())
             {
                 fsm.ChangeState(UnitStates.Move);
             }
@@ -82,7 +73,7 @@ public class UnitObj : BaseObj
         }
     }
 
-    protected bool RefreshPath()
+    protected bool GeneratePath()
     {
         int _startX = currTileX;
         int _startY = currTileY;
@@ -345,10 +336,6 @@ public class UnitObj : BaseObj
             TargetNodeIndex++;
             if (TargetNodeIndex >= PathList.Count)
             {
-                //Debug.LogError("Complete");
-                //Lean.Pool.LeanPool.Despawn(gameObject);
-                //isActive = false;
-                //fsm.ChangeState(UnitStates.Idle);
                 MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
                 fsm.ChangeState(UnitStates.Attack);
                 return;
@@ -357,10 +344,6 @@ public class UnitObj : BaseObj
             {
                 ChangeIdleState();
                 Debug.Log("Next Tile Is Block");
-                //targetNodeIndex--;
-                //isBlocked = true;
-                //TargetObj = null;
-                //ChangeIdleState();
                 return;
             }
             else
@@ -368,9 +351,7 @@ public class UnitObj : BaseObj
                 MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
             }
         }
-        //currTile = mapCreator.Tiles[_startX, _startY];
-        //currTile.currNodeMark.SetActive(true);
-
+        
         var targetNode = PathList[TargetNodeIndex];
         Vector2 newPos;
         if (isBoidsAlgorithm)
@@ -384,10 +365,6 @@ public class UnitObj : BaseObj
         }
         _rigidbody2D.MovePosition(newPos);
         FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x + randPosOffset.x);
-        
-        //var movePos = rigidBody.position + (dist.normalized * speed * Time.fixedDeltaTime);
-
-        //transform.position -= new Vector3(0, Time.fixedDeltaTime, 0);
     }
 
     private bool HasTileInPath(Vector2Int _tile)
