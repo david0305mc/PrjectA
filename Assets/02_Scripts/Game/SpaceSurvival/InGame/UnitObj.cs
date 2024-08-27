@@ -55,7 +55,7 @@ public class UnitObj : BaseObj
         }
         else
         {
-            return;
+
         }
 
         //if (TargetObj == null)
@@ -83,7 +83,7 @@ public class UnitObj : BaseObj
             SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, true);
             PathList = pathFinder.FindPath();
             int buildingNodeIndex = GetBuildingIndexOnPath();
-            if (buildingNodeIndex > 0)
+            if (buildingNodeIndex >= 0)
             {
                 TargetObj = SS.GameManager.Instance.GetBuildingObj(PathList[buildingNodeIndex].x, PathList[buildingNodeIndex].y);
                 SetAStarPath(_startX, _startY, TargetObj.currTileX, TargetObj.currTileY, false);
@@ -278,8 +278,8 @@ public class UnitObj : BaseObj
         if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
             return;
 
-        if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
-            return;
+        //if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
+        //    return;
 
         DrawPathLine();
 
