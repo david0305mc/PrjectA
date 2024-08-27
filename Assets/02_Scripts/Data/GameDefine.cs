@@ -15,8 +15,8 @@ public class GameDefine
     public static int LayerMaskUnit = 1 << layerUnit;
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "SaveData");
     public static readonly int TestHeroDefeatDamage = 100;
-    public static readonly int TestBuildingDefeatDamage = 70;
-    public static readonly int TestEnemyDefeatDamage = 1;
+    public static readonly int TestBuildingDefeatDamage = 100;
+    public static readonly int TestEnemyDefeatDamage = 100;
     public static readonly float RandPosOffsetMin = -0.3f;
     public static readonly float RandPosOffsetMax = 0.3f;
     public static readonly int MyBossUnitTID = 20001;

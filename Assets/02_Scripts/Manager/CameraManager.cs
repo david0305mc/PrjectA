@@ -77,7 +77,8 @@ public class CameraManager : SingletonMono<CameraManager>
                     selectedObject.transform.position = (Vector2)hitPoint;
                     if (tileObj != null)
                     {
-                        if (selectedObject.UnitData.refData.unit_type == UNIT_TYPE.BUILDING && SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y))
+                        if (selectedObject.UnitData.refData.unit_type == UNIT_TYPE.BUILDING && SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y) 
+                            || tileObj.IsBlock())
                         {
                             if (oldTileObj != tileObj)
                             {
@@ -110,7 +111,8 @@ public class CameraManager : SingletonMono<CameraManager>
                 if (obj != null)
                 {
                     var tileObj = obj.GetComponent<TileObject>();
-                    if (SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y))
+                    if (selectedObject.UnitData.refData.unit_type == UNIT_TYPE.BUILDING && SS.GameManager.Instance.HasObjInTile(tileObj.X, tileObj.Y)
+                            || tileObj.IsBlock())
                     {
                         Lean.Pool.LeanPool.Despawn(selectedObject);
                         selectedObject = null;
