@@ -12,6 +12,7 @@ namespace SS
     {
         private CompositeDisposable compositeDisposable;
         private StateMachine<UnitStates, Driver> fsm;
+        private bool DirtyPath { get; set; }
         private int currAggroTarget;
         protected override void Awake()
         {
@@ -43,6 +44,7 @@ namespace SS
         {
             //Debug.Log("Idle_Enter");
             PlayAni("Walk");
+            DirtyPath = false;
         }
         protected void Idle_Update()
         {
@@ -202,11 +204,12 @@ namespace SS
                     }
                     else
                     {
-                        if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
-                        {
-                            TargetObj = null;
-                        }
-                        ChangeIdleState();
+                        //if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
+                        //{
+                        //    TargetObj = null;
+                        //}
+                        //ChangeIdleState();
+                        DirtyPath = true;
                     }
                 }
             }).AddTo(compositeDisposable);
@@ -323,9 +326,6 @@ namespace SS
             if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
                 return;
 
-            //if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
-            //    return;
-
             DrawPathLine();
 
             var distToTarget = (Vector2)(PathList[TargetNodeIndex].location + randPosOffset) - _rigidbody2D.position;
@@ -337,6 +337,10 @@ namespace SS
                     MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
                     fsm.ChangeState(UnitStates.Attack);
                     return;
+                }
+                else if (DirtyPath)
+                {
+                    ChangeIdleState();
                 }
                 else if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
                 {
