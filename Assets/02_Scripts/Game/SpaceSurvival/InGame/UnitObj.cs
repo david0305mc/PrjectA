@@ -50,7 +50,7 @@ namespace SS
         {
             //if (TargetObj == null)
             {
-                TargetObj = FindTarget();
+                TargetObj = SearchTarget();
             }
             if (TargetObj != null)
             {
@@ -120,7 +120,7 @@ namespace SS
             startTile = gridMap.Tiles[_startX, _startY];
             return true;
         }
-        private BaseObj FindTarget()
+        private BaseObj SearchTarget()
         {
             BaseObj target = SearchNearestOpponent(true);
 

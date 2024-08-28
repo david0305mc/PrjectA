@@ -110,7 +110,7 @@ namespace SS
             PlayAni("Attack");
             FlipRenderers(transform.position.x <= TargetObj.transform.position.x);
         }
-        protected void Attack_Update()
+        protected virtual void Attack_Update()
         {
             attackDelay -= Time.deltaTime;
             if (attackDelay <= 0)
@@ -134,7 +134,7 @@ namespace SS
                 return;
             }
 
-            if (UnitData.refData.unit_type == UNIT_TYPE.ARCHER)
+            if (UnitData.refData.unit_type == UNIT_TYPE.ARCHER || UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
             {
                 SS.GameManager.Instance.LauchProjectile(this, TargetObj.UnitUID);
                 return;
