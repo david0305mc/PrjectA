@@ -267,10 +267,50 @@ namespace SS
                 {
                     DestroyBuilding(heroObj.currTileX, heroObj.currTileY);
                 }
+                if (MyBossObj.UnitUID == _heroUID)
+                {
+                    LoseStage();
+                }
                 RemoveHeroObj(_heroUID);
             }
         }
+        public void WinStage()
+        {
+            TouchBlockManager.Instance.AddLock();
+            var stageRewards = DataManager.Instance.GetStageRewards(UserData.Instance.PlayingStage);
+            int prevLevel = UserData.Instance.LocalData.Level.Value;
+            //AddStageRewards(UserData.Instance.AcquireSoul.Value, stageRewards);
+            int currLevel = UserData.Instance.LocalData.Level.Value;
+            UserData.Instance.ClearStage(UserData.Instance.PlayingStage);
 
+            var popup = PopupManager.Instance.Show<GameResultPopup>();
+            popup.SetData(true, stageRewards, () =>
+            {
+                RemoveStage();
+                BackToWorld();
+            }, () =>
+            {
+            }, () =>
+            {
+                RemoveStage();
+                BackToWorld();
+            });
+
+            if (prevLevel < currLevel)
+            {
+                UniTask.Create(async () =>
+                {
+                    await UniTask.WaitForSeconds(1f);
+                    var popup = PopupManager.Instance.Show<LevelUpPopup>();
+                    popup.SetData(currLevel);
+                    TouchBlockManager.Instance.RemoveLock();
+                });
+            }
+            else
+            {
+                TouchBlockManager.Instance.RemoveLock();
+            }
+        }
         public void AddBattleHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
         {
             var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);

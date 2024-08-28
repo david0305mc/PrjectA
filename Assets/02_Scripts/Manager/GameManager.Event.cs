@@ -47,6 +47,27 @@ namespace SS
             UserDataManager.Instance.SavableData.Gold.Value -= _goldCost;
             UserDataManager.Instance.SaveLocalData();
         }
+        public void LoseStage()
+        {
+            DisposeCTS();
+            //SetAllUnitEndState();
+            List<DataManager.StageRewardInfo> stageRewards = new List<DataManager.StageRewardInfo>();
+            //AddStageRewards(UserData.Instance.AcquireSoul.Value, stageRewards);
+            var popup = PopupManager.Instance.Show<GameResultPopup>();
+            popup.SetData(false, stageRewards, () =>
+            {
+                RemoveStage();
+                BackToWorld();
+            }, () =>
+            {
+                //RemoveStage();
+                //RetryStage();
+            }, () =>
+            {
+                RemoveStage();
+                BackToWorld();
+            });
+        }
     }
 
 }
