@@ -16,6 +16,7 @@ public class UIMain : SingletonMono<UIMain>
     [SerializeField] private GameObject ingameUI;
     [SerializeField] private GameObject worldUI;
     [SerializeField] private Button testAddGoldBtn;
+    [SerializeField] private Button testLevelUpBtn;
 
 
     private void Awake()
@@ -30,6 +31,10 @@ public class UIMain : SingletonMono<UIMain>
         testAddGoldBtn.onClick.AddListener(() =>
         {
             SS.GameManager.Instance.TestAddGold(555);
+        });
+        testLevelUpBtn.onClick.AddListener(() =>
+        {
+            SS.GameManager.Instance.TestLevelUp();
         });
     }
 

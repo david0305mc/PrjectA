@@ -14,6 +14,11 @@ namespace SS
             UserDataManager.Instance.SavableData.Gold.Value += _add;
             UserDataManager.Instance.SaveLocalData();
         }
+        public void TestLevelUp()
+        {
+            UserDataManager.Instance.SavableData.Level.Value++;
+            UserDataManager.Instance.SaveLocalData();
+        }
 
         public int AddBattleParty(long _heroUID)
         {

@@ -7,12 +7,13 @@ using UniRx;
 public class WorldUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI levelText;
 
     private void Awake()
     {
-        SS.UserDataManager.Instance.SavableData.Gold.Subscribe(_value =>
+        SS.UserDataManager.Instance.SavableData.Level.Subscribe(_value =>
         {
-            goldText.SetText(_value.ToString());
+            levelText.SetText(_value.ToString());
         }).AddTo(gameObject);
     }
 }
