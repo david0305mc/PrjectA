@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingObj : BaseObj
+namespace SS
 {
-    protected override void Update()
+    public class BuildingObj : BaseObj
     {
-    
-    }
+        protected override void Update()
+        {
 
-    protected override void FixedUpdate()
-    {
-    
+        }
+
+        protected override void FixedUpdate()
+        {
+
+        }
+
     }
 
 }

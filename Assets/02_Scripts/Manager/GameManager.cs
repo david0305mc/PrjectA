@@ -155,7 +155,29 @@ namespace SS
 
             RemoveAllHeroObj();
             RemoveAllEnemyObj();
-            //RemoveAllProjectile();
+            RemoveAllProjectile();
+        }
+        public BaseObj GetUnitObj(long _uid, bool isEnemy)
+        {
+            if (isEnemy)
+            {
+                return  GetEnemyObj(_uid);
+            }
+            return GetHeroObj(_uid);
+        }
+        public BaseObj GetHeroObj(long _uid)
+        {
+            if (heroObjDic.TryGetValue(_uid, out BaseObj heroObj))
+            {
+                return heroObj;
+            }
+            return default;
+        }
+        public BaseObj GetEnemyObj(long _uid)
+        {
+            if (enemyObjDic.TryGetValue(_uid, out BaseObj enemyObj))
+                return enemyObj;
+            return default;
         }
 
         public void HeroAttackEnemy(long _heroUID, long _enemyUID)
@@ -252,8 +274,10 @@ namespace SS
         public void AddBattleHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
         {
             var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);
-            _obj.InitData(true, heroData.uid);
-            _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7));
+            _obj.InitData(heroData);
+            _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7), (_attackData)=> {
+                EnemyAttackHero(_attackData.attackerUID, heroData.uid);
+            });
             heroObjDic.Add(_obj.UnitUID, _obj);
             MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(_obj.UnitUID, new Vector2Int(_gridX, _gridY)));
         }
@@ -318,9 +342,42 @@ namespace SS
         {
             var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
             BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
-            moveObj.InitData(false, enemyData.uid);
-            moveObj.InitBattleData(gridMap, startPos, endPos);
+            moveObj.InitData(enemyData);
+            moveObj.InitBattleData(gridMap, startPos, endPos, (_attackData) => {
+                HeroAttackEnemy(_attackData.attackerUID, enemyData.uid);
+            });
             enemyObjDic.Add(moveObj.UnitUID, moveObj);
+        }
+        private void RemoveAllProjectile()
+        {
+            Lean.Pool.LeanPool.DespawnAll();
+        }
+        public void LauchProjectile(BaseObj attackerObj, long _targetUID)
+        {
+            var projectileInfo = DataManager.Instance.GetProjectileInfoData(GameDefine.TestMissileID);
+            var missile = Lean.Pool.LeanPool.Spawn(MResourceManager.Instance.GetMissile(projectileInfo.prefabname), attackerObj.transform.position, Quaternion.identity, objRoot);
+            missile.Shoot(new AttackData2(attackerObj.UnitUID, attackerObj.UnitData.tid, attackerObj.UnitData.refUnitGradeData.attackdmg, attackerObj.UnitData.grade, !attackerObj.UnitData.IsEnemy), GetUnitObj(_targetUID, !attackerObj.UnitData.IsEnemy), projectileInfo.speed);
+        }
+
+        public void ShowBoomEffect(AttackData2 _attackData, Vector2 _pos, string name = default)
+        {
+            var unitGradeInfo = DataManager.Instance.GetUnitGrade(_attackData.attackerTID, 1);
+
+            if (!string.IsNullOrEmpty(unitGradeInfo.boomeffectprefab))
+            {
+                //var effectPrefab = MResourceManager.Instance.GetPrefab("BoomEffect/Stone_Boom_Effect.prefab");
+                var effectPrefab = MResourceManager.Instance.GetPrefab(unitGradeInfo.boomeffectprefab);
+                if (effectPrefab == null)
+                {
+                    Debug.LogError($"effectPrefab == null {unitGradeInfo.boomeffectprefab}");
+                    return;
+                }
+                ExplosionEffect effect = Lean.Pool.LeanPool.Spawn(effectPrefab, _pos, Quaternion.identity, objRoot).GetComponent<ExplosionEffect>();
+                effect.SetData(() =>
+                {
+                    Lean.Pool.LeanPool.Despawn(effect);
+                });
+            }
         }
     }
 

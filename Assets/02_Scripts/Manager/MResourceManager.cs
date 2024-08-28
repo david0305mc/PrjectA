@@ -172,6 +172,14 @@ public class MResourceManager : SingletonMono<MResourceManager>
         }
         return null;
     }
+    public SS.MissileBase GetMissile(string _name)
+    {
+        if (prefabDic.TryGetValue(_name, out GameObject obj))
+        {
+            return obj.GetComponent<SS.MissileBase>();
+        }
+        return null;
+    }
     public GameObject GetPrefab(string _name)
     {
         if (prefabDic.TryGetValue(_name, out GameObject obj))

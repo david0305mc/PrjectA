@@ -20,6 +20,7 @@ public class GameDefine
     public static readonly float RandPosOffsetMin = -0.3f;
     public static readonly float RandPosOffsetMax = 0.3f;
     public static readonly int MyBossUnitTID = 20001;
+    public static readonly int TestMissileID = 1063;
 
     public static readonly int[,] OuterTile = {
         { 0, -1 },          //    U

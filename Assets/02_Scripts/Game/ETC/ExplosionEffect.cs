@@ -6,15 +6,14 @@ using Cysharp.Threading.Tasks;
 public class ExplosionEffect : MonoBehaviour
 {
     private CartoonFX.CFXR_Effect cfxrEffect;
-    private AttackData attackData;
+    
     private void Awake()
     {
         cfxrEffect = GetComponent<CartoonFX.CFXR_Effect>();
     }
 
-    public void SetData(AttackData _attackData, System.Action _endAction)
+    public void SetData(System.Action _endAction)
     {
-        attackData = _attackData;
         if (cfxrEffect != null)
         {
             cfxrEffect.EndAction = _endAction;

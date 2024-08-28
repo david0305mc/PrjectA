@@ -77,5 +77,24 @@ namespace SS
             refUnitGradeData = DataManager.Instance.GetUnitGrade(tid, grade);
         }
     }
+
+
+    public class AttackData2
+    {
+        public long attackerUID;
+        public int attackerTID;
+        public int damage;
+        public int grade;
+        public bool attackToEnemy;
+
+        public AttackData2(long _uid, int _tid, int _damage, int _grade, bool _attackToEnemy)
+        {
+            attackerUID = _uid;
+            attackerTID = _tid;
+            damage = _damage;
+            grade = _grade;
+            attackToEnemy = _attackToEnemy;
+        }
+    }
 }
 

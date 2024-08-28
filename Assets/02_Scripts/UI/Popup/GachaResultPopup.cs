@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
-
+using SS;
 public class GachaResultPopup : PopupBase
 {
     [SerializeField] private Button showNextBtn;

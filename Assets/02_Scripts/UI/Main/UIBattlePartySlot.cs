@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using TMPro;
-
+using SS;
 public class UIBattlePartySlot : MonoBehaviour
 {
     [SerializeField] private GameObject emptySlot;

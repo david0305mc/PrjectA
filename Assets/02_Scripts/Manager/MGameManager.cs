@@ -1050,7 +1050,7 @@ public partial class MGameManager : SingletonMono<MGameManager>
                 return;
             }
             ExplosionEffect effect = Lean.Pool.LeanPool.Spawn(effectPrefab, _pos, Quaternion.identity, objRoot).GetComponent<ExplosionEffect>();
-            effect.SetData(_attackData, () =>
+            effect.SetData(() =>
             {
                 Lean.Pool.LeanPool.Despawn(effect);
             });
