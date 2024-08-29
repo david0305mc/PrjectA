@@ -69,7 +69,7 @@ namespace SS
         {
             SavableData = new SaveData();
             //var heroData = AddHeroData(ConfigTable.Instance.DefaultUnit01, 1);
-            var heroData = AddHeroData(11012, 1);
+            var heroData = AddHeroData(GameDefine.TestBuildingTid, 1);
             AddBattleParty(heroData.uid);
             AddHeroData(GameDefine.MyBossUnitTID, 1);
         }

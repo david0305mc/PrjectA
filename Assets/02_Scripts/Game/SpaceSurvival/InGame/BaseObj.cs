@@ -38,7 +38,7 @@ namespace SS
         protected Vector3 randPosOffset { get; set; }
         protected Vector3 OrgPos { get; private set; }
 
-        public long UnitUID;
+        public long UnitUID { get { return  UnitData.uid; } }
         public int currTileX
         {
             get
@@ -241,7 +241,6 @@ namespace SS
             gameObject.layer = LayerMask.NameToLayer(Game.GameConfig.UnitLayerName);
             isHero = !_unitData.IsEnemy;
             UnitData = _unitData;
-            UnitUID = UnitData.uid;
         }
 
         public void InitBattleData(GridMap _mapCreator, Vector2Int _startTile, System.Action<AttackData2> _getAttackedAction)

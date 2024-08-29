@@ -82,7 +82,7 @@ namespace SS
             InGameState = GameDefine.InGameState.Ready;
             SetIngameUI();
             worldMap.gameObject.SetActive(false);
-            var endTime = GameTime.Get() + 6;
+            var endTime = GameTime.Get() + 10;
             UniTask.Create(async () =>
             {
                 currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
@@ -90,11 +90,13 @@ namespace SS
                 gridMap = currMapOpHandler.Result.GetComponent<GridMap>();
                 AddMyBossObj();
 
-                //await UniTask.Delay(TimeSpan.FromSeconds(5f));
+                long remainTime = endTime - GameTime.Get();
+                battleUI.SetCountDownText(remainTime.ToString());
+
                 // CountDown
                 PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.1f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
                 {
-                    long remainTime = endTime - GameTime.Get();
+                    remainTime = endTime - GameTime.Get();
                     if (remainTime > 0)
                     {
                         battleUI.SetCountDownText(remainTime.ToString());
@@ -107,8 +109,10 @@ namespace SS
                     }
                 }, null);
 
-                // SpawnEnemy
-
+                for (int i = 0; i < 5; i++)
+                {
+                    AddBattleHeroObj(GameDefine.TestBuildingTid, UnityEngine.Random.Range(0, gridMap.gridCol), UnityEngine.Random.Range(1, 6));
+                }
             });
         }
 
@@ -116,8 +120,8 @@ namespace SS
         {
             cancellationTokenSource?.Clear();
             cancellationTokenSource = new CancellationTokenSource();
-            int enemyCount = 10;
-            PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.5f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
+            int enemyCount = 100;
+            PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.2f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
             {
                 AddBattleEnemyObj(2006);
                 if (--enemyCount < 0)
@@ -176,6 +180,7 @@ namespace SS
             //stageCts?.Cancel();
             //timerCts?.Cancel();
             //followCameraCts?.Cancel();
+            cancellationTokenSource?.Clear();
         }
 
         public void ExitStage()
@@ -296,27 +301,30 @@ namespace SS
                 Debug.Log($"heroObjDic.ContainsKey {_heroUID}");
                 return;
             }
-            var heroObj = heroObjDic[_heroUID];
-            if (heroData.refData.unit_type == UNIT_TYPE.BUILDING)
+            if (heroData.state == UnitDataStates.Alive)
             {
-                UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestBuildingDefeatDamage);
-            }
-            else
-            {
-                UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestHeroDefeatDamage);
-            }
-            heroObj.GetAttacked();
-            if (heroData.state == UnitDataStates.Dead)
-            {
+                var heroObj = heroObjDic[_heroUID];
                 if (heroData.refData.unit_type == UNIT_TYPE.BUILDING)
                 {
-                    DestroyBuilding(heroObj.currTileX, heroObj.currTileY);
+                    UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestBuildingDefeatDamage);
                 }
-                if (MyBossObj.UnitUID == _heroUID)
+                else
                 {
-                    LoseStage();
+                    UserDataManager.Instance.AttackToHero(_heroUID, GameDefine.TestHeroDefeatDamage);
                 }
-                RemoveHeroObj(_heroUID);
+                heroObj.GetAttacked();
+                if (heroData.state == UnitDataStates.Dead)
+                {
+                    if (heroData.refData.unit_type == UNIT_TYPE.BUILDING)
+                    {
+                        DestroyBuilding(heroObj.currTileX, heroObj.currTileY);
+                    }
+                    if (MyBossObj != null && MyBossObj.UnitUID == _heroUID)
+                    {
+                        LoseStage();
+                    }
+                    RemoveHeroObj(_heroUID);
+                }
             }
         }
         public void WinStage()
@@ -356,27 +364,47 @@ namespace SS
                 TouchBlockManager.Instance.RemoveLock();
             }
         }
-        public void AddBattleHeroObj(BaseObj _obj, int _tid, int _gridX, int _gridY)
+        public void AddBattleHeroObj(BaseObj _obj, int _gridX, int _gridY)
         {
-            var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);
+            var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_obj.UnitData.tid);
             _obj.InitData(heroData);
             _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), (_attackData)=> {
-                EnemyAttackHero(_attackData.attackerUID, heroData.uid);
+                EnemyAttackHero(_attackData.attackerUID, _obj.UnitData.uid);
             });
             heroObjDic.Add(_obj.UnitUID, _obj);
             MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(_obj.UnitUID, new Vector2Int(_gridX, _gridY)));
         }
-
+        public BaseObj GenerateHeroObj(int _tid)
+        {
+            var unitData = UserDataManager.Instance.GetHeroDataByTID(_tid);
+            GameObject unitPrefab = MResourceManager.Instance.GetPrefab(unitData.refData.prefabname);
+            var baseObj = Lean.Pool.LeanPool.Spawn(unitPrefab, Instance.GridMap.ObjectField).GetComponent<BaseObj>();
+            baseObj.InitData(unitData);
+            return baseObj;
+        }
+        private void AddBattleHeroObj(int _tid, int _gridX, int _gridY)
+        {
+            var baseObj = GenerateHeroObj(_tid);
+            AddBattleHeroObj(baseObj, _gridX, _gridY);
+        }
         private void AddMyBossObj()
         {
-            var myBossData = UserDataManager.Instance.GetHeroDataByTID(GameDefine.MyBossUnitTID);
-            GameObject unitPrefab = MResourceManager.Instance.GetPrefab(myBossData.refData.prefabname);
-            var baseObj = Lean.Pool.LeanPool.Spawn(unitPrefab, SS.GameManager.Instance.GridMap.ObjectField).GetComponent<BaseObj>();
-            AddBattleHeroObj(baseObj, GameDefine.MyBossUnitTID, 5, 3);
-
+            var baseObj = GenerateHeroObj(GameDefine.MyBossUnitTID);
+            AddBattleHeroObj(baseObj, 5, 3);
             UserDataManager.Instance.MyBossUID = baseObj.UnitUID;
         }
-
+        public void AddBattleEnemyObj(int _tid)
+        {
+            var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
+            BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
+            moveObj.InitData(enemyData);
+            //gridMap.gridCol
+            int randCol = UnityEngine.Random.Range(0, gridMap.gridCol);
+            moveObj.InitBattleData(gridMap, new Vector2Int(randCol, startPos.y), (_attackData) => {
+                HeroAttackEnemy(_attackData.attackerUID, enemyData.uid);
+            });
+            enemyObjDic.Add(moveObj.UnitUID, moveObj);
+        }
         private void RemoveAllHeroObj()
         {
             for (int i = UserDataManager.Instance.BattleHeroDataDic.Count - 1; i >= 0; i--)
@@ -423,18 +451,6 @@ namespace SS
             }
         }
 
-        public void AddBattleEnemyObj(int _tid)
-        {
-            var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
-            BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
-            moveObj.InitData(enemyData);
-            //gridMap.gridCol
-            int randCol = UnityEngine.Random.Range(0, gridMap.gridCol);
-            moveObj.InitBattleData(gridMap, new Vector2Int(randCol, startPos.y), (_attackData) => {
-                HeroAttackEnemy(_attackData.attackerUID, enemyData.uid);
-            });
-            enemyObjDic.Add(moveObj.UnitUID, moveObj);
-        }
         private void RemoveAllProjectile()
         {
             Lean.Pool.LeanPool.DespawnAll();

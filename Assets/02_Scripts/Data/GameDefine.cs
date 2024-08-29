@@ -25,6 +25,7 @@ public class GameDefine
     public static readonly int TestHeroDefeatDamage = 100;
     public static readonly int TestBuildingDefeatDamage = 100;
     public static readonly int TestEnemyDefeatDamage = 100;
+    public static readonly int TestBuildingTid = 11012;
     public static readonly float RandPosOffsetMin = -0.3f;
     public static readonly float RandPosOffsetMax = 0.3f;
     public static readonly int MyBossUnitTID = 20001;

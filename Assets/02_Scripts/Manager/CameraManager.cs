@@ -122,7 +122,7 @@ namespace SS
                         else
                         {
                             selectedObject.DragToTarget(tileObj.transform.position, () => {
-                                SS.GameManager.Instance.AddBattleHeroObj(selectedObject, selectedObject.UnitData.tid, tileObj.X, tileObj.Y);
+                                SS.GameManager.Instance.AddBattleHeroObj(selectedObject, tileObj.X, tileObj.Y);
                                 if (selectedObject.UnitUID == 0)
                                 {
                                     Debug.LogError($"battleEnemyDataDic not found {selectedObject.UnitUID}");
