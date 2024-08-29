@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class BattleUI : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class BattleUI : MonoBehaviour
     [SerializeField] private List<UIUnitSlot> unitSlotList;
     [SerializeField] private Button spawnEnemyBtn;
     [SerializeField] private Button exitBtn;
+    [SerializeField] private TextMeshProUGUI countDownText;
 
     private void Awake()
     {
-
+        countDownText.SetText(string.Empty);
         spawnEnemyBtn.onClick.AddListener(() =>
         {
             SS.GameManager.Instance.AddBattleEnemyObj(2006);
@@ -57,6 +59,11 @@ public class BattleUI : MonoBehaviour
             //}
         }
             
+    }
+
+    public void SetCountDownText(string _text)
+    {
+        countDownText.SetText(_text);
     }
 
 

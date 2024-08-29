@@ -6,6 +6,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Game;
 using System.Linq;
+using System;
+using System.Threading;
 
 namespace SS
 {
@@ -19,15 +21,18 @@ namespace SS
         [SerializeField] private MainUI mainUI;
         [SerializeField] private InGameUI ingameUI;
         [SerializeField] private WorldMap worldMap;
+        [SerializeField] private BattleUI battleUI;
 
         private GridMap gridMap;
         public GridMap GridMap { get { return gridMap; } }
         public GameDefine.GameState GameState { get; private set; }
+        public GameDefine.InGameState InGameState { get; private set; }
         private Dictionary<long, BaseObj> enemyObjDic = new Dictionary<long, BaseObj>();
         private Dictionary<long, BaseObj> heroObjDic = new Dictionary<long, BaseObj>();
         public Dictionary<long, BaseObj> HeroObjDic { get { return heroObjDic; } }
         public Dictionary<long, BaseObj> EnemyObjDic { get { return enemyObjDic; } }
-        
+
+        private CancellationTokenSource cancellationTokenSource;
         public BaseObj MyBossObj { 
             get
             {
@@ -66,20 +71,61 @@ namespace SS
             mainUI.SetActive(false);
             mainUI.HideStageInfo();
             ingameUI.SetActive(true);
-            GameState = GameDefine.GameState.InGame;
             //worldMap.SelectStage(-1);
         }
-        public void StartSpaceSurvival(string mapPrefab)
+        public void StartInGame(string mapPrefab)
         {
+            cancellationTokenSource?.Clear();
+            cancellationTokenSource = new CancellationTokenSource();
+
+            GameState = GameDefine.GameState.InGame;
+            InGameState = GameDefine.InGameState.Ready;
             SetIngameUI();
             worldMap.gameObject.SetActive(false);
+            var endTime = GameTime.Get() + 6;
             UniTask.Create(async () =>
             {
                 currMapOpHandler = Addressables.InstantiateAsync(mapPrefab, Vector3.zero, Quaternion.identity, objRoot);
                 await currMapOpHandler;
                 gridMap = currMapOpHandler.Result.GetComponent<GridMap>();
                 AddMyBossObj();
+
+                //await UniTask.Delay(TimeSpan.FromSeconds(5f));
+                // CountDown
+                PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.1f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
+                {
+                    long remainTime = endTime - GameTime.Get();
+                    if (remainTime > 0)
+                    {
+                        battleUI.SetCountDownText(remainTime.ToString());
+                    }
+                    else
+                    {
+                        battleUI.SetCountDownText(string.Empty);
+                        InGameState = GameDefine.InGameState.Battle;
+                        StartSpawnEnemy();
+                    }
+                }, null);
+
+                // SpawnEnemy
+
             });
+        }
+
+        private void StartSpawnEnemy()
+        {
+            cancellationTokenSource?.Clear();
+            cancellationTokenSource = new CancellationTokenSource();
+            int enemyCount = 10;
+            PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.5f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
+            {
+                AddBattleEnemyObj(2006);
+                if (--enemyCount < 0)
+                {
+                    cancellationTokenSource?.Clear();
+                    cancellationTokenSource = null;
+                }
+            }, null);
         }
 
         public static long GenerateUID()
@@ -383,7 +429,7 @@ namespace SS
             BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
             moveObj.InitData(enemyData);
             //gridMap.gridCol
-            int randCol = Random.RandomRange(0, gridMap.gridCol);
+            int randCol = UnityEngine.Random.Range(0, gridMap.gridCol);
             moveObj.InitBattleData(gridMap, new Vector2Int(randCol, startPos.y), (_attackData) => {
                 HeroAttackEnemy(_attackData.attackerUID, enemyData.uid);
             });

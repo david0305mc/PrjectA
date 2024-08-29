@@ -150,6 +150,11 @@ namespace SS
             return targetTile;
         }
 
+        protected override void FlipRenderers(bool right)
+        {
+            base.FlipRenderers(right);
+        }
+
         public override void SetUIMode(int _sortingOrder)
         {
             base.SetUIMode(_sortingOrder);

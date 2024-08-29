@@ -32,7 +32,14 @@ namespace SS
         protected override void ChangeIdleState()
         {
             base.ChangeIdleState();
-            fsm.ChangeState(UnitStates.Idle);
+            if (UserDataManager.Instance.MyBossUID == UnitData.uid)
+            {
+
+            }
+            else
+            {
+                fsm.ChangeState(UnitStates.Idle);
+            }
         }
 
         protected void Idle_Enter()
@@ -64,6 +71,12 @@ namespace SS
             base.Attack_Exit();
             TargetObj = null;
         }
+
+        protected override void FlipRenderers(bool right)
+        {
+
+        }
+
     }
 
 }

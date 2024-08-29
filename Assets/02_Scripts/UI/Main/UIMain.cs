@@ -24,7 +24,7 @@ public class UIMain : SingletonMono<UIMain>
         ingameUI.SetActive(false);
         startSpaceAreaBtn.onClick.AddListener(() =>
         {
-            SS.GameManager.Instance.StartSpaceSurvival("SurvivalMap/GridMap01.prefab");
+            SS.GameManager.Instance.StartInGame("SurvivalMap/GridMap01.prefab");
             //ingameUI.SetActive(true);
         });
 
