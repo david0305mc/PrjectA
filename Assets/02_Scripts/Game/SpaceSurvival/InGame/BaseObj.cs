@@ -34,7 +34,6 @@ namespace SS
         protected int TargetNodeIndex { get; set; }
         protected GridMap gridMap;
         protected TileObject startTile;
-        private TileObject endTile;
         private System.Action<AttackData2> getAttackAction;
         protected Vector3 randPosOffset { get; set; }
         protected Vector3 OrgPos { get; private set; }
@@ -245,7 +244,7 @@ namespace SS
             UnitUID = UnitData.uid;
         }
 
-        public void InitBattleData(GridMap _mapCreator, Vector2Int _startTile, Vector2Int _endTile, System.Action<AttackData2> _getAttackedAction)
+        public void InitBattleData(GridMap _mapCreator, Vector2Int _startTile, System.Action<AttackData2> _getAttackedAction)
         {
             getAttackAction = _getAttackedAction;
             gridMap = _mapCreator;
@@ -258,7 +257,6 @@ namespace SS
             pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
 
             TargetObj = null;
-            endTile = gridMap.Tiles[_endTile.x, _endTile.y];
 
             if (UnitData.refData.unit_type == UNIT_TYPE.BUILDING)
             {

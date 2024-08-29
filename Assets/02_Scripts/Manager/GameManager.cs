@@ -13,7 +13,6 @@ namespace SS
     {
         [SerializeField] private BaseObj testMoveObjPrefab;
         [SerializeField] private Vector2Int startPos;
-        [SerializeField] private Vector2Int endPos;
 
 
         [SerializeField] private Transform objRoot;
@@ -315,7 +314,7 @@ namespace SS
         {
             var heroData = SS.UserDataManager.Instance.AddBattleHeroData(_tid);
             _obj.InitData(heroData);
-            _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), new Vector2Int(7, 7), (_attackData)=> {
+            _obj.InitBattleData(gridMap, new Vector2Int(_gridX, _gridY), (_attackData)=> {
                 EnemyAttackHero(_attackData.attackerUID, heroData.uid);
             });
             heroObjDic.Add(_obj.UnitUID, _obj);
@@ -383,7 +382,9 @@ namespace SS
             var enemyData = SS.UserDataManager.Instance.AddEnemyData(_tid);
             BaseObj moveObj = Lean.Pool.LeanPool.Spawn(testMoveObjPrefab, new Vector2(-100, -100), Quaternion.identity, gridMap.ObjectField);
             moveObj.InitData(enemyData);
-            moveObj.InitBattleData(gridMap, startPos, endPos, (_attackData) => {
+            //gridMap.gridCol
+            int randCol = Random.RandomRange(0, gridMap.gridCol);
+            moveObj.InitBattleData(gridMap, new Vector2Int(randCol, startPos.y), (_attackData) => {
                 HeroAttackEnemy(_attackData.attackerUID, enemyData.uid);
             });
             enemyObjDic.Add(moveObj.UnitUID, moveObj);
