@@ -23,6 +23,7 @@ namespace SS
         protected float elapse;
         private bool isDisposed;
         private int targetAttackCount;
+        private long targetUID;
 
         protected virtual void Awake()
         {
@@ -34,7 +35,7 @@ namespace SS
         {
             attackData = _attackData;
             targetObj = _targetObj;
-
+            targetUID = targetObj.UnitUID;
             var unitGradeInfo = DataManager.Instance.GetUnitGrade(attackData.attackerTID, attackData.grade);
             var projectileInfo = DataManager.Instance.GetProjectileInfoData(unitGradeInfo.projectileid);
 
@@ -52,14 +53,14 @@ namespace SS
             }
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             UpdateMissile();
         }
 
         protected virtual bool UpdateMissile()
         {
-            if (targetObj != null)
+            if (targetObj != null && targetObj.UnitUID == targetUID)
             {
                 dstPos = targetObj.transform.position;
             }

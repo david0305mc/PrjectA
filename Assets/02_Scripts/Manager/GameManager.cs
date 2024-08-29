@@ -111,7 +111,7 @@ namespace SS
 
                 for (int i = 0; i < 5; i++)
                 {
-                    AddBattleHeroObj(GameDefine.TestBuildingTid, UnityEngine.Random.Range(0, gridMap.gridCol), UnityEngine.Random.Range(1, 6));
+                    AddBattleHeroObj(GameDefine.TestBuildingTid, UnityEngine.Random.Range(0, gridMap.gridCol), UnityEngine.Random.Range(5, 10));
                 }
             });
         }
@@ -181,6 +181,7 @@ namespace SS
             //timerCts?.Cancel();
             //followCameraCts?.Cancel();
             cancellationTokenSource?.Clear();
+            cancellationTokenSource = null;
         }
 
         public void ExitStage()
