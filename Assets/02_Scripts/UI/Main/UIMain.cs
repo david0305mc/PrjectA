@@ -42,7 +42,7 @@ public class UIMain : SingletonMono<UIMain>
 
         testAddGoldBtn.onClick.AddListener(() =>
         {
-            SS.GameManager.Instance.TestAddGold(555);
+            SS.GameManager.Instance.TestAddGold(100);
         });
         testLevelUpBtn.onClick.AddListener(() =>
         {

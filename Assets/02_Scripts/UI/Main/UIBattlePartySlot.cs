@@ -57,7 +57,7 @@ public class UIBattlePartySlot : MonoBehaviour
 
     private void UpdateLockState()
     {
-        if (UserData.Instance.GetUnitSlotCount() < slotIndex + 1)
+        if (UserDataManager.Instance.SavableData.UnitSlotCount.Value < slotIndex + 1)
         {
             emptySlot.SetActive(false);
             lockSlot.SetActive(true);

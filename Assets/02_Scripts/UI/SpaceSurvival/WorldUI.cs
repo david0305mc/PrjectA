@@ -15,5 +15,10 @@ public class WorldUI : MonoBehaviour
         {
             levelText.SetText(_value.ToString());
         }).AddTo(gameObject);
+
+        SS.UserDataManager.Instance.SavableData.Gold.Subscribe(_value =>
+        {
+            goldText.SetText(_value.ToString());
+        }).AddTo(gameObject);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 
 namespace SS
@@ -72,6 +73,8 @@ namespace SS
             var heroData = AddHeroData(GameDefine.TestBuildingTid, 1);
             AddBattleParty(heroData.uid);
             AddHeroData(GameDefine.MyBossUnitTID, 1);
+            var levelInfo = DataManager.Instance.GetLevelData(SavableData.Level.Value);
+            SavableData.UnitSlotCount = new ReactiveProperty<int>(levelInfo.unlockslot);
         }
         public int GetPartySlotIndexByUID(long _uid)
         {
@@ -131,13 +134,9 @@ namespace SS
                 return heroData.Value;
             }
         }
-        public int GetUnitSlotCount()
-        {
-            return DataManager.Instance.GetLevelData(3).unlockslot;
-        }
         public int FindEmptySlot()
         {
-            for (int i = 0; i < GetUnitSlotCount(); i++)
+            for (int i = 0; i < SavableData.UnitSlotCount.Value; i++)
             {
                 if (SavableData.BattlePartyDic[i] == -1)
                 {

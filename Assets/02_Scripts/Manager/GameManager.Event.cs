@@ -16,7 +16,17 @@ namespace SS
         }
         public void TestLevelUp()
         {
-            UserDataManager.Instance.SavableData.Level.Value++;
+            int addValue = 10;
+            int prevLevel = DataManager.Instance.ConvertExpToLevel(UserDataManager.Instance.SavableData.Exp.Value);
+            UserDataManager.Instance.SavableData.Exp.Value += addValue;
+            int currLevel = DataManager.Instance.ConvertExpToLevel(UserDataManager.Instance.SavableData.Exp.Value);
+            if (prevLevel < currLevel)
+            {
+                var levelInfo = DataManager.Instance.GetLevelData(currLevel);
+                UserDataManager.Instance.SavableData.Level.Value = currLevel;
+                UserDataManager.Instance.SavableData.Gold.Value += levelInfo.goldreward;
+                UserDataManager.Instance.SavableData.UnitSlotCount.Value = levelInfo.unlockslot;
+            }
             UserDataManager.Instance.SaveLocalData();
         }
 

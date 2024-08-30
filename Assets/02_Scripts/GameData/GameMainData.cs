@@ -12,8 +12,10 @@ namespace SS
     {
         public int uidSeed;
         public long LastLoginTime;
+        public ReactiveProperty<long> Exp;
         public ReactiveProperty<int> Level;
         public ReactiveProperty<long> Gold;
+        public ReactiveProperty<int> UnitSlotCount;
         public SerializableDictionary<long, UnitData> HeroDataDic;
         public SerializableDictionary<int, long> BattlePartyDic;
 
@@ -22,6 +24,8 @@ namespace SS
             uidSeed = 10000;
             Gold = new ReactiveProperty<long>(ConfigTable.Instance.GoldDefault);
             Level = new ReactiveProperty<int>(1);
+            Exp = new ReactiveProperty<long>(1);
+            UnitSlotCount = new ReactiveProperty<int>(1);
             HeroDataDic = new SerializableDictionary<long, UnitData>();
             BattlePartyDic = new SerializableDictionary<int, long>();
             Enumerable.Range(0, Game.GameConfig.MaxBattlePartyCount).ToList().ForEach(i =>
