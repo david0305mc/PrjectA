@@ -28,6 +28,11 @@ namespace SS
                 return;
             fsm.Driver.FixedUpdate.Invoke();
         }
+        public override void SetUIState()
+        {
+            base.SetUIState();
+            fsm.ChangeState(UnitStates.UI);
+        }
 
         protected override void ChangeIdleState()
         {

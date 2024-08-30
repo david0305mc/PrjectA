@@ -155,11 +155,6 @@ namespace SS
             base.FlipRenderers(right);
         }
 
-        public override void SetUIMode(int _sortingOrder)
-        {
-            base.SetUIMode(_sortingOrder);
-            SetUIState();
-        }
         public override void SetUIState()
         {
             base.SetUIState();

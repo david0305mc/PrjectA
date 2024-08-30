@@ -449,6 +449,7 @@ namespace SS
             HideCanvase();
             transform.SetScale(200f);
             PlayAni("Idle");
+            SetUIState();
         }
         public virtual void SetUIState()
         {
