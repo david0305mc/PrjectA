@@ -8,10 +8,22 @@ using System.Threading;
 
 public class UIMain : SingletonMono<UIMain>
 {
+    public enum BottomTab
+    {
+        Shop,
+        Arrangement,
+        Worldmap,
+        Pvp,
+        Event,
+    }
+
     [SerializeField] private UIDamageText uiDamageTextPref;
 
     [SerializeField] private Canvas worldCanvas;
     [SerializeField] private Button startSpaceAreaBtn;
+    [SerializeField] private UIMainBottomTabGroup tabGruop;
+    [SerializeField] private GameObject subMenuObject;
+    [SerializeField] private UIPanelUnitSelect unitSelectPanel;
 
     public BattleUI battleUI;
     public WorldUI worldUI;
@@ -36,6 +48,11 @@ public class UIMain : SingletonMono<UIMain>
         {
             SS.GameManager.Instance.TestLevelUp();
         });
+    }
+
+    public void InitUI()
+    { 
+        
     }
 
     public void SetUIWorldPosToCameraPos(RectTransform ui, Vector2 _worldPos)
@@ -77,5 +94,65 @@ public class UIMain : SingletonMono<UIMain>
         {
             gameObject.BroadcastMessage(funcName, SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    public void InitTabGroup()
+    {
+        tabGruop.InitTabGroup((int)BottomTab.Worldmap, (_index) =>
+        {
+            OnBottomTabClicked(_index);
+        });
+    }
+    private void OnBottomTabClicked(int _index)
+    {
+        switch ((BottomTab)_index)
+        {
+            case BottomTab.Worldmap:
+                {
+                    subMenuObject.SetActive(true);
+                }
+                break;
+
+            case BottomTab.Arrangement:
+                {
+                    ShowArrangementUI();
+                    subMenuObject.SetActive(false);
+                }
+                break;
+            case BottomTab.Event:
+                {
+                    subMenuObject.SetActive(false);
+                }
+                break;
+            case BottomTab.Pvp:
+                {
+                    subMenuObject.SetActive(false);
+                }
+                break;
+            case BottomTab.Shop:
+                {
+                    subMenuObject.SetActive(false);
+                }
+                break;
+        }
+    }
+    public void SelectTab(BottomTab _tab)
+    {
+        tabGruop.SelectTab((int)_tab);
+    }
+
+    public void ShowUnitInfo(int _uid)
+    {
+        unitSelectPanel.ShowUnitInfoPopup(_uid);
+    }
+
+    public void ShowArrangementUI()
+    {
+        unitSelectPanel.SetActive(true);
+        unitSelectPanel.InitUI();
+    }
+    public void HideArrangementUI()
+    {
+        unitSelectPanel.SetActive(false);
     }
 }

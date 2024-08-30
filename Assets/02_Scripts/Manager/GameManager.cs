@@ -18,7 +18,6 @@ namespace SS
 
 
         [SerializeField] private Transform objRoot;
-        [SerializeField] private MainUI mainUI;
         [SerializeField] private WorldMap worldMap;
 
         private GridMap gridMap;
@@ -53,13 +52,13 @@ namespace SS
 
         private void InitGame()
         {
-            mainUI.InitTabGroup();
+            UIMain.Instance.InitTabGroup();
             SetWorldUI();
         }
 
         public void SetWorldUI()
         {
-            mainUI.SetActive(true);
+            UIMain.Instance.worldUI.SetActive(true);
             UIMain.Instance.battleUI.SetActive(false);
             GameState = GameDefine.GameState.MainScene;
             
@@ -67,8 +66,7 @@ namespace SS
 
         public void SetIngameUI()
         {
-            mainUI.SetActive(false);
-            mainUI.HideStageInfo();
+            UIMain.Instance.worldUI.SetActive(false);
             UIMain.Instance.battleUI.SetActive(true);
             //worldMap.SelectStage(-1);
         }

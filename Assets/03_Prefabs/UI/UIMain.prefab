@@ -267,6 +267,9 @@ MonoBehaviour:
   uiDamageTextPref: {fileID: 1703926000460134786, guid: def3b5ed1fd6e9448b2f332f7f32d253, type: 3}
   worldCanvas: {fileID: 405216246082505420}
   startSpaceAreaBtn: {fileID: 3068207604772655566}
+  tabGruop: {fileID: 2756652710380001252}
+  subMenuObject: {fileID: 6114643903472548205}
+  unitSelectPanel: {fileID: 5545772812000472053}
   battleUI: {fileID: 4166511158460587829}
   worldUI: {fileID: 6789002440432847700}
   testAddGoldBtn: {fileID: 6794346119102134551}
@@ -8524,7 +8527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 74.2554, y: -205.2}
+  m_AnchoredPosition: {x: 74.2554, y: -60}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6114643904422997582

@@ -560,10 +560,7 @@ MonoBehaviour:
   testMoveObjPrefab: {fileID: 6844310997039503592, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
   startPos: {x: 5, y: 14}
   objRoot: {fileID: 684310350}
-  mainUI: {fileID: 1746086362950791859}
-  ingameUI: {fileID: 1746086362031738043}
   worldMap: {fileID: 3123656513177866222}
-  battleUI: {fileID: 3238053021813796254}
 --- !u!1001 &1243510927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -948,17 +945,6 @@ PrefabInstance:
       objectReference: {fileID: 228335615}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a49bf9af04408784c94048f0734e8082, type: 3}
---- !u!114 &3238053021813796254 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4166511158460587829, guid: a49bf9af04408784c94048f0734e8082, type: 3}
-  m_PrefabInstance: {fileID: 3238053021813796253}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf3a84f7442124d4fafa3a221bbb54d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5376399591460006479 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6284782889997611057, guid: a49bf9af04408784c94048f0734e8082, type: 3}
