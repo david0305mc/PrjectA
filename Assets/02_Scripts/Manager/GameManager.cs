@@ -19,9 +19,7 @@ namespace SS
 
         [SerializeField] private Transform objRoot;
         [SerializeField] private MainUI mainUI;
-        [SerializeField] private InGameUI ingameUI;
         [SerializeField] private WorldMap worldMap;
-        [SerializeField] private BattleUI battleUI;
 
         private GridMap gridMap;
         public GridMap GridMap { get { return gridMap; } }
@@ -62,15 +60,16 @@ namespace SS
         public void SetWorldUI()
         {
             mainUI.SetActive(true);
-            ingameUI.SetActive(false);
+            UIMain.Instance.battleUI.SetActive(false);
             GameState = GameDefine.GameState.MainScene;
+            
         }
 
         public void SetIngameUI()
         {
             mainUI.SetActive(false);
             mainUI.HideStageInfo();
-            ingameUI.SetActive(true);
+            UIMain.Instance.battleUI.SetActive(true);
             //worldMap.SelectStage(-1);
         }
         public void StartInGame(string mapPrefab)
@@ -91,7 +90,7 @@ namespace SS
                 AddMyBossObj();
 
                 long remainTime = endTime - GameTime.Get();
-                battleUI.SetCountDownText(remainTime.ToString());
+                UIMain.Instance.battleUI.SetCountDownText(remainTime.ToString());
 
                 // CountDown
                 PlayerLoopTimer.StartNew(TimeSpan.FromSeconds(0.1f), true, DelayType.DeltaTime, PlayerLoopTiming.Update, cancellationTokenSource.Token, _ =>
@@ -99,11 +98,11 @@ namespace SS
                     remainTime = endTime - GameTime.Get();
                     if (remainTime > 0)
                     {
-                        battleUI.SetCountDownText(remainTime.ToString());
+                        UIMain.Instance.battleUI.SetCountDownText(remainTime.ToString());
                     }
                     else
                     {
-                        battleUI.SetCountDownText(string.Empty);
+                        UIMain.Instance.battleUI.SetCountDownText(string.Empty);
                         InGameState = GameDefine.InGameState.Battle;
                         StartSpawnEnemy();
                     }

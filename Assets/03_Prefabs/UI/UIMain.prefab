@@ -267,8 +267,8 @@ MonoBehaviour:
   uiDamageTextPref: {fileID: 1703926000460134786, guid: def3b5ed1fd6e9448b2f332f7f32d253, type: 3}
   worldCanvas: {fileID: 405216246082505420}
   startSpaceAreaBtn: {fileID: 3068207604772655566}
-  ingameUI: {fileID: 405216246121600711}
-  worldUI: {fileID: 405216245085907151}
+  battleUI: {fileID: 4166511158460587829}
+  worldUI: {fileID: 6789002440432847700}
   testAddGoldBtn: {fileID: 6794346119102134551}
   testLevelUpBtn: {fileID: 4155526204040379948}
 --- !u!1 &405216244858369981

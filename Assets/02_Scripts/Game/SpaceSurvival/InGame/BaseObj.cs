@@ -368,7 +368,6 @@ namespace SS
         {
             if (TargetObj == null)
             {
-                Debug.LogError("targetObj == null");
                 return false;
             }
 
