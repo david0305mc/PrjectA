@@ -37,6 +37,7 @@ public class PathFinderTest : MonoBehaviour
 
     void Start()
     {
+#if UNITY_EDITOR
         astarPathFinder = new AStarPathFinder(this);
         astarPathFinder.SetNode2Pos(Node2Pos);
         astarPathFinder.InitMap(WIDTH, HEIGHT);
@@ -48,6 +49,15 @@ public class PathFinderTest : MonoBehaviour
         jpsPathFinder.InitMap(WIDTH, HEIGHT);
         jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
         jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
+#else
+        astarPathFinder = new AStarPathFinder();
+        astarPathFinder.SetNode2Pos(Node2Pos);
+        astarPathFinder.InitMap(WIDTH, HEIGHT);
+        
+        jpsPathFinder = new JPSPathFinder();
+        jpsPathFinder.SetNode2Pos(Node2Pos);
+        jpsPathFinder.InitMap(WIDTH, HEIGHT);
+#endif
 
         InitMap();
         OnClickBlock();

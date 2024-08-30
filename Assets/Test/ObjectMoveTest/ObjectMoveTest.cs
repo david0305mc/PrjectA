@@ -91,6 +91,7 @@ namespace TEST
             float gridWidth = worldWidth;
             float tileWidth = gridWidth / gridCol;
 
+#if UNITY_EDITOR
             jpsPathFinder = new JPSPathFinder(this);
             jpsPathFinder.SetNode2Pos(Node2Pos);
             jpsPathFinder.InitMap(gridCol, gridRow);
@@ -102,6 +103,8 @@ namespace TEST
             astarPathFinder.InitMap(gridCol, gridRow);
             astarPathFinder.recorder.SetDisplayAction(DisplayRecord);
             astarPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
+
+#endif
 
             //var tileObj = Lean.Pool.LeanPool.Spawn(tileObjPrefab, floorRoot.transform);
             //tileObj.transform.position = new Vector3(startX, startY, 0);

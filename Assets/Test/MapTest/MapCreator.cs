@@ -59,9 +59,10 @@ public class MapCreator : MonoBehaviour
     [ContextMenu("Create Map")]
     private void CreateMap()
     {
+#if UNITY_EDITOR
         InitDefaultData();
-        
-        
+
+
         for (int j = 0; j < gridRow; j++)
         {
             for (int i = 0; i < gridCol; i++)
@@ -90,6 +91,8 @@ public class MapCreator : MonoBehaviour
                 //});
             }
         }
+#endif
+
     }
 
     [ContextMenu("RemoveTilesAll")]

@@ -756,6 +756,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358793408}
   m_CullTransparentMesh: 1
+--- !u!1001 &376909660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 912250603651824044, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 912250603651824044, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538370, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519325310232538392, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
+      propertyPath: m_Name
+      value: 2006_Zombie_Hand
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e61c90a4da29f244eafdd3e380f0bbc2, type: 3}
 --- !u!1 &381960304
 GameObject:
   m_ObjectHideFlags: 0

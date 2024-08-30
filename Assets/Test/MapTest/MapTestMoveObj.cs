@@ -94,15 +94,17 @@ public class MapTestMoveObj : Boids2D
     public void InitData(MapCreator _mapCreator, int _startX, int _startY, int _endX, int _endY)
     {
         mapCreator = _mapCreator;
+#if UNITY_EDITOR
         pathFinder = new AStarPathFinder(this);
+#else
+        pathFinder = new AStarPathFinder();
+#endif
         pathFinder.SetNode2Pos(_mapCreator.Node2Pos);
         currNodeIndex = -1;
         isActive = true;
 
         endTile = mapCreator.Tiles[_endX, _endY];
         pathFinder.InitMap(_mapCreator.gridCol, _mapCreator.gridRow);
-        //jpsPathFinder.recorder.SetDisplayAction(DisplayRecord);
-        //jpsPathFinder.recorder.SetOnPlayEndAction(OnPlayEnd);
         RefreshPath(_startX, _startY, _endX, _endY);
         
         transform.position = (Vector2)mapCreator.Node2Pos(_startX, _startY) + new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));

@@ -72,6 +72,7 @@ public class GridMap : MonoBehaviour
     [ContextMenu("Create Map")]
     private void CreateMap()
     {
+#if UNITY_EDITOR
         InitDefaultData();
 
 
@@ -103,5 +104,7 @@ public class GridMap : MonoBehaviour
                 //});
             }
         }
+#endif
+
     }
 }

@@ -29,7 +29,6 @@ namespace SS
         private Transform renderRoot;
 
         protected AbsPathFinder pathFinder;
-        protected AbsPathFinder pathFinderPassBuilding;
         protected List<PathNode> PathList { get; set; }
         protected int TargetNodeIndex { get; set; }
         protected GridMap gridMap;
@@ -247,13 +246,15 @@ namespace SS
         {
             getAttackAction = _getAttackedAction;
             gridMap = _mapCreator;
+#if UNITY_EDITOR
             pathFinder = new AStarPathFinder(this);
             pathFinder.SetNode2Pos(gridMap.Node2Pos);
             pathFinder.InitMap(gridMap.gridCol, gridMap.gridRow);
-
-            pathFinderPassBuilding = new AStarPathFinder(this);
-            pathFinderPassBuilding.SetNode2Pos(gridMap.Node2Pos);
-            pathFinderPassBuilding.InitMap(gridMap.gridCol, gridMap.gridRow);
+#else
+            pathFinder = new AStarPathFinder();
+            pathFinder.SetNode2Pos(gridMap.Node2Pos);
+            pathFinder.InitMap(gridMap.gridCol, gridMap.gridRow);
+#endif
 
             TargetObj = null;
 
