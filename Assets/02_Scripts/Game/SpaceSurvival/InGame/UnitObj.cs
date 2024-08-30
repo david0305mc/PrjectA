@@ -43,7 +43,7 @@ namespace SS
         protected void Idle_Enter()
         {
             //Debug.Log("Idle_Enter");
-            PlayAni("Walk");
+            PlayAni("Idle");
             DirtyPath = false;
         }
         protected void Idle_Update()

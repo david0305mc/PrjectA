@@ -71,8 +71,8 @@ namespace SS
                 renderRoot = animator.transform;
             }
             canvas = GetComponentInChildren<Canvas>();
+            canvas.sortingLayerName = Game.GameConfig.UILayerName;
             sortingGroup = GetComponent<SortingGroup>();
-
             hpBar = canvas.GetComponentInChildren<Slider>();
             randPosOffset = Vector2.zero;
         }
@@ -122,7 +122,7 @@ namespace SS
 
         protected virtual void Attack_Exit()
         {
-
+            
         }
 
         protected virtual void DoAttack()
@@ -457,7 +457,8 @@ namespace SS
             sortingGroup.sortingLayerName = Game.GameConfig.ForegroundLayerName;
             sortingGroup.sortingOrder = 0;
             //attackDelay = 0f;
-            HideCanvase();
+            //HideCanvase();
+            ShowCanvas();
             //SetSelected(false);
             transform.SetScale(1f);
         }
