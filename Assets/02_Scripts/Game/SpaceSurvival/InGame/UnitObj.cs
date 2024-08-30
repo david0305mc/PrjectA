@@ -42,16 +42,18 @@ namespace SS
 
         protected void Idle_Enter()
         {
-            //Debug.Log("Idle_Enter");
             PlayAni("Idle");
             DirtyPath = false;
         }
         protected void Idle_Update()
         {
-            //if (TargetObj == null)
+            TargetObj = SearchTarget();
+            if (CheckTargetRange())
             {
-                TargetObj = SearchTarget();
+                fsm.ChangeState(UnitStates.Attack);
+                return;
             }
+
             if (TargetObj != null)
             {
                 currAggroTarget = TargetObj.UnitData.refData.aggroorder;
@@ -72,7 +74,130 @@ namespace SS
                 }
             }
         }
+        protected void Move_Enter()
+        {
+            PlayAni("Walk");
+            compositeDisposable?.Clear();
+            compositeDisposable = new CompositeDisposable();
+            MessageDispather.Receive<EMessage, EventParm<long, Vector2Int>>(EMessage.UpdateTile).Subscribe(_param =>
+            {
+                if (TargetObj == null)
+                {
+                    ChangeIdleState();
+                    return;
+                }
 
+                if (_param.arg1 == UnitUID)
+                    return;
+
+                if (isHero)
+                {
+                    if (SS.UserDataManager.Instance.GetBattleHeroData(UnitUID) == default)
+                        return;
+                    if (SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID) == default)
+                        return;
+                }
+                else
+                {
+                    if (SS.UserDataManager.Instance.GetEnemyData(UnitUID) == default)
+                        return;
+                    if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == default)
+                        return;
+                }
+
+                if (TargetObj.currTileX == currTileX && TargetObj.currTileY == currTileY)
+                {
+                    Debug.Log("Almost Finish");
+                }
+                else
+                {
+                    DirtyPath = true;
+                }
+
+            }).AddTo(compositeDisposable);
+        }
+
+        protected void Move_Exit()
+        {
+            compositeDisposable?.Clear();
+        }
+
+        protected void Move_Update()
+        {
+            if (IsHero)
+            {
+                int test = 0;
+            }
+            else
+            {
+                int test = 0;
+            }
+            if (CheckTargetRange())
+            {
+                fsm.ChangeState(UnitStates.Attack);
+            }
+            else
+            {
+                MoveEvent();
+            }
+        }
+        protected void MoveToHome_Enter()
+        {
+            var grid = gridMap.Pos2Node(OrgPos);
+            SetAStarPath(currTileX, currTileY, grid.x, grid.y, false);
+            PathList = pathFinder.FindPath();
+            TargetNodeIndex = 0;
+        }
+
+        protected void MoveToHome_Update()
+        {
+            if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
+                return;
+
+            DrawPathLine();
+
+            var distToTarget = (Vector2)(PathList[TargetNodeIndex].location + randPosOffset) - _rigidbody2D.position;
+            if (distToTarget.magnitude < 0.05f)
+            {
+                TargetNodeIndex++;
+                if (TargetNodeIndex >= PathList.Count)
+                {
+                    MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
+                    fsm.ChangeState(UnitStates.Idle);
+                    return;
+                }
+                else if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
+                {
+                    ChangeIdleState();
+                    Debug.Log("Next Tile Is Block");
+                    return;
+                }
+                else
+                {
+                    MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
+                }
+            }
+
+            var targetNode = PathList[TargetNodeIndex];
+            Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)(targetNode.location + randPosOffset), _forwardSpeed * Time.deltaTime);
+            _rigidbody2D.MovePosition(newPos);
+            FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x + randPosOffset.x);
+        }
+        protected void MoveToHome_Exit()
+        {
+
+        }
+
+        protected override void Attack_Enter()
+        {
+            base.Attack_Enter();
+        }
+
+        protected override void Attack_Exit()
+        {
+            base.Attack_Exit();
+            TargetObj = null;
+        }
         protected bool GeneratePath()
         {
             int _startX = currTileX;
@@ -165,137 +290,7 @@ namespace SS
             base.SetBattleMode();
         }
 
-        protected void Move_Enter()
-        {
-            PlayAni("Walk");
-            compositeDisposable?.Clear();
-            compositeDisposable = new CompositeDisposable();
-            MessageDispather.Receive<EMessage, EventParm<long, Vector2Int>>(EMessage.UpdateTile).Subscribe(_param =>
-            {
-                if (TargetObj == null)
-                {
-                    ChangeIdleState();
-                    return;
-                }
-
-                if (_param.arg1 == UnitUID)
-                    return;
-
-                if (isHero)
-                {
-                    if (SS.UserDataManager.Instance.GetBattleHeroData(UnitUID) == default)
-                        return;
-                    if (SS.UserDataManager.Instance.GetEnemyData(TargetObj.UnitUID) == default)
-                        return;
-                }
-                else
-                {
-                    if (SS.UserDataManager.Instance.GetEnemyData(UnitUID) == default)
-                        return;
-                    if (SS.UserDataManager.Instance.GetBattleHeroData(TargetObj.UnitUID) == default)
-                        return;
-                }
-
-                if (fsm != null)
-                {
-                    if (TargetObj.currTileX == currTileX && TargetObj.currTileY == currTileY)
-                    {
-                        Debug.Log("Almost Finish");
-                    }
-                    else
-                    {
-                        //if (!HasPath(currTileX, currTileY, TargetObj.currTileX, TargetObj.currTileY, false))
-                        //{
-                        //    TargetObj = null;
-                        //}
-                        //ChangeIdleState();
-                        DirtyPath = true;
-                    }
-                }
-            }).AddTo(compositeDisposable);
-        }
-
-        protected void Move_Exit()
-        {
-            compositeDisposable?.Clear();
-        }
-
-        protected void Move_Update()
-        {
-            if (IsHero)
-            {
-                int test = 0;
-            }
-            else
-            {
-                int test = 0;
-            }
-            if (CheckTargetRange())
-            {
-                fsm.ChangeState(UnitStates.Attack);
-            }
-            else
-            {
-                MoveEvent();
-            }
-        }
-        protected void MoveToHome_Enter()
-        {
-            var grid = gridMap.Pos2Node(OrgPos);
-            SetAStarPath(currTileX, currTileY, grid.x, grid.y, false);
-            PathList = pathFinder.FindPath();
-            TargetNodeIndex = 0;
-        }
-
-        protected void MoveToHome_Update()
-        {
-            if (PathList.Count == 0 || TargetNodeIndex >= PathList.Count)
-                return;
-
-            DrawPathLine();
-
-            var distToTarget = (Vector2)(PathList[TargetNodeIndex].location + randPosOffset) - _rigidbody2D.position;
-            if (distToTarget.magnitude < 0.05f)
-            {
-                TargetNodeIndex++;
-                if (TargetNodeIndex >= PathList.Count)
-                {
-                    MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
-                    fsm.ChangeState(UnitStates.Idle);
-                    return;
-                }
-                else if (gridMap.Tiles[PathList[TargetNodeIndex].x, PathList[TargetNodeIndex].y].IsBlock())
-                {
-                    ChangeIdleState();
-                    Debug.Log("Next Tile Is Block");
-                    return;
-                }
-                else
-                {
-                    MessageDispather.Publish(EMessage.UpdateTile, new EventParm<long, Vector2Int>(UnitUID, new Vector2Int(PathList[PathList.Count - 1].x, PathList[PathList.Count - 1].y)));
-                }
-            }
-
-            var targetNode = PathList[TargetNodeIndex];
-            Vector2 newPos = Vector2.MoveTowards(_rigidbody2D.position, (Vector2)(targetNode.location + randPosOffset), _forwardSpeed * Time.deltaTime);
-            _rigidbody2D.MovePosition(newPos);
-            FlipRenderers(_rigidbody2D.position.x <= targetNode.location.x + randPosOffset.x);
-        }
-        protected void MoveToHome_Exit()
-        {
-
-        }
-
-        protected override void Attack_Enter()
-        {
-            base.Attack_Enter();
-        }
-
-        protected override void Attack_Exit()
-        {
-            base.Attack_Exit();
-            TargetObj = null;
-        }
+       
         protected override void DoAttack()
         {
             base.DoAttack();
