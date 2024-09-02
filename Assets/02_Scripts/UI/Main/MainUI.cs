@@ -43,16 +43,16 @@ public class MainUI : MonoBehaviour
 
     private void Awake()
     {
-        HideStageInfo();
-        CheckStaminaTimer().Forget();
-        attendanceButton.onClick.AddListener(() =>
-        {
-            PopupManager.Instance.Show<AttendancePopup>();
-        });
-        optionButton.onClick.AddListener(() =>
-        {
-            PopupManager.Instance.Show<OptionPopup>();
-        });
+        //HideStageInfo();
+        //CheckStaminaTimer().Forget();
+        //attendanceButton.onClick.AddListener(() =>
+        //{
+        //    PopupManager.Instance.Show<AttendancePopup>();
+        //});
+        //optionButton.onClick.AddListener(() =>
+        //{
+        //    PopupManager.Instance.Show<OptionPopup>();
+        //});
     }
     private void OnEnable()
     {
@@ -119,12 +119,12 @@ public class MainUI : MonoBehaviour
 
     public void ShowStageInfo(int _stageID, System.Action _startAction)
     {
-        stageInfoPanel.gameObject.SetActive(true);
-        stageInfoPanel.SetData(_stageID, () => {
-            _startAction?.Invoke();
-        }, ()=> {
-            stageInfoPanel.gameObject.SetActive(false);
-        });
+        //stageInfoPanel.gameObject.SetActive(true);
+        //stageInfoPanel.SetData(_stageID, () => {
+        //    _startAction?.Invoke();
+        //}, ()=> {
+        //    stageInfoPanel.gameObject.SetActive(false);
+        //});
     }
 
     public void HideStageInfo()

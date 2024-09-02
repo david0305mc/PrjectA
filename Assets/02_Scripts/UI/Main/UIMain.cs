@@ -20,13 +20,12 @@ public class UIMain : SingletonMono<UIMain>
     [SerializeField] private UIDamageText uiDamageTextPref;
 
     [SerializeField] private Canvas worldCanvas;
-    [SerializeField] private Button startSpaceAreaBtn;
     [SerializeField] private UIMainBottomTabGroup tabGruop;
-    [SerializeField] private GameObject subMenuObject;
     [SerializeField] private UIPanelUnitSelect unitSelectPanel;
+    [SerializeField] private UIPanelStageInfo stageInfoPanel;
 
     public BattleUI battleUI;
-    public WorldUI worldUI;
+    public SS.WorldUI worldUI;
     [SerializeField] private Button testAddGoldBtn;
     [SerializeField] private Button testLevelUpBtn;
 
@@ -34,11 +33,6 @@ public class UIMain : SingletonMono<UIMain>
     {
         base.OnSingletonAwake();
         battleUI.gameObject.SetActive(false);
-        startSpaceAreaBtn.onClick.AddListener(() =>
-        {
-            SS.GameManager.Instance.StartInGame("SurvivalMap/GridMap01.prefab");
-                //ingameUI.SetActive(true);
-            });
 
         testAddGoldBtn.onClick.AddListener(() =>
         {
@@ -109,29 +103,24 @@ public class UIMain : SingletonMono<UIMain>
         {
             case BottomTab.Worldmap:
                 {
-                    subMenuObject.SetActive(true);
                 }
                 break;
 
             case BottomTab.Arrangement:
                 {
                     ShowArrangementUI();
-                    subMenuObject.SetActive(false);
                 }
                 break;
             case BottomTab.Event:
                 {
-                    subMenuObject.SetActive(false);
                 }
                 break;
             case BottomTab.Pvp:
                 {
-                    subMenuObject.SetActive(false);
                 }
                 break;
             case BottomTab.Shop:
                 {
-                    subMenuObject.SetActive(false);
                 }
                 break;
         }
@@ -151,6 +140,7 @@ public class UIMain : SingletonMono<UIMain>
         unitSelectPanel.SetActive(true);
         unitSelectPanel.InitUI();
     }
+
     public void HideArrangementUI()
     {
         unitSelectPanel.SetActive(false);
