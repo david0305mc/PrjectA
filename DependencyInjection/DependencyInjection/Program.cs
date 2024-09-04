@@ -53,7 +53,7 @@ namespace DependencyInjection
         public static void Main(string[] args)
         {
             ServiceCollection collection = new();
-
+            
             collection.AddSingleton<ILogger, ConsoleLogger>();
             collection.AddTransient<TransientObject>();
             collection.AddScoped<ScopedObject>();
