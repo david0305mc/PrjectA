@@ -29,10 +29,6 @@ MonoBehaviour:
     m_Address: BoomEffect
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 875bbb1e4d77f4844ad04bdfec0a41d4
-    m_Address: Stage
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 96c5be0f6faf5a04f9c42e0ac75724cf
     m_Address: SpriteAtlas
     m_ReadOnly: 0
