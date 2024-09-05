@@ -8,13 +8,26 @@ public class ObserverPatternTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        DoSomething();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DoSomething()
     {
-        
+        var fbObservable = new NotificationProvider("Facebook");
+        var githubObservable = new NotificationProvider("GitHub");
+
+        var observer = new NotificationSubscriber("Florin");
+        observer.Subscribe(fbObservable);
+        //observer.Unsubscribe();
+
+        observer.Subscribe(githubObservable);
+        //observer.Unsubscribe();
+
+        var observer2 = new NotificationSubscriber("Piagio");
+        observer2.Subscribe(fbObservable);
+
+        fbObservable.EventNotification("Event notification 1 !");
+        githubObservable.EventNotification("Event notification!");
     }
 }
 
