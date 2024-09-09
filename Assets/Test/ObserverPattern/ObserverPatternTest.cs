@@ -101,17 +101,17 @@ public class NotificationSubscriber : IObserver<SomeEvent>
 
     public virtual void OnCompleted()
     {
-        Console.WriteLine("Done");
+        Debug.Log("Done");
     }
 
     public virtual void OnError(Exception e)
     {
-        Console.WriteLine($"Error: {e.Message}");
+        Debug.Log($"Error: {e.Message}");
     }
 
     public virtual void OnNext(SomeEvent ev)
     {
-        Console.WriteLine($"Hey {SubscriberName} -> you received {ev.EventProviderName} {ev.Description} @ {ev.Date} ");
+        Debug.Log($"Hey {SubscriberName} -> you received {ev.EventProviderName} {ev.Description} @ {ev.Date} ");
     }
 
     public virtual void Unsubscribe()
